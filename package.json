@@ -26,8 +26,10 @@
   },
   "dependencies": {
     "discord.js": "^11.1.0",
+    "dotenv": "^8.2.0",
     "express": "^4.15.4",
     "fs": "0.0.1-security",
+    "mongoose": "^5.11.4",
     "superagent": "^3.5.2",
     "winston": "^2.3.1"
   }
