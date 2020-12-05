@@ -1,14 +1,14 @@
-## Purpose of pull request:
+## Purpose of pull request
 
 Write purpose here
 
-## Pull request checklist:
+## Pull request checklist
 
 - [ ] Branch and PR are named correctly
 - [ ] Updated relevant documentation
 - [ ] Tested with a tester bot
 - [ ] Wrote unit tests for changes
 
-## Testing instructions:
+## Testing instructions
 
 Write testing instructions here
