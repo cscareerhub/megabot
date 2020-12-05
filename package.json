@@ -3,22 +3,17 @@
   "name": "megabot",
   "version": "1.0.0",
   "description": "CSCH megabot with standalone packages",
-  "main": "index.js",
+  "main": "src/index.js",
   "repository": "https://github.com/cscareerhub/megabot.git",
   "author": "brendacs <brenda.zhang2@gmail.com>",
   "license": "MIT",
   "scripts": {
-    "build": "lerna exec --parallel -- babel --root-mode upward src -d lib --ignore **/*.spec.js",
-    "start": "yarn build && nodemon core/lib/index.js",
-    "serve": "node core/lib/index.js",
-    "coverage": "lerna exec jest --coverage",
-    "test": "lerna exec jest",
+    "build": "babel src -d lib --ignore **/*.spec.js",
+    "start": "yarn build && nodemon lib/index.js",
+    "serve": "node lib/index.js",
+    "coverage": "jest --coverage",
+    "test": "jest",
     "lint": "eslint packages/**/*.js"
-  },
-  "workspaces": {
-    "packages": [
-      "packages/*"
-    ]
   },
   "devDependencies": {
     "@babel/cli": "^7.12.8",
@@ -27,15 +22,12 @@
     "eslint": "^7.14.0",
     "jest": "^26.6.3",
     "jest-cli": "^26.6.3",
-    "lerna": "^3.22.1",
     "nodemon": "^2.0.6"
   },
   "dependencies": {
     "discord.js": "^11.1.0",
     "express": "^4.15.4",
     "fs": "0.0.1-security",
-    "pg": "^7.1.2",
-    "pg-format": "^1.0.4",
     "superagent": "^3.5.2",
     "winston": "^2.3.1"
   }

@@ -1,7 +1,0 @@
-{
-  "name": "settings",
-  "version": "1.0.0",
-  "description": "Bot settings only accessible to those with certain permissions",
-  "main": "index.js",
-  "license": "MIT"
-}
