@@ -4,6 +4,11 @@ A megabot for everything CSCH needs, composed of smaller mostly standalone packa
 
 ## Getting Started
 
+0. Install prerequisites.
+
+- [MongoDB](https://docs.mongodb.com/manual/administration/install-community/)
+- [Yarn](https://classic.yarnpkg.com/en/docs/install/)
+
 1. Clone repo.
 
 ```
@@ -39,9 +44,9 @@ yarn start
 
 0. Optional: Join us on the CSCH Discord server where we will give you access to the bot dev channel where we discuss and test bots.
 
-1. Fork the repo
+1. Fork the repo.
 
-2. Create a branch with the following naming scheme
+2. Create a branch with the following naming scheme.
 
 ```
 feature/<yourfeature>
