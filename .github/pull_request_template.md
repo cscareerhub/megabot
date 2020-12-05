@@ -4,10 +4,10 @@ Write purpose here
 
 ## Pull request checklist:
 
-[ ] Branch is named correctly
-[ ] Updated relevant documentation
-[ ] Tested with a tester bot
-[ ] Wrote unit tests for changes
+- [ ] Branch and PR are named correctly
+- [ ] Updated relevant documentation
+- [ ] Tested with a tester bot
+- [ ] Wrote unit tests for changes
 
 ## Testing instructions:
 

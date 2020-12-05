@@ -53,4 +53,11 @@ misc/<yourmiscchange>
 
 2. Use the Prettier plugin to autoformat your code based on the `eslint` and `prettier` configs if you use VSCode or other editor with support for something similar.
 
-3. Once you've made change, create a pull request to the CSCH megabot repo's master branch which will require at least one review from CSCH staff. If it's been over a week, feel free to ping us once in the Discord.
+3. Once you've made change, create a pull request to the CSCH megabot repo's master branch with the type of change, which should correspond to the first part of your branch name, in the PR title.
+
+```
+branch name: docs/change
+PR title: [docs] Changed this and that
+```
+
+All PRs will require at least one review from CSCH staff. If it's been over a week, feel free to ping us once in the Discord.
