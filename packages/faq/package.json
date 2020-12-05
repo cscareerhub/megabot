@@ -1,0 +1,7 @@
+{
+  "name": "faq",
+  "version": "1.0.0",
+  "description": "FAQ for community members",
+  "main": "index.js",
+  "license": "MIT"
+}

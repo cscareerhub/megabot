@@ -1,0 +1,7 @@
+{
+  "name": "pins",
+  "version": "1.0.0",
+  "description": "Allows users with certain roles to pin messages with reacts",
+  "main": "index.js",
+  "license": "MIT"
+}

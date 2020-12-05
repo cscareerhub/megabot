@@ -1,0 +1,7 @@
+{
+  "name": "comp",
+  "version": "1.0.0",
+  "description": "Accepts compensation user offers and lists data in specified channel",
+  "main": "index.js",
+  "license": "MIT"
+}
