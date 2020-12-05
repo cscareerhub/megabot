@@ -39,13 +39,25 @@ yarn start
 
 0. Optional: Join us on the CSCH Discord server where we will give you access to the bot dev channel where we discuss and test bots.
 
-1. Use the Prettier plugin to autoformat your code based on eslint configs if you use VSCode or other editor with support for something similar.
+1. Fork the repo
 
-2. When making a change, create a branch with naming scheme such as
+2. Create a branch with the following naming scheme
 
 ```
 feature/<yourfeature>
 bugfix/<yourbugfix>
+docs/<yourdocchange>
+test/<yourtestingchange>
+misc/<yourmiscchange>
 ```
 
-3. Create a pull request which will require at least one review from CSCH staff. If it's been over a week, feel free to ping us once in the Discord.
+2. Use the Prettier plugin to autoformat your code based on the `eslint` and `prettier` configs if you use VSCode or other editor with support for something similar.
+
+3. Once you've made change, create a pull request to the CSCH megabot repo's master branch with the type of change, which should correspond to the first part of your branch name, in the PR title.
+
+```
+branch name: docs/change
+PR title: [docs] Changed this and that
+```
+
+All PRs will require at least one review from CSCH staff. If it's been over a week, feel free to ping us once in the Discord.
