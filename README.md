@@ -28,10 +28,11 @@ nvm use 14
 yarn install
 ```
 
-4. Get tester bot token and set a variable in `.env`.
+4. Use `.env.template` to set up env variables
 
 ```
-BOT_TOKEN=yourtesttoken
+BOT_TOKEN=yourbottoken
+...
 ```
 
 5. Run bot.
