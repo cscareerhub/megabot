@@ -1,7 +1,7 @@
-import { BOT_TOKEN, ENV } from './constants';
 import Discord from 'discord.js';
 import logger from 'winston';
 import mongoose from 'mongoose';
+import { BOT_TOKEN, ENV } from './constants';
 import { dispatchCmd, parseMessage } from './utils/dispatcher';
 
 // Configure logger settings
