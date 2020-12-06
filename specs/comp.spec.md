@@ -1,4 +1,6 @@
-# Compensation bot
+# Compensation
+
+Easily allow users to compare salaries with other community members by company and position
 
 ## Steps
 
@@ -30,10 +32,17 @@ Perks: <perks>
 - Code block
 - Embed
 
-## Goals
-
-- Easily allow users to compare salaries with other community members by company and position
-
-### Stretch
+## Stretch Goals
 
 - Ability to crunch anonymous data to figure out averages and other useful information
+- Link up data to the website and display some visualizations there (watch out levels.fyi)
+- Help regulate compensation discussion by pulling data of specific companies or positions when user does:
+
+```
+++salary Google
+++salary San Francisco
+++salary Senior Software Engineer
+++salary Google San Francisco
+```
+
+The challenge with this one is getting the data normalized enough to do so.
