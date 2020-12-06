@@ -1,4 +1,5 @@
-import client, { prefix, validCmds } from './constants';
+import client from '../client';
+import { prefix, validCmds } from '../constants';
 
 export const parseMessage = (msg) => {
   msg = msg.toString();
@@ -11,7 +12,7 @@ export const parseMessage = (msg) => {
   }
 };
 
-export const emitCmd = (cmd, args) => {
+export const dispatchCmd = (cmd, args) => {
   // TODO: check perms
   client.emit(cmd, args);
 };

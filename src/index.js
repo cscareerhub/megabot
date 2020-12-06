@@ -1,4 +1,4 @@
-import { MONGODB } from './utils/constants';
+import { MONGODB } from './constants';
 import client from './client';
 import mongoose from 'mongoose';
 import './client';
