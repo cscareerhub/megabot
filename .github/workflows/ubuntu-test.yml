@@ -15,18 +15,18 @@ jobs:
         node-version: [14.x]
 
     steps:
-    - name: Check out Git repository
-      uses: actions/checkout@v2
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v1
-      with:
-        node-version: ${{ matrix.node-version }}
-    - name: Set up yarn
-      run: yarn
-    - name: Run Linter
-      run: yarn lint
+      - name: Check out Git repository
+        uses: actions/checkout@v2
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+      - name: Set up yarn
+        run: yarn
+      - name: Run Linter
+        run: yarn lint
 
-  build:
+  unit-test:
     runs-on: ubuntu-latest
 
     strategy:
@@ -34,11 +34,11 @@ jobs:
         node-version: [14.x]
 
     steps:
-    - uses: actions/checkout@v2
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v1
-      with:
-        node-version: ${{ matrix.node-version }}
-    - run: npm install
-    - run: npm ci
-    - run: npm test
+      - uses: actions/checkout@v2
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+      - run: npm install
+      - run: npm ci
+      - run: npm test
