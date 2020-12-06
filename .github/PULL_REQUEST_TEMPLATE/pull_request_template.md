@@ -1,6 +1,6 @@
-## Related Issue Number: #
-
 ## Purpose of pull request
+
+**Related Issue**: #
 
 Write purpose here
 
