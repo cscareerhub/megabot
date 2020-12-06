@@ -7,7 +7,12 @@ describe('parseMessage', () => {
     parseMessage('++faq');
     expect(emitterSpy).toHaveBeenCalledWith('command', 'faq', [], '++faq');
     parseMessage('++pins list');
-    expect(emitterSpy).toHaveBeenCalledWith('command', 'pins', ['list'], '++pins list');
+    expect(emitterSpy).toHaveBeenCalledWith(
+      'command',
+      'pins',
+      ['list'],
+      '++pins list'
+    );
   });
 
   test('client does not emit command event when command is not valid', () => {
