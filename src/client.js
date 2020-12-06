@@ -30,7 +30,7 @@ client
   .on('warn', (warn) => client.logger.warn(warn));
 
 // Login client
-if(ENV !== 'testing') {
+if (ENV !== 'testing') {
   client.login(BOT_TOKEN);
 }
 
