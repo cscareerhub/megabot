@@ -2,7 +2,7 @@ import dotenv from 'dotenv';
 
 // Environment variables
 dotenv.config();
-export const { BOT_TOKEN, MONGODB, ENV } = process.env;
+export const { BOT_TOKEN, ENV, MONGODB } = process.env;
 
 // Variables
 export const prefix = '++';
