@@ -42,4 +42,6 @@ jobs:
       - run: yarn install
       - name: Install jest for testing
         run: yarn add --dev jest
-      - run: yarn test
+      - env:
+          ENV: testing
+        run: yarn test
