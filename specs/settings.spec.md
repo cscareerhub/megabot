@@ -17,6 +17,13 @@ Some examples:
 ```
 ++settings prefix !
 ++settings modrole @Mod
-++settings onlydetect #bot-commands
 ++settings pinners @Contributors
+```
+
+Channel restriction example in the format of `++settings onlydetect <minibot> <channel>`:
+
+```
+++settings onlydetect all #bot-commands
+++settings onlydetect salary #salary
+++settings onlydetect ama #ama
 ```
