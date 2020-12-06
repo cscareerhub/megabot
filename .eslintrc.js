@@ -1,6 +1,7 @@
 module.exports = {
   env: {
     es2021: true,
+    'jest/globals': true,
     node: true
   },
   extends: 'eslint:recommended',
@@ -8,8 +9,12 @@ module.exports = {
     ecmaVersion: 12,
     sourceType: 'module'
   },
+  plugins: ['jest'],
   rules: {
     indent: ['error', 2],
+    'jest/no-disabled-tests': 'error',
+    'jest/no-focused-tests': 'error',
+    'jest/no-identical-title': 'warn',
     'linebreak-style': ['error', 'unix'],
     quotes: ['error', 'single'],
     semi: ['error', 'always'],

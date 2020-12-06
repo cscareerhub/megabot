@@ -6,6 +6,10 @@ import logger from 'winston';
 dotenv.config();
 export const { BOT_TOKEN, MONGODB } = process.env;
 
+// Variables
+export const prefix = '++';
+export const validCmds = ['ama', 'faq', 'pins', 'salary', 'settings', 'perms'];
+
 // Configure logger settings
 logger.remove(logger.transports.Console);
 logger.add(logger.transports.Console, {
