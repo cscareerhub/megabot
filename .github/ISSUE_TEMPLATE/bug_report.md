@@ -31,7 +31,7 @@ If applicable, add screenshots to help explain your problem.
 
 - _OS or Device_: [e.g. Windows, MacOS, iPhone 6]
 - _Browser_: [e.g. Chrome, Safari, iOS/Android]
-- _Version_: [e.g. 22]
+- _App Version_: [e.g. 22]
 - _Discord Message Link_: [e.g. https://discord.com/channels/123/123/123]
 
 ### Additional context
