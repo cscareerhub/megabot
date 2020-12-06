@@ -29,10 +29,10 @@ If applicable, add screenshots to help explain your problem.
 
 ### Environment (please complete the following information):
 
-- _OS_: [e.g. iOS, Windows, MacOS]
-- _Browser_: [e.g. chrome, safari, iOS/android app]
+- _OS or Device_: [e.g. iOS, Windows, MacOS, iPhone 6]
+- _Browser_: [e.g. Chrome, Safari, iOS/Android]
 - _Version_: [e.g. 22]
-- _Device_: [e.g. iPhone6]
+- _Discord Message Link_: [e.g. https://discord.com/channels/123/123/123]
 
 ### Additional context
 
