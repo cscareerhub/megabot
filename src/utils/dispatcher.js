@@ -13,6 +13,5 @@ export const parseMessage = (msg) => {
 };
 
 export const dispatchCmd = (cmd, args) => {
-  // TODO: check perms
   client.emit(cmd, args);
 };
