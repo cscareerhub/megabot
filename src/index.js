@@ -3,6 +3,7 @@ import client from './client';
 import mongoose from 'mongoose';
 import './client';
 import './bots/pins';
+import './bots/ping';
 
 mongoose
   .connect(MONGODB, {

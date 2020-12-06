@@ -35,6 +35,6 @@ client.login(BOT_TOKEN);
 // Add message listeners
 client
   .on('message', (msg) => parseMessage(msg))
-  .on('command', (cmd, args) => dispatchCmd(cmd, args));
+  .on('command', (cmd, args, msg) => dispatchCmd(cmd, args, msg));
 
 export default client;

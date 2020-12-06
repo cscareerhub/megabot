@@ -7,11 +7,11 @@ export const parseMessage = (msg) => {
     const args = msg.substring(2).split(' ');
     const cmd = args[0];
     if (validCmds.includes(cmd)) {
-      client.emit('command', cmd, args.splice(1));
+      client.emit('command', cmd, args.splice(1), msg);
     }
   }
 };
 
-export const dispatchCmd = (cmd, args) => {
-  client.emit(cmd, args);
+export const dispatchCmd = (cmd, args, msg) => {
+  client.emit(cmd, args, msg);
 };
