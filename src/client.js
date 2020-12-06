@@ -1,4 +1,4 @@
-import { BOT_TOKEN } from './constants';
+import { BOT_TOKEN, ENV } from './constants';
 import Discord from 'discord.js';
 import logger from 'winston';
 import mongoose from 'mongoose';
@@ -30,7 +30,9 @@ client
   .on('warn', (warn) => client.logger.warn(warn));
 
 // Login client
-client.login(BOT_TOKEN);
+if(ENV !== 'testing') {
+  client.login(BOT_TOKEN);
+}
 
 // Add message listeners
 client
