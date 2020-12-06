@@ -1,5 +1,6 @@
 import mongoose from 'mongoose';
-import client, { BOT_TOKEN, MONGODB } from './constants';
+import { parseMessage } from './utils';
+import client, { BOT_TOKEN, MONGODB } from './utils/constants';
 
 mongoose
   .connect(MONGODB, {
@@ -17,6 +18,8 @@ client
   .on('warn', (info) => client.logger.log(info, 'warn'));
 
 client.login(BOT_TOKEN);
+
+client.on('message', (msg) => parseMessage(msg));
 
 process.on('unhandledRejection', (err) => {
   client.logger.error(err);
