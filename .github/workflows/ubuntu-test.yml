@@ -40,5 +40,6 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
       - run: yarn install
-      - run: npm ci
-      - run: npm test
+      - name: Install jest for testing
+        run: yarn add --dev jest
+      - run: yarn test
