@@ -1,7 +1,7 @@
 import Discord from 'discord.js';
 import logger from 'winston';
 import mongoose from 'mongoose';
-import { BOT_TOKEN, ENV, envs } from './constants';
+import { BOT_TOKEN, ENV, validCmds, envs, prefix } from './constants';
 import { dispatchCmd, parseMessage } from './utils/dispatcher';
 
 // Configure logger settings
@@ -13,7 +13,9 @@ logger.level = 'debug';
 
 // Start client
 const client = new Discord.Client();
+client.commands = validCmds;
 client.logger = logger;
+client.prefix = prefix;
 
 // Add debug listeners
 client
