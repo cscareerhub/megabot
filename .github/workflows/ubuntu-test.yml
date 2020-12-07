@@ -21,8 +21,7 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node-version }}
-      - name: Set up yarn
-        run: yarn
+      - run: yarn install --update-checksums
       - name: Run Linter
         run: yarn lint
 
@@ -39,7 +38,7 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node-version }}
-      - run: yarn install
+      - run: yarn install --update-checksums
       - name: Install jest for testing
         run: yarn add --dev jest
       - env:
