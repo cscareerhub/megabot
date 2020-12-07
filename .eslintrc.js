@@ -25,7 +25,7 @@ module.exports = {
         ignoreCase: false,
         ignoreDeclarationSort: false,
         ignoreMemberSort: false,
-        memberSyntaxSortOrder: ['none', 'single', 'multiple', 'all']
+        memberSyntaxSortOrder: ['single', 'multiple', 'all', 'none']
       }
     ],
     'sort-keys': ['error', 'asc', { caseSensitive: true }]

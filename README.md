@@ -28,7 +28,7 @@ nvm use 14
 yarn install
 ```
 
-4. Use `.env.template` to set up env variables
+4. Use `.env.template` to set up env variables. Set `ENV` to `testing` if you're running unit tests.
 
 ```
 BOT_TOKEN=yourbottoken
@@ -51,7 +51,7 @@ yarn start
 
 ```
 feature/<yourfeature>
-bugfix/<yourbugfix>
+bug/<yourbugfix>
 docs/<yourdocchange>
 test/<yourtestingchange>
 misc/<yourmiscchange>
