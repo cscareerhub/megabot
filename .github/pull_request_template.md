@@ -1,6 +1,6 @@
 ### Purpose of pull request
 
-**Related Issue**: #
+**Related Issue**: resolves #
 
 Write purpose here
 
