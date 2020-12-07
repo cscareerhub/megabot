@@ -1,8 +1,8 @@
 import Discord from 'discord.js';
+import { dispatchCommand } from './dispatcher';
 import logger from 'winston';
 import mongoose from 'mongoose';
 import { BOT_TOKEN, ENV, envs, prefix, validCommands } from './constants';
-import { dispatchCmd, parseMessage } from './utils/dispatcher';
 
 // Configure logger settings
 logger.remove(logger.transports.Console);
@@ -36,9 +36,7 @@ if (ENV !== envs.TESTING) {
   client.login(BOT_TOKEN);
 }
 
-// Add message listeners
-client
-  .on('message', (message) => parseMessage(message))
-  .on('command', (command, args) => dispatchCmd(command, args));
+// Add message listener
+client.on('message', (message) => dispatchCommand(message));
 
 export default client;

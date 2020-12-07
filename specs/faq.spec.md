@@ -6,14 +6,14 @@ A bot that spits out information about the FAQ requested and links to the longer
 
 1. Responds to in-server `++faq` messages.
 2. Consider also responding to DM `++faq` messages since some people might be shy.
-3. Match the word being asked for:
+3. Match the word being asked for with `++faq define <word>`:
 
 ```
-++faq LC
+++faq define LC
 
 LeetCode (LC) is a platform that ... For more information, visit gitbook.com/cscareerhub/faq/leetcode.
 
-++faq onsite
+++faq define onsite
 
 An onsite is a ... For more information, visit gitbook.com/cscareerhub/faq/interviewing.
 ```
@@ -23,17 +23,17 @@ This could be a challenge if we need to map multiple words to a definition e.g.,
 4. Would match sentences based on trigger words:
 
 ```
-++faq What is LeetCode?
+++faq define What is LeetCode?
 
 LeetCode (LC) is a platform that ... For more information, visit gitbook.com/cscareerhub/faq/leetcode.
 
-++faq What is a onsite with LC?
+++faq define What is a onsite with LC?
 
 An onsite is a ... For more information, visit gitbook.com/cscareerhub/faq/interviewing.
 LeetCode (LC) is a platform that ... For more information, visit gitbook.com/cscareerhub/faq/leetcode.
 ```
 
-5. Admins and mods should be able to add more terms to the database through Discord like so:
+5. Admins and mods should be able to add more terms to the database through Discord with `++faq add`:
 
 ```
 ++faq add LC "LeetCode (LC) is a platform that ... For more information, visit gitbook.com/cscareerhub/faq/leetcode."
