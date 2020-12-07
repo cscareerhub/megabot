@@ -4,6 +4,13 @@ import dotenv from 'dotenv';
 dotenv.config();
 export const { BOT_TOKEN, ENV, MONGODB } = process.env;
 
+// Enums
+export const envs = {
+  DEVELOPMENT: 'development',
+  PRODUCTION: 'production',
+  TESTING: 'testing'
+};
+
 // Variables
 export const prefix = '++';
 export const validCmds = ['ama', 'faq', 'pins', 'salary', 'settings', 'perms'];
