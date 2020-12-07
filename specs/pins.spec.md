@@ -1,4 +1,4 @@
-# Compensation bot
+# Pins bot
 
 Easily allow members with mod-specified roles to pin messages.
 
