@@ -13,12 +13,11 @@ export const envs = {
 
 // Variables
 export const prefix = '++';
-export const validCmds = [
+export const validCommands = [
   'ama',
   'faq',
   'pins',
   'ping',
   'salary',
-  'settings',
-  'perms'
+  'settings'
 ];

@@ -1,17 +1,17 @@
 import client from '../client';
-import { prefix, validCmds } from '../constants';
 
-export const parseMessage = (msg) => {
-  const msgText = msg.toString();
-  if (msgText.substring(0, 2) === prefix) {
-    const args = msgText.substring(2).split(' ');
-    const cmd = args[0];
-    if (validCmds.includes(cmd)) {
-      client.emit('command', cmd, args.splice(1), msg);
+export const parseMessage = (message) => {
+  client.message = message;
+  const messageText = message.toString();
+  if (messageText.substring(0, 2) === client.prefix) {
+    const args = messageText.substring(2).split(' ');
+    const command = args[0];
+    if (client.commands.includes(command)) {
+      client.emit('command', command, args.splice(1));
     }
   }
 };
 
-export const dispatchCmd = (cmd, args, msg) => {
-  client.emit(cmd, args, msg);
+export const dispatchCmd = (command, args) => {
+  client.emit(command, args);
 };
