@@ -21,8 +21,8 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node-version }}
-      - run: npm cache clean --force
-      - run: yarn install -f
+      - run: yarn config set unsafe-disable-integrity-migration true -g
+      - run: yarn install 
       - name: Run Linter
         run: yarn lint
 
@@ -39,7 +39,7 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node-version }}
-      - run: npm cache clean --force
+      - run: yarn config set unsafe-disable-integrity-migration true -g
       - run: yarn install
       - name: Install jest for testing
         run: yarn add --dev jest
