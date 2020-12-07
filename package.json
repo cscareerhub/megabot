@@ -9,7 +9,7 @@
   "license": "MIT",
   "scripts": {
     "build": "babel src -d lib --ignore **/*.test.js",
-    "start": "yarn build && nodemon lib/index.js",
+    "start": "nodemon",
     "serve": "node lib/index.js",
     "coverage": "jest --coverage",
     "test": "jest",
@@ -34,5 +34,13 @@
     "mongoose": "^5.11.4",
     "superagent": "^3.5.2",
     "winston": "^2.3.1"
+  },
+  "nodemonConfig": {
+    "ignore": [
+      "lib/*"
+    ],
+    "exec": [
+      "yarn build && yarn serve"
+    ]
   }
 }
