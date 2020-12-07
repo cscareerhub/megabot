@@ -1,6 +1,6 @@
-import client from '../client';
+import client from './client';
 
-export const parseMessage = (message) => {
+export const dispatchCommand = (message) => {
   client.message = message;
   if (message.content.startsWith(client.prefix)) {
     const command = message.content.substring(2).split(' ')[0];
