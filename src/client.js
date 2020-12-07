@@ -1,7 +1,7 @@
 import Discord from 'discord.js';
 import logger from 'winston';
 import mongoose from 'mongoose';
-import { BOT_TOKEN, ENV, validCmds, envs, prefix } from './constants';
+import { BOT_TOKEN, ENV, envs, prefix, validCommands } from './constants';
 import { dispatchCmd, parseMessage } from './utils/dispatcher';
 
 // Configure logger settings
@@ -13,7 +13,7 @@ logger.level = 'debug';
 
 // Start client
 const client = new Discord.Client();
-client.commands = validCmds;
+client.commands = validCommands;
 client.logger = logger;
 client.prefix = prefix;
 
@@ -38,7 +38,7 @@ if (ENV !== envs.TESTING) {
 
 // Add message listeners
 client
-  .on('message', (msg) => parseMessage(msg))
-  .on('command', (cmd, args, msg) => dispatchCmd(cmd, args, msg));
+  .on('message', (message) => parseMessage(message))
+  .on('command', (command, args) => dispatchCmd(command, args));
 
 export default client;
