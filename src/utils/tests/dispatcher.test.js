@@ -1,5 +1,5 @@
 import client from '../../client';
-import { parseMessage } from '../dispatcher';
+import { parseMessage } from '../../dispatcher';
 
 describe('parseMessage', () => {
   test('client emits command event when command is valid', () => {
