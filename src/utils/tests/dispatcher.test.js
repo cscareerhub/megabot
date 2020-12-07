@@ -6,6 +6,7 @@ describe('parseMessage', () => {
     const emitterSpy = jest.spyOn(client, 'emit');
     parseMessage('++faq');
     expect(emitterSpy).toHaveBeenCalledWith('command', 'faq', [], '++faq');
+
     parseMessage('++pins list');
     expect(emitterSpy).toHaveBeenCalledWith(
       'command',
