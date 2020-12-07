@@ -2,7 +2,7 @@ import client from '../client';
 import { prefix, validCmds } from '../constants';
 
 export const parseMessage = (msg) => {
-  msgText = msg.toString();
+  const msgText = msg.toString();
   if (msgText.substring(0, 2) === prefix) {
     const args = msgText.substring(2).split(' ');
     const cmd = args[0];
