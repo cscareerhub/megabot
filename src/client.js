@@ -1,8 +1,8 @@
 import Discord from 'discord.js';
+import { dispatchCommand } from './dispatcher';
 import logger from 'winston';
 import mongoose from 'mongoose';
 import { BOT_TOKEN, ENV, envs, prefix, validCommands } from './constants';
-import { dispatchCommand } from './dispatcher';
 
 // Configure logger settings
 logger.remove(logger.transports.Console);
