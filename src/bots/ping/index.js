@@ -1,4 +1,6 @@
 import client from '../../client';
-import handler from './handler';
 
-client.on('ping', (args, msg) => handler(args, msg));
+client.on('ping', (_, msg) => {
+  msg.channel.send('Pong!');
+  client.logger.debug('ping reached');
+});
