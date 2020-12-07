@@ -15,7 +15,7 @@ module.exports = {
     'jest/no-disabled-tests': 'error',
     'jest/no-focused-tests': 'error',
     'jest/no-identical-title': 'warn',
-    'linebreak-style': ['error', 'windows'],
+    'linebreak-style': ['error', 'unix'],
     quotes: ['error', 'single'],
     semi: ['error', 'always'],
     'sort-imports': [
