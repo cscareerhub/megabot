@@ -21,12 +21,12 @@ client.on('ama', (args) => {
   targetCmd.handle(args);
 });
 
-function getCommandsString() {
+let getCommandsString = () => {
   let str = "```\n";
 
   for (const [key, value] of Object.entries(subcommands)) {
-    str += key + ": " + value.usage + "\n";
-    str += "Example: " + value.example + "\n\n";
+    str += "-" + key + ":" + value.usage + "\n";
+    str += "\tExample: " + value.example + "\n\n";
   }
 
   str += "```"
