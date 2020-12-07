@@ -36,7 +36,7 @@ if (ENV !== envs.TESTING) {
   client.login(BOT_TOKEN);
 }
 
-// Add message listeners
+// Add message listener
 client.on('message', (message) => dispatchCommand(message));
 
 export default client;
