@@ -17,7 +17,7 @@ Location: <city, state>
 Salary: <salary>
 Stock/Recurring Bonus: <# weeks>
 Relocation/Signing Bonus: <relocation>
-Total Compensation: 
+Total Compensation: <compensation>
 ```
 
 3. Normalizes inputs where possible. Some possibilities:
