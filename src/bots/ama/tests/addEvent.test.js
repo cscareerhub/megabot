@@ -24,7 +24,7 @@ describe('adding Event', () => {
   });
 
   test('ama does not create event with invalid day', async () => {  
-    await addEvent.handle(['2020-1011', 'Birthday', 'Party']);
+    addEvent.handle(['2020-1011', 'Birthday', 'Party']);
 
     await new Promise(setImmediate);
 
