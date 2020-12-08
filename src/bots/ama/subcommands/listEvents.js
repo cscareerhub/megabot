@@ -22,7 +22,7 @@ let formatEvents = (events) => {
   let splitDate = partition(events, e => e.date > currentDate);
 
   let upcomingEvent = `__**Upcoming Event**__
-  ${splitDate[0][0].date.toDateString()}: ${splitDate[0][0].title}
+${splitDate[0][0].date.toDateString()}: ${splitDate[0][0].title}
   `;
 
   let futureEvents = "__**Future Events**__\n";
@@ -41,11 +41,9 @@ let formatEvents = (events) => {
     pastEvents += "" + next.date.toDateString() + ": " + next.title + "\n";
   }
 
-  return `
-  ${pastEvents}
-  ${upcomingEvent}
-  ${futureEvents}
-  `;
+  return `${pastEvents}
+${upcomingEvent}
+${futureEvents}`;
 }
 
 export default listEvents;

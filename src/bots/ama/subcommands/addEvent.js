@@ -31,12 +31,9 @@ const addEvent = {
 }
 
 const getFormattedEvent = (event) => {
-  return `
-  ${escapedBackticks}
+  return `${escapedBackticks}
   Event title: ${event.title}
-  Date: ${event.date.toDateString()}
-  ${escapedBackticks}
-  `;
+  Date: ${event.date.toDateString()}${escapedBackticks}`;
 }
 
 export default addEvent;
