@@ -30,7 +30,7 @@ describe('adding Event', () => {
       expect(results.length).toEqual(0);
     });  
 
-    await expect(client.message.channel.send).toHaveBeenCalledWith('Invalid date provided. Must be in format yyy-mm-dd');
+    await expect(client.message.channel.send).toHaveBeenCalledWith('Invalid date provided. Must be in format yyyy-mm-dd');
   });
 
   test('ama does not create event with insufficient information', async () => {  
