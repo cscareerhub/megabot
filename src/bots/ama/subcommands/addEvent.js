@@ -1,6 +1,6 @@
 import client from '../../../client';
 import Event from '../models/Event';
-import { escapedBackticks } from "../../utils/embed";
+import { escapedBackticks } from "../../../utils/embed";
 
 const addEvent = {
   usage: 'Specify date then title of event',
