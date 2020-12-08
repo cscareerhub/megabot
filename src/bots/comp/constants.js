@@ -10,7 +10,7 @@ const compConstants = {
       name: 'Title',
     },
     {
-      example: 'software Engineer',
+      example: 'December 2020',
       name: 'Date of Offer',
     },
     {
@@ -36,33 +36,32 @@ const compConstants = {
   ],
   compensationFormatter: function (fields, isExample) {
     let str = '';
-    if(!isExample) str += '```';
     str += '\n';
-    str += '++salary';
+    if(!isExample) str += '```\n';
+    str += '++salary submit';
     str += '\n';
     fields.forEach(field => {
       str += field.name + ': ';
       if (isExample) str += field.example;
       str += '\n';
     });
-    if(!isExample) str += '```';
     str += '\n';
+    if(!isExample) str += '```';
     return str;
   },
   description: function () {
     let str = '';
     this.descriptionFields.forEach(item => {
       str += item;
-      str += '\n';
     });
     str += this.compensationFormatter(this.compensationFields);
     return str;
   },
   descriptionFields: [
-    'Thank you for providing offer information from CSCH Chat Bot!',
-    'We appreciate users like you who offer to give back to the community.',
-    'All information is always **anonymous**. \n',
-    'Please copy and paste what\'s **inside** the codeblock below:',
+    'Thank you for providing offer information from CSCH Chat Bot!\n',
+    'We appreciate users like you who offer to give back to the community.\n',
+    'All information is always **anonymous**. \n\n',
+    'Please copy and paste from the format below:',
   ],
   title: 'Salary Reporter',
 };

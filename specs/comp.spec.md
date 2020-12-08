@@ -14,10 +14,10 @@ Company/Industry: <company>
 Title: <job title>
 Date of Offer: <date>
 Location: <city, state>
-Duration: <# weeks>
 Salary: <salary>
-Relocation/Housing: <relocation>
-Perks: <perks>
+Stock/Recurring Bonus: <# weeks>
+Relocation/Signing Bonus: <relocation>
+Total Compensation: 
 ```
 
 3. Normalizes inputs where possible. Some possibilities:
