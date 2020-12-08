@@ -30,8 +30,7 @@
     "prettier": "^2.2.1"
   },
   "dependencies": {
-    "discord.js": "^11.1.0",
-    "discord.js": "12.5.1",
+    "discord.js": "^12.5.1",
     "dotenv": "^8.2.0",
     "express": "^4.15.4",
     "mongoose": "^5.11.4",
