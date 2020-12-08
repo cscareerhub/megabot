@@ -23,14 +23,16 @@ describe('adding Event', () => {
     // expect(client.message.channel.send).toHaveBeenCalledWith('Following event has been created:\n```\nEvent title: Birthday Party\nDate: Mon Apr 20 2020\n```');
   });
 
-  test('ama does not create event with invalid day', async () => {  
+  test('ama does not create event with invalid day', () => {  
     addEvent.handle(['2020-1011', 'Birthday', 'Party']);
 
-    await new Promise(setImmediate);
+    // await new Promise(setImmediate);
 
-    EventModel.find({}).then(results => {
-      expect(results.length).toEqual(0);
-    });    
+    setImmediate(() => {
+      EventModel.find({}).then(results => {
+        expect(results.length).toEqual(0);
+      });  
+    })  
   });
 
   test('ama does not create event with insufficient information', async () => {  
