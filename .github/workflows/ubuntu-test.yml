@@ -47,4 +47,4 @@ jobs:
         run: yarn add --dev jest
       - env:
           ENV: testing
-        run: yarn test
+        run: yarn test --forceExit
