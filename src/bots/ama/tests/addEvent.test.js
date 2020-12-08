@@ -9,9 +9,9 @@ describe('adding Event', () => {
   test('ama creates an event if valid information provided', async () => {  
     const logSpy = jest.spyOn(client.logger, 'debug');
 
-    await addEvent.handle(['2020-04-20', 'Birthday', 'Party']);
+    addEvent.handle(['2020-04-20', 'Birthday', 'Party']);
 
-    await new Promise(setImmediate);
+    await flushPromises();
 
     EventModel.find({}).then(results => {
       expect(results.length).toEqual(1);
@@ -20,7 +20,7 @@ describe('adding Event', () => {
     });   
     
     // This fails when it shouldn't
-    // expect(logSpy).toHaveBeenCalledWith('Following event has been created:\n```\nEvent title: Birthday Party\nDate: Mon Apr 20 2020\n```');
+    // expect(client.message.channel.send).toHaveBeenCalledWith('Following event has been created:\n```\nEvent title: Birthday Party\nDate: Mon Apr 20 2020\n```');
   });
 
   test('ama does not create event with invalid day', async () => {  
@@ -50,8 +50,8 @@ describe('adding Event', () => {
   beforeAll(async () => {
     client.message = {
       channel: {
-        send: (msg) => {
-          client.logger.debug(msg);
+        send: () => {
+          jest.fn();
         }
       }
     };
@@ -67,3 +67,6 @@ describe('adding Event', () => {
   });
 });
 
+function flushPromises() {
+  return new Promise(resolve => setImmediate(resolve));
+}
