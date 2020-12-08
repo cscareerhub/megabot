@@ -31,6 +31,8 @@ describe('adding Event', () => {
     EventModel.find({}).then(results => {
       expect(results.length).toEqual(0);
     });  
+
+    await expect(client.message.channel.send).toHaveBeenCalledWith('Invalid date provided. Must be in format yyy-mm-dd');
   });
 
   test('ama does not create event with insufficient information', async () => {  
@@ -41,6 +43,10 @@ describe('adding Event', () => {
     EventModel.find({}).then(results => {
       expect(results.length).toEqual(0);
     });    
+
+    await expect(client.message.channel.send).toHaveBeenCalledWith(
+      'Need to supply date (yyyy-mm-dd) and title of event\n' +
+      '_Example_: 2020-01-01 start of the greatest year ever');
   });
 
   afterEach(async () => {
@@ -50,9 +56,7 @@ describe('adding Event', () => {
   beforeAll(async () => {
     client.message = {
       channel: {
-        send: () => {
-          jest.fn();
-        }
+        send: jest.fn()
       }
     };
 
