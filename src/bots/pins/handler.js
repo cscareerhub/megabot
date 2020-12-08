@@ -1,7 +1,10 @@
 import client from '../../client';
+import { getArgs } from '../../utils';
 
-const handler = (args) => {
-  const subCommand = args[0];
+const handler = () => {
+  const args = getArgs();
+  const subCommand = args.subCommand;
+
   if (subCommand === 'list') {
     // TODO: list all pins
     client.logger.debug(subCommand);

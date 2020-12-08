@@ -2,13 +2,15 @@ name: Ubuntu Latest Lint and Test
 
 on:
   push:
-    branches: [ master ]
+    branches: [master]
   pull_request:
-    branches: [ master ]
+    branches: [master]
 
 jobs:
   lint:
     runs-on: ubuntu-latest
+
+    timeout-minutes: 10
 
     strategy:
       matrix:
@@ -27,6 +29,8 @@ jobs:
 
   unit-test:
     runs-on: ubuntu-latest
+
+    timeout-minutes: 10
 
     strategy:
       matrix:
