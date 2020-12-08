@@ -20,7 +20,7 @@ describe('adding Event', () => {
     });   
     
     // This fails when it shouldn't
-    // await expect(logSpy).toHaveBeenCalledWith('Following event has been created:\n```\nEvent title: Birthday Party\nDate: Mon Apr 20 2020\n```');
+    // expect(logSpy).toHaveBeenCalledWith('Following event has been created:\n```\nEvent title: Birthday Party\nDate: Mon Apr 20 2020\n```');
   });
 
   test('ama does not create event with invalid day', async () => {  
