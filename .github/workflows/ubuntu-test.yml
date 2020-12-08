@@ -58,4 +58,4 @@ jobs:
       - env:
           ENV: testing
           MONGODB: mongodb://localhost:27017/megabot
-        run: yarn test
+        run: yarn test --forceExit

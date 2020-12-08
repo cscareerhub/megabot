@@ -5,6 +5,7 @@ import './client';
 import './bots/ama';
 import './bots/pins';
 import './bots/ping';
+import './bots/comp';
 
 mongoose
   .connect(MONGODB, {
