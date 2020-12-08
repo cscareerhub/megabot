@@ -1,6 +1,6 @@
 import client from '../../client';
 import { getArgs } from '../../utils';
-import { noArgEmbed } from './embeds';
+import { noArgEmbed } from './constants/embeds';
 
 const handler = () => {
   const args = getArgs();
