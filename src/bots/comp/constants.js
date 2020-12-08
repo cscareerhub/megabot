@@ -1,69 +1,55 @@
-const compConstants = {
-  color: '',
+const backticks = '```';
+
+export const color = '#28B766';
+
+export const compensationStrings = {
   compensationFields: [
     {
-      example: 'Mozilla',
-      name: 'Company'
+      name: 'Company',
+      placeholder: '<company name>'
     },
     {
-      example: 'Software Engineer I',
-      name: 'Title'
+      name: 'Title',
+      placeholder: '<job title>'
     },
     {
-      example: 'December 2020',
-      name: 'Date of Offer'
+      name: 'Date of Offer',
+      placeholder: '<month year>'
     },
     {
-      example: 'Mountain View, California',
-      name: 'Location'
+      name: 'Location',
+      placeholder: '<state, city> or <country>'
     },
     {
-      example: '$70,000',
-      name: 'Salary'
+      name: 'Salary',
+      placeholder: '<salary>'
     },
     {
-      example: 'None',
-      name: 'Stock/Recurring Bonus'
+      name: 'Stock/Recurring Bonus',
+      placeholder: '<stock/annual bonus>'
     },
     {
-      example: '$5,000',
-      name: 'Relocation/Signing Bonus'
+      name: 'Relocation/Signing Bonus',
+      placeholder: '<one-time bonuses>'
     },
     {
-      example: '80k/year',
-      name: 'Total Compensation'
+      name: 'Total Compensation',
+      placeholder: '<total yearly compensation>'
     }
   ],
-  compensationFormatter: function (fields, isExample) {
+  compensationFormatter: function (fields) {
     let str = '';
-    str += '\n';
-    if (!isExample) str += '```\n';
-    str += '++salary submit';
-    str += '\n';
     fields.forEach((field) => {
       str += field.name + ': ';
-      if (isExample) str += field.example;
+      str += field.placeholder;
       str += '\n';
     });
-    str += '\n';
-    if (!isExample) str += '```';
     return str;
   },
   description: function () {
-    let str = '';
-    this.descriptionFields.forEach((item) => {
-      str += item;
-    });
-    str += this.compensationFormatter(this.compensationFields);
-    return str;
+    return `Thank you for providing offer information from CSCH Chat Bot! We appreciate community members like you who offer to give back to the community. All information is **anonymous**.\n\nPlease copy and paste and fill in the following:\n${backticks}\n++salary submit\n${this.compensationFormatter(
+      this.compensationFields
+    )}\n${backticks}`;
   },
-  descriptionFields: [
-    'Thank you for providing offer information from CSCH Chat Bot!\n',
-    'We appreciate users like you who offer to give back to the community.\n',
-    'All information is always **anonymous**. \n\n',
-    'Please copy and paste from the format below:'
-  ],
   title: 'Salary Reporter'
 };
-
-export default compConstants;
