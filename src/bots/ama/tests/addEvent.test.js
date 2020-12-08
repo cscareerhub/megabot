@@ -6,19 +6,19 @@ import mongoose from 'mongoose';
 import "babel-polyfill"
 
 describe('adding Event', () => {
-  test('ama creates an event if valid information provided', async () => {  
+  test('ama creates an event if valid information provided', () => {  
     const logSpy = jest.spyOn(client.logger, 'debug');
 
     addEvent.handle(['2020-04-20', 'Birthday', 'Party']);
 
-    await flushPromises();
+    setImmediate(() => {
+      EventModel.find({}).then(results => {
+        expect(results.length).toEqual(1);
+        expect(results[0].title).toEqual('Birthday Party');
+        expect(results[0].date.toDateString()).toEqual('Mon Apr 20 2020');
+      });   
+    }); 
 
-    EventModel.find({}).then(results => {
-      expect(results.length).toEqual(1);
-      expect(results[0].title).toEqual('Birthday Party');
-      expect(results[0].date.toDateString()).toEqual('Mon Apr 20 2020');
-    });   
-    
     // This fails when it shouldn't
     // expect(client.message.channel.send).toHaveBeenCalledWith('Following event has been created:\n```\nEvent title: Birthday Party\nDate: Mon Apr 20 2020\n```');
   });
@@ -32,7 +32,7 @@ describe('adding Event', () => {
       EventModel.find({}).then(results => {
         expect(results.length).toEqual(0);
       });  
-    })  
+    });  
   });
 
   test('ama does not create event with insufficient information', async () => {  
@@ -68,7 +68,3 @@ describe('adding Event', () => {
     await mongoose.connection.close();
   });
 });
-
-function flushPromises() {
-  return new Promise(resolve => setImmediate(resolve));
-}
