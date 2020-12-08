@@ -1,6 +1,7 @@
 import { MONGODB } from '../../../constants';
 import addEvent from '../subcommands/addEvent';
 import client from '../../../client';
+import Event from '../models/Event';
 import EventModel from '../models/Event';
 import mongoose from 'mongoose';
 import 'babel-polyfill';
@@ -62,6 +63,13 @@ describe('adding Event', () => {
       useNewUrlParser: true,
       useUnifiedTopology: true
     });
+
+    await Event({
+      title: "Old 1",
+      date: new Date("2015-05-01")
+    }).save();
+
+    await EventModel.deleteMany({});
   });
 
   afterAll(async () => {
