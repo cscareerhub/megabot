@@ -6,8 +6,12 @@ const embed = new Discord.MessageEmbed()
   .setTitle(compConstants.title)
   .setAuthor('CS Careers Hub Official Bot')
   .setDescription(compConstants.description())
-  .addFields(
-    { name: 'Example:', value: compConstants.compensationFormatter(compConstants.compensationFields, true) },
-  );
+  .addFields({
+    name: 'Example:',
+    value: compConstants.compensationFormatter(
+      compConstants.compensationFields,
+      true
+    )
+  });
 
 export default embed;
