@@ -1,5 +1,6 @@
 import client from '../../../client';
 import Event from '../models/Event';
+import { escapedBackticks } from "../../utils/embed";
 
 const addEvent = {
   usage: 'Specify date then title of event',
@@ -16,7 +17,7 @@ const addEvent = {
     let date = new Date(args[0] + 'T12:00:00Z');
 
     if (date.toString() === 'Invalid Date') {
-      client.message.channel.send('Invalid date provided. Must be in format yyy-mm-dd');
+      client.message.channel.send('Invalid date provided. Must be in format yyyy-mm-dd');
       return;
     }
 
@@ -30,14 +31,12 @@ const addEvent = {
 }
 
 const getFormattedEvent = (event) => {
-  let str = '```';
-
-  str += '\nEvent title: ' + event.title;
-  str += '\nDate: ' + event.date.toDateString();
-
-  str += '\n```';
-
-  return str;
+  return `
+  ${escapedBackticks}
+  Event title: ${event.title}
+  Date: ${event.date.toDateString()}
+  ${escapedBackticks}
+  `;
 }
 
 export default addEvent;

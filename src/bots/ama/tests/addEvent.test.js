@@ -1,14 +1,12 @@
 import { MONGODB } from '../../../constants';
 import addEvent from '../subcommands/addEvent';
-import client from '../../../client'
-import EventModel from '../models/Event'
+import client from '../../../client';
+import EventModel from '../models/Event';
 import mongoose from 'mongoose';
-import "babel-polyfill"
+import 'babel-polyfill';
 
 describe('adding Event', () => {
   test('ama creates an event if valid information provided', async () => {  
-    const logSpy = jest.spyOn(client.logger, 'debug');
-
     addEvent.handle(['2020-04-20', 'Birthday', 'Party']);
 
     await new Promise(setImmediate);
@@ -64,8 +62,6 @@ describe('adding Event', () => {
       useNewUrlParser: true,
       useUnifiedTopology: true
     });
-
-    await EventModel.find({});
   });
 
   afterAll(async () => {

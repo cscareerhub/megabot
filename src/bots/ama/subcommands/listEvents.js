@@ -7,7 +7,13 @@ const listEvents = {
   example: "list",
 
   handle: (args) => {
-    EventModel.find({}).sort({date: 'asc'}).then(a => client.message.channel.send(formatEvents(a)));
+    EventModel.find({}).sort({date: 'asc'}).then(a => {
+      if(a.length === 0) {
+        client.message.channel.send("No events yet :(");
+      } else {
+        client.message.channel.send(formatEvents(a))
+      }
+    });
   }
 }
 
@@ -15,17 +21,19 @@ let formatEvents = (events) => {
   let currentDate = new Date();
   let splitDate = partition(events, e => e.date > currentDate);
 
-  let upcomingEvent = "-={Upcoming Event}=-\n" + splitDate[0][0].date.toDateString() + ": " + splitDate[0][0].title + "\n";
+  let upcomingEvent = `__**Upcoming Event**__
+  ${splitDate[0][0].date.toDateString()}: ${splitDate[0][0].title}
+  `;
 
-  let futureEvents = "-={Future Events}=-\n";
+  let futureEvents = "__**Future Events**__\n";
 
-  for(let s in splitDate[0].slice(1)) {
-    let next = splitDate[0][s];
+  for(let i = 1; i < splitDate[0].length; i++) {
+    let next = splitDate[0][i];
 
     futureEvents += "" + next.date.toDateString() + ": " + next.title + "\n";
   }
 
-  let pastEvents = "-={Past Events}=-\n";
+  let pastEvents = "__**Past Events**__\n";
 
   for(let s in splitDate[1]) {
     let next = splitDate[1][s];
@@ -33,7 +41,11 @@ let formatEvents = (events) => {
     pastEvents += "" + next.date.toDateString() + ": " + next.title + "\n";
   }
 
-  return "```\n" + pastEvents + "\n" + upcomingEvent + "\n" + futureEvents + "\n```";
+  return `
+  ${pastEvents}
+  ${upcomingEvent}
+  ${futureEvents}
+  `;
 }
 
 export default listEvents;

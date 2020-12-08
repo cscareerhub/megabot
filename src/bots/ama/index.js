@@ -1,7 +1,8 @@
 import client from '../../client';
 import { parseCommandString } from "../../utils/index";
-import addEvent from './subcommands/addEvent';
-import listEvents from './subcommands/listEvents';
+import { escapedBackticks } from "../../utils/embed";
+import addEvent from './subCommands/addEvent';
+import listEvents from './subCommands/listEvents';
 
 const subcommands = {'add': addEvent, 'list': listEvents}
 
@@ -9,14 +10,14 @@ client.on('ama', () => {
   let cmd = parseCommandString();
   let subCommand = cmd.subCommand;
 
-  if (subCommand === undefined) {
+  if (!subCommand) {
     client.message.channel.send(getCommandsString());
     return;
   }
 
   let targetCmd = subcommands[subCommand];
 
-  if (targetCmd === undefined) {
+  if (!targetCmd) {
     client.message.channel.send('Invalid argument. Following arguments are permitted:');
     client.message.channel.send(getCommandsString());
     return;
@@ -26,14 +27,14 @@ client.on('ama', () => {
 });
 
 let getCommandsString = () => {
-  let str = "```\n";
+  let str = escapedBackticks + "\n";
 
   for (const [key, value] of Object.entries(subcommands)) {
-    str += "-" + key + ": " + value.usage + "\n";
-    str += "\tExample: " + value.example + "\n\n";
+    str += `- ${key}: ${value.usage}\n`;
+    str += `\t- Example: ${value.example}\n\n`
   }
 
-  str += "```"
+  str += escapedBackticks
 
   return str;
 }
