@@ -33,25 +33,15 @@ describe('adding Event', () => {
         date: new Date("2128-04-20")
     }).save();
 
-    listEvents.handle([]);
-
-    await new Promise(setImmediate);
-
+    await listEvents.handle([]);
+    await EventModel.deleteMany({});
     // await expect(client.message.channel.send).toHaveBeenCalledWith('Invalid date provided. Must be in format yyy-mm-dd');  
   });
 
   test('ama sends message when no events available', async () => {  
-    listEvents.handle([]);
+    await listEvents.handle([]);
 
-    await new Promise(setImmediate);
-
-    // await expect(client.message.channel.send).toHaveBeenCalledWith('No events yet :(');  
-  });
-
-  afterEach(async () => {
-      if(EventModel !== undefined) {
-        await EventModel.deleteMany({});
-      }
+    expect(client.message.channel.send).toHaveBeenCalledWith('No events yet :(');  
   });
 
   beforeAll(async () => {
@@ -65,9 +55,5 @@ describe('adding Event', () => {
       useNewUrlParser: true,
       useUnifiedTopology: true
     });
-  });
-
-  afterAll(async () => {
-    await mongoose.connection.close();
   });
 });

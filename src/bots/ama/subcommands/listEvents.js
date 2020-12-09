@@ -6,14 +6,14 @@ const listEvents = {
   usage: "List all events",
   example: "list",
 
-  handle: (args) => {
-    EventModel.find({}).sort({date: 'asc'}).then(a => {
-      if(a.length === 0) {
-        client.message.channel.send("No events yet :(");
-      } else {
-        client.message.channel.send(formatEvents(a))
-      }
-    });
+  handle: async (args) => {
+    let events = await EventModel.find({}).sort({date: 'asc'});
+
+    if(events.length === 0) {
+      await client.message.channel.send('No events yet :(');
+    } else {
+      client.message.channel.send(formatEvents(events))
+    }
   }
 }
 

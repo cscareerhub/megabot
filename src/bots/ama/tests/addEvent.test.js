@@ -1,5 +1,6 @@
 import { MONGODB } from '../../../constants';
 import addEvent from '../subcommands/addEvent';
+import { escapedBackticks } from "../../../utils/embed";
 import client from '../../../client';
 import Event from '../models/Event';
 import EventModel from '../models/Event';
@@ -8,48 +9,42 @@ import 'babel-polyfill';
 
 describe('adding Event', () => {
   test('ama creates an event if valid information provided', async () => {  
-    addEvent.handle(['2020-04-20', 'Birthday', 'Party']);
+    await addEvent.handle(['2020-04-20', 'Birthday', 'Party']);
 
-    await new Promise(setImmediate);
+    let results = await EventModel.find({}); 
 
-    EventModel.find({}).then(results => {
-      expect(results.length).toEqual(1);
-      expect(results[0].title).toEqual('Birthday Party');
-      expect(results[0].date.toDateString()).toEqual('Mon Apr 20 2020');
-    });   
+    await EventModel.deleteMany({});
     
-    // This fails when it shouldn't
-    // expect(client.message.channel.send).toHaveBeenCalledWith('Following event has been created:\n```\nEvent title: Birthday Party\nDate: Mon Apr 20 2020\n```');
+    expect(results.length).toEqual(1);
+    expect(results[0].title).toEqual('Birthday Party');
+    expect(results[0].date.toDateString()).toEqual('Mon Apr 20 2020');
+
+    expect(client.message.channel.send).toHaveBeenCalledWith(`Following event has been created:
+${escapedBackticks}
+Event title: Birthday Party
+Date: Mon Apr 20 2020${escapedBackticks}`);
   });
 
   test('ama does not create event with invalid day', async () => {  
-    addEvent.handle(['2020-1011', 'Birthday', 'Party']);
+    await addEvent.handle(['2020-1011', 'Birthday', 'Party']);
 
-    await new Promise(setImmediate);
+    let results = await EventModel.find({});   
 
-    EventModel.find({}).then(results => {
-      expect(results.length).toEqual(0);
-    });  
+    expect(results.length).toEqual(0); 
 
-    await expect(client.message.channel.send).toHaveBeenCalledWith('Invalid date provided. Must be in format yyyy-mm-dd');
+    expect(client.message.channel.send).toHaveBeenCalledWith('Invalid date provided. Must be in format yyyy-mm-dd');
   });
 
   test('ama does not create event with insufficient information', async () => {  
-    addEvent.handle(['2020-10-11']);
+    await addEvent.handle(['2020-10-11']);
 
-    await new Promise(setImmediate);
+    let results = await EventModel.find({});   
 
-    EventModel.find({}).then(results => {
-      expect(results.length).toEqual(0);
-    });    
+    expect(results.length).toEqual(0);
 
-    await expect(client.message.channel.send).toHaveBeenCalledWith(
+    expect(client.message.channel.send).toHaveBeenCalledWith(
       'Need to supply date (yyyy-mm-dd) and title of event\n' +
       '_Example_: 2020-01-01 start of the greatest year ever');
-  });
-
-  afterEach(async () => {
-    await EventModel.deleteMany({});
   });
 
   beforeAll(async () => {
@@ -63,16 +58,5 @@ describe('adding Event', () => {
       useNewUrlParser: true,
       useUnifiedTopology: true
     });
-
-    await Event({
-      title: "Old 1",
-      date: new Date("2015-05-01")
-    }).save();
-
-    await EventModel.deleteMany({});
-  });
-
-  afterAll(async () => {
-    await mongoose.connection.close();
   });
 });
