@@ -45,7 +45,7 @@ if (ENV !== envs.TESTING) {
 }
 
 /**
- * Parses a command emitted by a user
+ * Sends a command emitted by a user to be parsed
  * @param {Object} message - a message sent by a user to be parsed
  */
 client
