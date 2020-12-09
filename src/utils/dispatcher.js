@@ -1,5 +1,9 @@
 import client from '../client';
 
+/**
+ * Parse message into its component args and emits back to the client
+ * @param {Object} message = the original message object emitted by a user
+ */
 export const parseMessage = (message) => {
   client.message = message;
   const messageText = message.toString();
@@ -12,6 +16,11 @@ export const parseMessage = (message) => {
   }
 };
 
+/**
+ * Emits a command and list of arguments
+ * @param {string} command = the parsed command sent by user
+ * @param {Array} args = the array of strings that followed the parsed command
+ */
 export const dispatchCmd = (command, args) => {
   client.emit(command, args);
 };

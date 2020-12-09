@@ -5,6 +5,10 @@ import './client';
 import './bots/pins';
 import './bots/ping';
 
+/**
+ * Connect to MongoDB ip/port from .env
+ * @param {string} MONGODB - The string the ip/port for the MongoDB connection.
+ */
 mongoose
   .connect(MONGODB, {
     useNewUrlParser: true,
