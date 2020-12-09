@@ -4,7 +4,7 @@ import { escapedBackticks } from "../../utils/embed";
 import addEvent from './subCommands/addEvent';
 import listEvents from './subCommands/listEvents';
 
-const subcommands = {'add': addEvent, 'list': listEvents}
+const subCommands = {add: addEvent, list: listEvents}
 
 client.on('ama', () => {
   let cmd = parseCommandString();
@@ -15,7 +15,7 @@ client.on('ama', () => {
     return;
   }
 
-  let targetCmd = subcommands[subCommand];
+  let targetCmd = subCommands[subCommand];
 
   if (!targetCmd) {
     client.message.channel.send('Invalid argument. Following arguments are permitted:');
@@ -29,7 +29,7 @@ client.on('ama', () => {
 let getCommandsString = () => {
   let str = escapedBackticks + "\n";
 
-  for (const [key, value] of Object.entries(subcommands)) {
+  for (const [key, value] of Object.entries(subCommands)) {
     str += `- ${key}: ${value.usage}\n`;
     str += `\t- Example: ${value.example}\n\n`
   }

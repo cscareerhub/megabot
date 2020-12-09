@@ -30,7 +30,7 @@ ${splitDate[0][0].date.toDateString()}: ${splitDate[0][0].title}
   for(let i = 1; i < splitDate[0].length; i++) {
     let next = splitDate[0][i];
 
-    futureEvents += "" + next.date.toDateString() + ": " + next.title + "\n";
+    futureEvents += `${next.date.toDateString()}: ${next.title}\n`;
   }
 
   let pastEvents = "__**Past Events**__\n";
@@ -38,7 +38,7 @@ ${splitDate[0][0].date.toDateString()}: ${splitDate[0][0].title}
   for(let s in splitDate[1]) {
     let next = splitDate[1][s];
 
-    pastEvents += "" + next.date.toDateString() + ": " + next.title + "\n";
+    pastEvents += `${next.date.toDateString()}: ${next.title}\n`;
   }
 
   return `${pastEvents}

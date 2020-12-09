@@ -3,9 +3,9 @@ import client from './client';
 import mongoose from 'mongoose';
 import './client';
 import './bots/ama';
-import './bots/pins';
-import './bots/ping';
 import './bots/comp';
+import './bots/ping';
+import './bots/pins';
 
 mongoose
   .connect(MONGODB, {
