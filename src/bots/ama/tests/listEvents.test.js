@@ -35,7 +35,18 @@ describe('adding Event', () => {
 
     await listEvents.handle([]);
     await EventModel.deleteMany({});
-    // await expect(client.message.channel.send).toHaveBeenCalledWith('Invalid date provided. Must be in format yyy-mm-dd');  
+    
+    expect(client.message.channel.send).toHaveBeenCalledWith(`__**Past Events**__
+Sat Feb 28 2015: Old 2
+Thu Apr 30 2015: Old 1
+
+__**Upcoming Event**__
+Mon Apr 30 2125: New 1
+
+__**Future Events**__
+Sun Mar 14 2128: New 2
+Mon Apr 19 2128: New 3
+`);  
   });
 
   test('ama sends message when no events available', async () => {  

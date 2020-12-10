@@ -2,7 +2,6 @@ import { MONGODB } from '../../../constants';
 import addEvent from '../subcommands/addEvent';
 import { escapedBackticks } from "../../../utils/embed";
 import client from '../../../client';
-import Event from '../models/Event';
 import EventModel from '../models/Event';
 import mongoose from 'mongoose';
 import 'babel-polyfill';

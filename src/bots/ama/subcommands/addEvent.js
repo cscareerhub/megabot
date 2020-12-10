@@ -1,6 +1,6 @@
 import client from '../../../client';
 import Event from '../models/Event';
-import { escapedBackticks } from "../../../utils/embed";
+import { getFormattedEvent, getStrings } from '../constants'
 
 const addEvent = {
   usage: 'Specify date then title of event',
@@ -8,16 +8,14 @@ const addEvent = {
 
   handle: async function(args) {
     if (args.length < 2) {
-      client.message.channel.send(
-        'Need to supply date (yyyy-mm-dd) and title of event\n' +
-        '_Example_: 2020-01-01 start of the greatest year ever');
+      client.message.channel.send(getStrings().insufficientArgumentsAddEvent);
       return;
     }
 
     let date = new Date(args[0] + 'T12:00:00Z');
 
     if (date.toString() === 'Invalid Date') {
-      client.message.channel.send('Invalid date provided. Must be in format yyyy-mm-dd');
+      client.message.channel.send(getStrings().invalidDateAddEvent);
       return;
     }
 
@@ -26,14 +24,8 @@ const addEvent = {
       date: date
     }).save();
 
-    client.message.channel.send('Following event has been created:\n' + getFormattedEvent(newEvent));
+    client.message.channel.send(getStrings(getFormattedEvent(newEvent)).createdEvent);
   }
-}
-
-const getFormattedEvent = (event) => {
-  return `${escapedBackticks}
-Event title: ${event.title}
-Date: ${event.date.toDateString()}${escapedBackticks}`;
 }
 
 export default addEvent;

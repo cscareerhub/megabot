@@ -1,8 +1,8 @@
 import client from '../../client';
 import { parseCommandString } from "../../utils/index";
-import { escapedBackticks } from "../../utils/embed";
 import addEvent from './subCommands/addEvent';
 import listEvents from './subCommands/listEvents';
+import { getCommandsString, getStrings } from './constants'
 
 const subCommands = {add: addEvent, list: listEvents}
 
@@ -18,23 +18,12 @@ client.on('ama', () => {
   let targetCmd = subCommands[subCommand];
 
   if (!targetCmd) {
-    client.message.channel.send('Invalid argument. Following arguments are permitted:');
-    client.message.channel.send(getCommandsString());
+    client.message.channel.send(getStrings().invalidSubCommand);
+    client.message.channel.send(getCommandsString(subCommands));
     return;
   }
 
   targetCmd.handle(cmd.arguments);
 });
 
-let getCommandsString = () => {
-  let str = escapedBackticks + "\n";
 
-  for (const [key, value] of Object.entries(subCommands)) {
-    str += `- ${key}: ${value.usage}\n`;
-    str += `\t- Example: ${value.example}\n\n`
-  }
-
-  str += escapedBackticks
-
-  return str;
-}
