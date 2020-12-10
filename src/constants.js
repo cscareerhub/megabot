@@ -21,7 +21,7 @@ export const envs = {
 export const prefix = '++';
 
 /**
- * Define the vald commands that the bot will repsond to
+ * Define the valid commands that the bot will repsond to
  */
 export const validCommands = [
   'ama',

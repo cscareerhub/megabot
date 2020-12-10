@@ -7,7 +7,7 @@ import './bots/ping';
 
 /**
  * Connect to MongoDB ip/port from .env
- * @param {string} MONGODB - The string the ip/port for the MongoDB connection.
+ * @param {string} MONGODB - the ip/port for the MongoDB connection.
  */
 mongoose
   .connect(MONGODB, {
