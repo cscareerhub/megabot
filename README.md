@@ -57,7 +57,7 @@ test/<yourtestingchange>
 misc/<yourmiscchange>
 ```
 
-2. Use the Prettier plugin to autoformat your code based on the `eslint` and `prettier` configs if you use VSCode or other editor with support for something similar.
+2. Format your code to the project's specifications using Prettier. You can either use an editor plugin to do it automatically or run `yarn format`.
 
 3. Once you've made change, create a pull request to the CSCH megabot repo's master branch with the type of change, which should correspond to the first part of your branch name, in the PR title.
 

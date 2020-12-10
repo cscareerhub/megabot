@@ -1,8 +1,8 @@
 import Discord from 'discord.js';
+import { dispatchCommand } from './dispatcher';
 import logger from 'winston';
 import mongoose from 'mongoose';
 import { BOT_TOKEN, ENV, envs, prefix, validCommands } from './constants';
-import { dispatchCmd, parseMessage } from './utils/dispatcher';
 
 /**
  * Initialize the logger from winston
@@ -45,18 +45,8 @@ if (ENV !== envs.TESTING) {
 }
 
 /**
- * Sends a command emitted by a user to be parsed
- * @param {Object} message - a message sent by a user to be parsed
+ * Listen for message and send to dispatch when one is received
  */
-client
-  .on('message', (message) => parseMessage(message));
-
-/**
- * Dispatches commands emitted from parseMessage to their respective bot
- * @param {string} command - the command parsed by an initial message
- * @param {Array} args - the arguments that followed the command from the original message
- */
-client
-  .on('command', (command, args) => dispatchCmd(command, args));
+client.on('message', (message) => dispatchCommand(message));
 
 export default client;

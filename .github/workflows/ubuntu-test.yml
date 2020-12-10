@@ -2,13 +2,15 @@ name: Ubuntu Latest Lint and Test
 
 on:
   push:
-    branches: [ master ]
+    branches: [master]
   pull_request:
-    branches: [ master ]
+    branches: [master]
 
 jobs:
   lint:
     runs-on: ubuntu-latest
+
+    timeout-minutes: 10
 
     strategy:
       matrix:
@@ -28,19 +30,34 @@ jobs:
   unit-test:
     runs-on: ubuntu-latest
 
+    timeout-minutes: 10
+
     strategy:
       matrix:
         node-version: [14.x]
+        mongodb-version: [4.4]
+
+    services:
+      mongodb:
+        image: mongo
+        ports:
+          - 27017:27017
+
+    env:
+      ENV: testing
+      MONGODB: mongodb://localhost:27017/megabot
 
     steps:
       - uses: actions/checkout@v2
+
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node-version }}
+
       - run: yarn install --update-checksums
+
       - name: Install jest for testing
         run: yarn add --dev jest
-      - env:
-          ENV: testing
-        run: yarn test
+
+      - run: yarn test --forceExit
