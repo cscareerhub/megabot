@@ -46,6 +46,7 @@ if (ENV !== envs.TESTING) {
 
 /**
  * Listen for message and send to dispatch when one is received
+ * @param {Object} message - the message sent by a user
  */
 client.on('message', (message) => dispatchCommand(message));
 
