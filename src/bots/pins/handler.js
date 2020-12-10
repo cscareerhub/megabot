@@ -1,8 +1,8 @@
 import client from '../../client';
-import { getArgs } from '../../utils';
+import { parseCommandString } from '../../utils';
 
 const handler = () => {
-  const args = getArgs();
+  const args = parseCommandString();
   const subCommand = args.subCommand;
 
   if (subCommand === 'list') {

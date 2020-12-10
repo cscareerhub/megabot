@@ -2,9 +2,10 @@ import { MONGODB } from './constants';
 import client from './client';
 import mongoose from 'mongoose';
 import './client';
-import './bots/pins';
-import './bots/ping';
+import './bots/ama';
 import './bots/comp';
+import './bots/ping';
+import './bots/pins';
 
 mongoose
   .connect(MONGODB, {
