@@ -13,6 +13,11 @@ const handler = async () => {
   }
 };
 
+/**
+ * Formats events into a readable string
+ * @param {Array.<Object.<string, any>>} events - list of event objects
+ * @returns {string} - message string with all events
+ */
 const formatEvents = (events) => {
   let currentDate = new Date();
   let splitDate = partition(events, (e) => e.date > currentDate);
