@@ -10,9 +10,9 @@ export function parseCommandString() {
 }
 
 /**
- *
- * @param {Array} array - array to be partitioned
- * @param {boolean} isValid
+ * Splits up an array into multiple arrays based on a condition
+ * @param {Array.<any>} array - array to be partitioned
+ * @param {boolean} isValid - the condition to partition on
  */
 export function partition(array, isValid) {
   return array.reduce(
