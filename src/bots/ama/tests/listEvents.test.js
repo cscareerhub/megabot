@@ -33,7 +33,7 @@ describe('adding Event', () => {
       title: 'New 3'
     }).save();
 
-    await listEvents.handle([]);
+    await listEvents.handler([]);
     await EventModel.deleteMany({});
 
     expect(client.message.channel.send)
@@ -51,7 +51,7 @@ Tue Apr 20 2128: New 3
   });
 
   test('ama sends message when no events available', async () => {
-    await listEvents.handle([]);
+    await listEvents.handler([]);
 
     expect(client.message.channel.send).toHaveBeenCalledWith(
       'No events yet :('

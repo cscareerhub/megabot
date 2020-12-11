@@ -8,7 +8,7 @@ import 'babel-polyfill';
 
 describe('adding Event', () => {
   test('ama creates an event if valid information provided', async () => {
-    await addEvent.handle(['2020-04-20', 'Birthday', 'Party']);
+    await addEvent.handler(['2020-04-20', 'Birthday', 'Party']);
 
     let results = await EventModel.find({});
 
@@ -26,7 +26,7 @@ Date: Mon Apr 20 2020${escapedBackticks}`);
   });
 
   test('ama does not create event with invalid day', async () => {
-    await addEvent.handle(['2020-1011', 'Birthday', 'Party']);
+    await addEvent.handler(['2020-1011', 'Birthday', 'Party']);
 
     let results = await EventModel.find({});
 
@@ -38,7 +38,7 @@ Date: Mon Apr 20 2020${escapedBackticks}`);
   });
 
   test('ama does not create event with insufficient information', async () => {
-    await addEvent.handle(['2020-10-11']);
+    await addEvent.handler(['2020-10-11']);
 
     let results = await EventModel.find({});
 
