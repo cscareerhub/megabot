@@ -17,6 +17,16 @@ module.exports = {
     'jest/no-identical-title': 'warn',
     'linebreak-style': ['error', 'unix'],
     quotes: ['error', 'single'],
+    'require-jsdoc': [
+      2,
+      {
+        require: {
+          ClassDeclaration: true,
+          FunctionDeclaration: true,
+          MethodDefinition: true
+        }
+      }
+    ],
     semi: ['error', 'always'],
     'sort-imports': [
       'error',
