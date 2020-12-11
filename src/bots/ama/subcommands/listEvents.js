@@ -41,9 +41,7 @@ const formatEvents = (events) => {
 
   pastEvents = getStrings(pastEvents).pastEvents;
 
-  return `${pastEvents}
-${upcomingEvent}
-${futureEvents}`;
+  return `${pastEvents}\n${upcomingEvent}\n${futureEvents}`;
 };
 
 const listEvents = {
