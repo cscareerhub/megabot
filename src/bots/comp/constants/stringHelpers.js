@@ -1,6 +1,9 @@
 import { escapedBackticks } from '../../../utils/embed';
 import { fields } from '.';
 
+/**
+ * Generates a description from field values.
+ */
 export const description = () => {
   let form = '';
   fields.forEach((field) => {
