@@ -3,12 +3,6 @@ import client from '../../../client';
 import { getStrings } from '../constants';
 import { partition } from '../../../utils/index';
 
-const listEvents = {
-  example: 'list',
-  handler,
-  usage: 'List all events'
-};
-
 const handler = async () => {
   let events = await EventModel.find({}).sort({ date: 'asc' });
 
@@ -50,6 +44,12 @@ const formatEvents = (events) => {
   return `${pastEvents}
 ${upcomingEvent}
 ${futureEvents}`;
+};
+
+const listEvents = {
+  example: 'list',
+  handler,
+  usage: 'List all events'
 };
 
 export default listEvents;
