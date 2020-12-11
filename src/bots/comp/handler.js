@@ -1,6 +1,6 @@
 import client from '../../client';
-import { parseCommandString } from '../../utils';
 import { noArgEmbed } from './constants/embeds';
+import { parseCommandString } from '../../utils';
 
 const handler = () => {
   const args = parseCommandString();
