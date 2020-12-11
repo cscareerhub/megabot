@@ -2,7 +2,7 @@ import client from './client';
 
 /**
  * Receives a message, parses, and emits the appropriate command
- * @param {Object} message - the original message object emitted by a user
+ * @param {Object.<string, any>} message - the original message object emitted by a user
  */
 export const dispatchCommand = (message) => {
   client.message = message;
