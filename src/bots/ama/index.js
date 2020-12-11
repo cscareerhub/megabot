@@ -23,5 +23,5 @@ client.on('ama', () => {
     return;
   }
 
-  targetCmd.handle(cmd.arguments);
+  targetCmd.handler(cmd.arguments);
 });
