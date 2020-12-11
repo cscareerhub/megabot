@@ -7,6 +7,7 @@ const handler = async (args) => {
     client.message.channel.send(getStrings().insufficientArgumentsAddEvent);
     return;
   }
+
   let date = new Date(args[0] + 'T12:00:00Z');
 
   if (date.toString() === 'Invalid Date') {

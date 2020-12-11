@@ -20,16 +20,3 @@ export const getFormattedEvent = (event) => {
 Event title: ${event.title}
 Date: ${event.date.toDateString()}${escapedBackticks}`;
 };
-
-// let getCommandsString = (subCommands) => {
-//   let str = escapedBackticks + '\n';
-
-//   for (const [key, value] of Object.entries(subCommands)) {
-//     str += `- ${key}: ${value.usage}\n`;
-//     str += `\t- Example: ${value.example}\n\n`;
-//   }
-
-//   str += escapedBackticks;
-
-//   return str;
-// };
