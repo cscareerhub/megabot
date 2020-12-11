@@ -4,26 +4,20 @@ import logger from 'winston';
 import mongoose from 'mongoose';
 import { BOT_TOKEN, ENV, envs, prefix, validCommands } from './constants';
 
-/**
- * Initialize the logger from winston
- */
+// Configure logger
 logger.remove(logger.transports.Console);
 logger.add(logger.transports.Console, {
   colorize: true
 });
 logger.level = 'debug';
 
-/**
- * Start client and attach commands, logger, and prefixes
- */
+// Initialize client
 const client = new Discord.Client();
 client.commands = validCommands;
 client.logger = logger;
 client.prefix = prefix;
 
-/**
- * Launch the client and log when connected or if there is an error with maintaining stable connection
- */
+// Attach debug listeners to client
 client
   .on('ready', () => client.logger.info('Bot is connected'))
   .on('disconnect', () => {
@@ -37,17 +31,12 @@ client
   .on('error', (err) => client.logger.error(err))
   .on('warn', (warn) => client.logger.warn(warn));
 
-/**
- * Login client with BOT_TOKEN from .env
- */
+// Login client
 if (ENV !== envs.TESTING) {
   client.login(BOT_TOKEN);
 }
 
-/**
- * Listen for message and send to dispatch when one is received
- * @param {Object} message - the message sent by a user
- */
+// Other client listeners
 client.on('message', (message) => dispatchCommand(message));
 
 export default client;
