@@ -26,6 +26,8 @@ jobs:
       - run: yarn install --update-checksums
       - name: Run Linter
         run: yarn lint
+      - name: Run Prettify Check
+        run: yarn prettier --check .
 
   unit-test:
     runs-on: ubuntu-latest
