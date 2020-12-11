@@ -20,7 +20,7 @@ const handler = async (args) => {
   }).save();
 
   client.message.channel.send(
-    getStrings(getFormattedEvent(newEvent)).createdEvent
+        getStrings(getFormattedEvent(newEvent)).createdEvent
   );
 };
 
