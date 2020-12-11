@@ -2,12 +2,6 @@ import Event from '../models/Event';
 import client from '../../../client';
 import { getFormattedEvent, getStrings } from '../constants';
 
-const addEvent = {
-  example: 'add 01/01/2020 Celebrate the best year to date',
-  handler,
-  usage: 'Specify date then title of event'
-};
-
 const handler = async (args) => {
   if (args.length < 2) {
     client.message.channel.send(getStrings().insufficientArgumentsAddEvent);
@@ -28,6 +22,12 @@ const handler = async (args) => {
   client.message.channel.send(
     getStrings(getFormattedEvent(newEvent)).createdEvent
   );
+};
+
+const addEvent = {
+  example: 'add 01/01/2020 Celebrate the best year to date',
+  handler,
+  usage: 'Specify date then title of event'
 };
 
 export default addEvent;
