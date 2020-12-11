@@ -1,32 +1,35 @@
-import client from '../../../client';
 import EventModel from '../models/Event';
-import { partition }  from '../../../utils/index';
-import { getStrings } from '../constants'
+import client from '../../../client';
+import { getStrings } from '../constants';
+import { partition } from '../../../utils/index';
 
 const listEvents = {
-  usage: "List all events",
-  example: "list",
+  example: 'list',
+  handler,
+  usage: 'List all events'
+};
 
-  handle: async (args) => {
-    let events = await EventModel.find({}).sort({date: 'asc'});
+const handler = async () => {
+  let events = await EventModel.find({}).sort({ date: 'asc' });
 
-    if(events.length === 0) {
-      await client.message.channel.send(getStrings().noEvents);
-    } else {
-      client.message.channel.send(formatEvents(events))
-    }
+  if (events.length === 0) {
+    await client.message.channel.send(getStrings().noEvents);
+  } else {
+    client.message.channel.send(formatEvents(events));
   }
-}
+};
 
-let formatEvents = (events) => {
+const formatEvents = (events) => {
   let currentDate = new Date();
-  let splitDate = partition(events, e => e.date > currentDate);
+  let splitDate = partition(events, (e) => e.date > currentDate);
 
-  let upcomingEvent = getStrings(`${splitDate[0][0].date.toDateString()}: ${splitDate[0][0].title}`).upcomingEvent;
+  let upcomingEvent = getStrings(
+    `${splitDate[0][0].date.toDateString()}: ${splitDate[0][0].title}`
+  ).upcomingEvent;
 
-  let futureEvents = "";
+  let futureEvents = '';
 
-  for(let i = 1; i < splitDate[0].length; i++) {
+  for (let i = 1; i < splitDate[0].length; i++) {
     let next = splitDate[0][i];
 
     futureEvents += `${next.date.toDateString()}: ${next.title}\n`;
@@ -34,9 +37,9 @@ let formatEvents = (events) => {
 
   futureEvents = getStrings(futureEvents).futureEvents;
 
-  let pastEvents = "";
+  let pastEvents = '';
 
-  for(let s in splitDate[1]) {
+  for (let s in splitDate[1]) {
     let next = splitDate[1][s];
 
     pastEvents += `${next.date.toDateString()}: ${next.title}\n`;
@@ -47,6 +50,6 @@ let formatEvents = (events) => {
   return `${pastEvents}
 ${upcomingEvent}
 ${futureEvents}`;
-}
+};
 
 export default listEvents;

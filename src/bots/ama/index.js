@@ -1,10 +1,10 @@
-import client from '../../client';
-import { parseCommandString } from "../../utils/index";
 import addEvent from './subCommands/addEvent';
+import client from '../../client';
 import listEvents from './subCommands/listEvents';
-import { getCommandsString, getStrings } from './constants'
+import { parseCommandString } from '../../utils/index';
+import { getCommandsString, getStrings } from './constants';
 
-const subCommands = {add: addEvent, list: listEvents}
+const subCommands = { add: addEvent, list: listEvents };
 
 client.on('ama', () => {
   let cmd = parseCommandString();
@@ -25,5 +25,3 @@ client.on('ama', () => {
 
   targetCmd.handle(cmd.arguments);
 });
-
-

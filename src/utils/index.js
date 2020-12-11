@@ -9,6 +9,11 @@ export function parseCommandString() {
   return { arguments: messageArray.slice(2), subCommand: messageArray[1] };
 }
 
+/**
+ *
+ * @param {Array} array - array to be partitioned
+ * @param {boolean} isValid
+ */
 export function partition(array, isValid) {
   return array.reduce(
     ([pass, fail], elem) => {
