@@ -69,3 +69,12 @@ PR title: [docs] Changed this and that
 ```
 
 All PRs will require at least one review from CSCH staff. If it's been over a week, feel free to ping us once in the Discord.
+
+## License & Copyright
+
+
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
+©megabot, cscareerbot
+
+
