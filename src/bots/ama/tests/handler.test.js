@@ -1,23 +1,20 @@
 import client from '../../../client';
 import handler from '../handler';
+import { subCommands } from '../index';
+
 import { escapedBackticks } from '../../../utils/embed';
 
 describe('Listing Events', () => {
-//   const expectedOutString = `${escapedBackticks}
-// - add: Specify date then title of event
-// \t- Example: add 01/01/2020 Celebrate the best year to date\n
-// - list: List all events
-// \t- Example: list\n
-// ${escapedBackticks}`;
-
-const expectedOutString = `${escapedBackticks}
+  const expectedOutString = `${escapedBackticks}
+- add: Specify date then title of event
+\t- Example: add 01/01/2020 Celebrate the best year to date\n
 - list: List all events
 \t- Example: list\n
 ${escapedBackticks}`;
 
   test('When no arguments provided', () => {
     // When
-    handler();
+    handler(subCommands);
 
     // Then
     expect(client.message.channel.send).toHaveBeenCalledWith(expectedOutString);
@@ -28,7 +25,7 @@ ${escapedBackticks}`;
     client.message.content = '++ama idklol';
 
     // When
-    handler();
+    handler(subCommands);
 
     // Then
     expect(client.message.channel.send).toHaveBeenCalledWith(
