@@ -26,8 +26,7 @@ export function partition(array, isValid) {
 
 /**
  * Lists sub commands inside a code block
- *
- * @param {Array.<any} subCommands - sub commands to be listed
+ * @param {Array.<any>} subCommands - sub commands to be listed
  */
 export function getCommandsString(subCommands) {
   let str = escapedBackticks + '\n';
