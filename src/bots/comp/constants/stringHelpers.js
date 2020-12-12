@@ -1,12 +1,12 @@
 import { escapedBackticks } from '../../../utils';
-import { fields } from '.';
+import { formFields } from '.';
 
 /**
  * Generates a description from field values
  */
 export const description = () => {
   let form = '';
-  fields.forEach((field) => {
+  formFields.forEach((field) => {
     form += field.name + ': ';
     form += field.placeholder;
     form += '\n';

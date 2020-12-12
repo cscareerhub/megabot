@@ -1,4 +1,4 @@
-export const fields = [
+export const formFields = [
   {
     name: 'Company',
     placeholder: '<company name>'
