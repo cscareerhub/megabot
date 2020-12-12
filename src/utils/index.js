@@ -1,4 +1,5 @@
 import client from '../client';
+import { escapedBackticks } from './embed';
 
 /**
  * Parses message content for commands and arguments
@@ -21,4 +22,21 @@ export function partition(array, isValid) {
     },
     [[], []]
   );
+}
+
+/**
+ * Lists sub commands inside a code block
+ * @param {Array.<any>} subCommands - sub commands to be listed
+ */
+export function getCommandsString(subCommands) {
+  let str = escapedBackticks + '\n';
+
+  for (const [key, value] of Object.entries(subCommands)) {
+    str += `- ${key}: ${value.usage}\n`;
+    str += `\t- Example: ${value.example}\n\n`;
+  }
+
+  str += escapedBackticks;
+
+  return str;
 }
