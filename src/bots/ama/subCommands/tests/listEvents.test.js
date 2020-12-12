@@ -1,8 +1,8 @@
-import Event from '../models/Event';
-import EventModel from '../models/Event';
+import Event from '../../models/Event';
+import EventModel from '../../models/Event';
 import { MongoMemoryServer } from 'mongodb-memory-server';
-import client from '../../../client';
-import listEvents from '../subCommands/listEvents';
+import client from '../../../../client';
+import listEvents from '../listEvents';
 import mongoose from 'mongoose';
 import 'babel-polyfill';
 
