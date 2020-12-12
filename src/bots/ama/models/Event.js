@@ -2,8 +2,11 @@ import mongoose from 'mongoose';
 
 const EventSchema = mongoose.Schema(
   {
-    date: Date,
-    title: String
+    date: { required: true, type: Date },
+    description: String,
+    participants: [String],
+    title: { required: true, type: String },
+    url: String
   },
   { autoCreate: true, collections: 'Event' }
 );

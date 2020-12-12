@@ -9,8 +9,8 @@ describe('listing events', () => {
   const expectedOutString = `${escapedBackticks}
 - add: Specify date then title of event
 \t- Example: add 01/01/2020 Celebrate the best year to date\n
-- list: List all events
-\t- Example: list\n
+- list: List all events. Add -i flag to see event IDs.
+\t- Example: list [-i]\n
 ${escapedBackticks}`;
 
   test('when no arguments provided', () => {
