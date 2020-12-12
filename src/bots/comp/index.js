@@ -1,4 +1,8 @@
+import addSalary from './subCommands/addSalary';
 import client from '../../client';
-import handler from './handler';
+import { commandHandler } from '../../utils';
+import { strings } from './constants/strings';
 
-client.on('salary', handler);
+const subCommands = { add: addSalary };
+
+client.on('salary', () => commandHandler(subCommands, strings));
