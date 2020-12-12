@@ -1,8 +1,12 @@
 import client from '../../client';
 import { getCommandsString, parseCommandString } from '../../utils/index';
 import { getStrings } from './constants';
+import addEvent from './subcommands/addEvent';
+import listEvents from './subcommands/listEvents';
 
-const handler = (subCommands) => {
+export const subCommands = { add: addEvent, list: listEvents };
+
+const handler = () => {
   let cmd = parseCommandString();
   let subCommand = cmd.subCommand;
 

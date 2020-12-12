@@ -1,7 +1,5 @@
 import client from '../../../client';
 import handler from '../handler';
-import { subCommands } from '../index';
-
 import { escapedBackticks } from '../../../utils/embed';
 
 describe('Listing Events', () => {
@@ -14,7 +12,7 @@ ${escapedBackticks}`;
 
   test('When no arguments provided', () => {
     // When
-    handler(subCommands);
+    handler();
 
     // Then
     expect(client.message.channel.send).toHaveBeenCalledWith(expectedOutString);
@@ -25,7 +23,7 @@ ${escapedBackticks}`;
     client.message.content = '++ama idklol';
 
     // When
-    handler(subCommands);
+    handler();
 
     // Then
     expect(client.message.channel.send).toHaveBeenCalledWith(
