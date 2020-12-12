@@ -1,8 +1,12 @@
+import addEvent from '../subCommands/addEvent';
 import client from '../../../client';
-import { escapedBackticks } from '../../../utils';
-import handler from '../handler';
+import { getStrings } from '../constants';
+import listEvents from '../subCommands/listEvents';
+import { commandHandler, escapedBackticks } from '../../../utils';
+
 
 describe('Listing Events', () => {
+  const subCommands = { add: addEvent, list: listEvents };
   const expectedOutString = `${escapedBackticks}
 - add: Specify date then title of event
 \t- Example: add 01/01/2020 Celebrate the best year to date\n
@@ -12,7 +16,7 @@ ${escapedBackticks}`;
 
   test('When no arguments provided', () => {
     // When
-    handler();
+    commandHandler(subCommands, getStrings());
 
     // Then
     expect(client.message.channel.send).toHaveBeenCalledWith(expectedOutString);
@@ -23,7 +27,7 @@ ${escapedBackticks}`;
     client.message.content = '++ama idklol';
 
     // When
-    handler();
+    commandHandler(subCommands, getStrings());
 
     // Then
     expect(client.message.channel.send).toHaveBeenCalledWith(
