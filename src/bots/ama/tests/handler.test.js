@@ -1,6 +1,6 @@
 import client from '../../../client';
+import { escapedBackticks } from '../../../utils';
 import handler from '../handler';
-import { escapedBackticks } from '../../../utils/embed';
 
 describe('Listing Events', () => {
   const expectedOutString = `${escapedBackticks}

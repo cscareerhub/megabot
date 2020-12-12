@@ -1,5 +1,6 @@
 import client from '../client';
-import { escapedBackticks } from './embed';
+
+export const escapedBackticks = '```';
 
 /**
  * Handles bot-specific commands
@@ -25,6 +26,24 @@ export const commandHandler = (subCommands, strings) => {
   targetCmd.handler(cmd.arguments);
 };
 
+
+/**
+ * Lists sub commands inside a code block
+ * @param {Array.<any>} subCommands - sub commands to be listed
+ */
+export const getCommandsString = (subCommands) => {
+  let str = escapedBackticks + '\n';
+
+  for (const [key, value] of Object.entries(subCommands)) {
+    str += `- ${key}: ${value.usage}\n`;
+    str += `\t- Example: ${value.example}\n\n`;
+  }
+
+  str += escapedBackticks;
+
+  return str;
+};
+
 /**
  * Parses message content for commands and arguments
  * @returns {Object.<string, (string | Array.<string>)>} - an object with the subCommand and arguments
@@ -46,21 +65,4 @@ export const partition = (array, isValid) => {
     },
     [[], []]
   );
-};
-
-/**
- * Lists sub commands inside a code block
- * @param {Array.<any>} subCommands - sub commands to be listed
- */
-export const getCommandsString = (subCommands) => {
-  let str = escapedBackticks + '\n';
-
-  for (const [key, value] of Object.entries(subCommands)) {
-    str += `- ${key}: ${value.usage}\n`;
-    str += `\t- Example: ${value.example}\n\n`;
-  }
-
-  str += escapedBackticks;
-
-  return str;
 };
