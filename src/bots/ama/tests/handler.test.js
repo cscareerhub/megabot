@@ -1,7 +1,6 @@
 import client from '../../../client';
 import handler from '../handler';
 import { escapedBackticks } from '../../../utils/embed'
-import { cli } from 'winston';
 
 describe('Listing Events', () => {
     const expectedOutString = `${escapedBackticks}
