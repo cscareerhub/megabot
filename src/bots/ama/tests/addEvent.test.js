@@ -4,9 +4,12 @@ import addEvent from '../subcommands/addEvent';
 import client from '../../../client';
 import { escapedBackticks } from '../../../utils/embed';
 import mongoose from 'mongoose';
+import { MongoMemoryServer } from 'mongodb-memory-server';
 import 'babel-polyfill';
 
 describe('adding Event', () => {
+  let uri;
+
   test('ama creates an event if valid information provided', async () => {
     await addEvent.handler(['2020-04-20', 'Birthday', 'Party']);
 
@@ -57,7 +60,12 @@ Date: Mon Apr 20 2020${escapedBackticks}`);
       }
     };
 
-    await mongoose.connect(MONGODB, {
+    const mongod = new MongoMemoryServer();
+    uri = await mongod.getUri();
+  });
+
+  beforeEach(async () => {
+    await mongoose.connect(uri, {
       useNewUrlParser: true,
       useUnifiedTopology: true
     });
