@@ -1,5 +1,4 @@
 import EventModel from '../models/Event';
-import { MONGODB } from '../../../constants';
 import addEvent from '../subcommands/addEvent';
 import client from '../../../client';
 import { escapedBackticks } from '../../../utils/embed';
@@ -11,8 +10,10 @@ describe('adding Event', () => {
   let uri;
 
   test('ama creates an event if valid information provided', async () => {
+    // When
     await addEvent.handler(['2020-04-20', 'Birthday', 'Party']);
 
+    // Then
     let results = await EventModel.find({});
 
     await EventModel.deleteMany({});
@@ -29,8 +30,10 @@ Date: Mon Apr 20 2020${escapedBackticks}`);
   });
 
   test('ama does not create event with invalid day', async () => {
+    // When
     await addEvent.handler(['2020-1011', 'Birthday', 'Party']);
 
+    // Then
     let results = await EventModel.find({});
 
     expect(results.length).toEqual(0);
@@ -41,8 +44,10 @@ Date: Mon Apr 20 2020${escapedBackticks}`);
   });
 
   test('ama does not create event with insufficient information', async () => {
+    // When
     await addEvent.handler(['2020-10-11']);
 
+    // Then
     let results = await EventModel.find({});
 
     expect(results.length).toEqual(0);
