@@ -1,7 +1,7 @@
 import client from '../../client';
 import handler from './handler';
-import addEvent from './subCommands/addEvent';
-import listEvents from './subCommands/listEvents';
+import addEvent from './subcommands/addEvent';
+import listEvents from './subcommands/listEvents';
 
 export const subCommands = { add: addEvent, list: listEvents };
 
