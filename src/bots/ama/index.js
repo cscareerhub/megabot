@@ -1,4 +1,4 @@
-import addEvent from './subCommands/addEvent';
+import addEvent from './subcommands/addEvent';
 import client from '../../client';
 import { commandHandler } from '../../utils';
 import { getStrings } from './constants';
