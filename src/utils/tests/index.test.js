@@ -1,11 +1,10 @@
-import addEvent from '../subCommands/addEvent';
-import client from '../../../client';
-import { getStrings } from '../constants';
-import listEvents from '../subCommands/listEvents';
-import { commandHandler, escapedBackticks } from '../../../utils';
+import addEvent from '../../bots/ama/subCommands/addEvent';
+import client from '../../client';
+import { getStrings } from '../../bots/ama/constants';
+import listEvents from '../../bots/ama/subCommands/listEvents';
+import { commandHandler, escapedBackticks } from '../index';
 
-
-describe('Listing Events', () => {
+describe('listing events', () => {
   const subCommands = { add: addEvent, list: listEvents };
   const expectedOutString = `${escapedBackticks}
 - add: Specify date then title of event
@@ -14,7 +13,7 @@ describe('Listing Events', () => {
 \t- Example: list\n
 ${escapedBackticks}`;
 
-  test('When no arguments provided', () => {
+  test('when no arguments provided', () => {
     // When
     commandHandler(subCommands, getStrings());
 
@@ -22,7 +21,7 @@ ${escapedBackticks}`;
     expect(client.message.channel.send).toHaveBeenCalledWith(expectedOutString);
   });
 
-  test('When invalid arguments provided', () => {
+  test('when invalid arguments provided', () => {
     // Given
     client.message.content = '++ama idklol';
 
