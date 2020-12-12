@@ -7,19 +7,22 @@ export const escapedBackticks = '```';
  * @param {Object.<string, Object.<string, any>>} subCommands 
  * @param {Object.<string, string>} strings 
  */
-export const commandHandler = (subCommands, strings) => {
+export const commandHandler = (subCommands, strings, options = {}) => {
   let cmd = parseCommandString();
   let subCommand = cmd.subCommand;
 
   if (!subCommand) {
-    client.message.channel.send(getCommandsString(subCommands));
+    options.handleNoSubCommand || client.message.channel.send(getCommandsString(subCommands));
     return;
   }
 
   let targetCmd = subCommands[subCommand];
 
   if (!targetCmd) {
-    client.message.channel.send(`${strings.invalidSubCommand}\n${getCommandsString(subCommands)}`);
+    options.handleInvalidSubCommand ||
+      client.message.channel.send(
+        `${strings.invalidSubCommand}\n${getCommandsString(subCommands)}`
+      );
     return;
   }
 

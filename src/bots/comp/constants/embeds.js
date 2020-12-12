@@ -1,4 +1,4 @@
+import { addSalaryStrings } from './strings';
 import generateEmbed from '../../../utils/embed';
-import { noArgStrings } from './strings';
 
-export const noArgEmbed = generateEmbed(noArgStrings);
+export const addSalaryEmbed = generateEmbed(addSalaryStrings);

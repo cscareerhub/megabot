@@ -1,6 +1,6 @@
 import { description } from './stringHelpers';
 
-export const noArgStrings = {
+export const addSalaryStrings = {
   description: description(),
   invalidSubCommand: 'Invalid argument. Following arguments are permitted:',
   title: 'Salary Reporter'
