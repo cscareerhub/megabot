@@ -1,6 +1,6 @@
 import EventModel from '../models/Event';
 import { MongoMemoryServer } from 'mongodb-memory-server';
-import addEvent from '../subcommands/addEvent';
+import addEvent from '../subCommands/addEvent';
 import client from '../../../client';
 import { escapedBackticks } from '../../../utils';
 import mongoose from 'mongoose';
