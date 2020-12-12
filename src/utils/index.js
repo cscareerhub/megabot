@@ -12,7 +12,7 @@ export const commandHandler = (subCommands, strings) => {
   let subCommand = cmd.subCommand;
 
   if (!subCommand) {
-    client.message.channel.send(getCommandsString());
+    client.message.channel.send(getCommandsString(subCommands));
     return;
   }
 
