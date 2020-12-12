@@ -1,4 +1,4 @@
-import { escapedBackticks } from '../../utils/embed';
+import { escapedBackticks } from '../../utils';
 
 export const getStrings = (...options) => {
   options = options || [{}];

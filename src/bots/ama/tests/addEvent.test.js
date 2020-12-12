@@ -1,9 +1,9 @@
 import EventModel from '../models/Event';
-import addEvent from '../subcommands/addEvent';
-import client from '../../../client';
-import { escapedBackticks } from '../../../utils/embed';
-import mongoose from 'mongoose';
 import { MongoMemoryServer } from 'mongodb-memory-server';
+import addEvent from '../subCommands/addEvent';
+import client from '../../../client';
+import { escapedBackticks } from '../../../utils';
+import mongoose from 'mongoose';
 import 'babel-polyfill';
 
 describe('adding Event', () => {

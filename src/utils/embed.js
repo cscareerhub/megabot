@@ -1,6 +1,5 @@
 import Discord from 'discord.js';
 
-export const escapedBackticks = '```';
 export const color = '#28B766';
 
 /**

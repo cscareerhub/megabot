@@ -1,4 +1,9 @@
+import addEvent from './subCommands/addEvent';
 import client from '../../client';
-import handler from './handler';
+import { commandHandler } from '../../utils';
+import { getStrings } from './constants';
+import listEvents from './subCommands/listEvents';
 
-client.on('ama', handler);
+const subCommands = { add: addEvent, list: listEvents };
+
+client.on('ama', () => commandHandler(subCommands, getStrings()));

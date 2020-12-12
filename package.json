@@ -13,7 +13,7 @@
     "serve": "node lib/index.js",
     "coverage": "jest --coverage",
     "test": "jest",
-    "lint": "eslint src/**/*.js src/*.js",
+    "lint": "eslint 'src/**/*.js' 'src/*.js'",
     "format": "yarn prettier --write .",
     "postinstall": "husky install"
   },
