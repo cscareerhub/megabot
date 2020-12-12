@@ -4,15 +4,16 @@ export const escapedBackticks = '```';
 
 /**
  * Handles bot-specific commands
- * @param {Object.<string, Object.<string, any>>} subCommands 
- * @param {Object.<string, string>} strings 
+ * @param {Object.<string, Object.<string, any>>} subCommands
+ * @param {Object.<string, string>} strings
  */
 export const commandHandler = (subCommands, strings, options = {}) => {
   let cmd = parseCommandString();
   let subCommand = cmd.subCommand;
 
   if (!subCommand) {
-    options.handleNoSubCommand || client.message.channel.send(getCommandsString(subCommands));
+    options.handleNoSubCommand ||
+      client.message.channel.send(getCommandsString(subCommands));
     return;
   }
 
@@ -28,7 +29,6 @@ export const commandHandler = (subCommands, strings, options = {}) => {
 
   targetCmd.handler(cmd.arguments);
 };
-
 
 /**
  * Lists sub commands inside a code block
