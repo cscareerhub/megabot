@@ -49,7 +49,7 @@ export const getCommandsString = (subCommands) => {
 
 /**
  * Parses message content for commands and arguments
- * @returns {Object.<string, (string | Array.<string>)>} - an object with the subCommand and arguments
+ * @returns {Object.<string, (string | Array.<string>)>} - an object with the sub command and arguments
  */
 export const parseCommandString = () => {
   const messageArray = client.message.content.split(' ');
