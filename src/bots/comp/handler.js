@@ -3,8 +3,9 @@ import { noArgEmbed } from './constants/embeds';
 import { parseCommandString } from '../../utils';
 
 const handler = () => {
-  const args = parseCommandString();
-  const subCommand = args.subCommand;
+  const cmd = parseCommandString();
+  const subCommand = cmd.subCommand;
+
   if (!subCommand) {
     client.message.author.send(noArgEmbed);
   }
