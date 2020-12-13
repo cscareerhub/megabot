@@ -72,3 +72,13 @@ export const partition = (array, isValid) => {
     [[], []]
   );
 };
+
+/**
+ * Unindents ES6-style concatenated strings
+ * Source: https://stackoverflow.com/questions/25924057/multiline-strings-that-dont-break-indentation
+ * Note: only works when using spaces not tabs and will break strings that require double spaces
+ * @param {string} string - the ES6 string to be unindented
+ */
+export const dedent = (string) => {
+  return string.replace(/  +/g, '');
+};

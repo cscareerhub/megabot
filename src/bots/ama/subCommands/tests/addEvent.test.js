@@ -2,9 +2,8 @@ import EventModel from '../../models/Event';
 import { MongoMemoryServer } from 'mongodb-memory-server';
 import addEvent from '../addEvent';
 import client from '../../../../client';
-import { escapedBackticks } from '../../../../utils';
 import mongoose from 'mongoose';
-import 'babel-polyfill';
+import { dedent, escapedBackticks } from '../../../../utils';
 
 describe('adding Event', () => {
   let uri;
@@ -22,11 +21,12 @@ describe('adding Event', () => {
     expect(results[0].title).toEqual('Birthday Party');
     expect(results[0].date.toDateString()).toEqual('Mon Apr 20 2020');
 
-    expect(client.message.channel.send)
-      .toHaveBeenCalledWith(`Following event has been created:
-${escapedBackticks}
-Event title: Birthday Party
-Date: Mon Apr 20 2020${escapedBackticks}`);
+    expect(client.message.channel.send).toHaveBeenCalledWith(
+      dedent(`Following event has been created:
+        ${escapedBackticks}
+        Event title: Birthday Party
+        Date: Mon Apr 20 2020${escapedBackticks}`)
+    );
   });
 
   test('ama does not create event with invalid day', async () => {
