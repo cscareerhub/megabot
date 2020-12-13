@@ -8,7 +8,6 @@ export const getStrings = (...options) => {
     insufficientArgumentsAddEvent:
       'Need to supply date (yyyy-mm-dd) and title of event\n_Example_: 2020-01-01 start of the greatest year ever',
     invalidDateAddEvent: 'Invalid date provided. Must be in format yyyy-mm-dd',
-    invalidSubCommand: 'Invalid argument. Following arguments are permitted:',
     noEvents: 'No events yet :(',
     pastEvents: `__**Past Events**__\n${options[0]}`,
     upcomingEvent: `__**Upcoming Event**__\n${options[0]}\n`

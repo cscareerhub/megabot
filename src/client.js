@@ -37,6 +37,9 @@ if (ENV !== envs.TESTING) {
 }
 
 // Other client listeners
-client.on('message', (message) => dispatchCommand(message));
+client.on(
+  'message',
+  (message) => ENV !== envs.PRODUCTION && dispatchCommand(message)
+);
 
 export default client;

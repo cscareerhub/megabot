@@ -1,11 +1,12 @@
 import client from '../client';
+import { defaultStrings } from '../constants';
 
 export const escapedBackticks = '```';
 
 /**
  * Handles bot-specific commands
- * @param {Object.<string, Object.<string, any>>} subCommands
- * @param {Object.<string, string>} strings
+ * @param {Object.<string, Object.<string, any>>} subCommands - subCommand objects with handlers
+ * @param {Object.<string, string>} strings - string object containing bot message strings
  */
 export const commandHandler = (subCommands, strings, options = {}) => {
   let cmd = parseCommandString();
@@ -22,7 +23,9 @@ export const commandHandler = (subCommands, strings, options = {}) => {
   if (!targetCmd) {
     options.handleInvalidSubCommand ||
       client.message.channel.send(
-        `${strings.invalidSubCommand}\n${getCommandsString(subCommands)}`
+        `${
+          strings.invalidSubCommand || defaultStrings.invalidSubCommand
+        }\n${getCommandsString(subCommands)}`
       );
     return;
   }
@@ -68,4 +71,14 @@ export const partition = (array, isValid) => {
     },
     [[], []]
   );
+};
+
+/**
+ * Unindents ES6-style concatenated strings
+ * Source: https://stackoverflow.com/questions/25924057/multiline-strings-that-dont-break-indentation
+ * Note: only works when using spaces not tabs and will break strings that require double spaces
+ * @param {string} string - the ES6 string to be unindented
+ */
+export const dedent = (string) => {
+  return string.replace(/  +/g, '');
 };
