@@ -14,7 +14,7 @@ client.on('messageReactionAdd', async (reaction) => {
     if (isContributor(member) || isMod(member)) {
       pinByReact(reaction, 'add');
     } else {
-      client.message.channel.send(
+      reaction.message.channel.send(
         'You do not have permission to pin this message.'
       );
     }
