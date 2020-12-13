@@ -33,7 +33,6 @@ export const findRole = (member, roleName) => {
       return true;
     }
   });
-  return false;
 };
 
 /**
@@ -53,7 +52,8 @@ export const highestRole = (member) => {
 export const isContributor = (member) => {
   return (
     member.roles &&
-    (highestRole(member) === 'Contributor' || findRole(member, 'Contributor'))
+    (highestRole(member).name === 'Contributor' ||
+      findRole(member, 'Contributor'))
   );
 };
 
