@@ -26,8 +26,8 @@ export const highestRole = (member) => {
 
 export const isContributor = (member) => {
   return (
-    (member.roles && highestRole(member) === 'Contributor') ||
-    findRole(member, 'Contributor')
+    member.roles &&
+    (highestRole(member) === 'Contributor' || findRole(member, 'Contributor'))
   );
 };
 
