@@ -52,7 +52,7 @@ export const getCommandsString = (subCommands) => {
  * @returns {Object.<string, (string | Array.<string>)>} - an object with the sub command and arguments
  */
 export const parseCommandString = () => {
-  const messageArray = client.message.content.split(' ');
+  const messageArray = client.message.content.split(/\s+/);
   return { arguments: messageArray.slice(2), subCommand: messageArray[1] };
 };
 

@@ -5,10 +5,11 @@ export const getStrings = (...options) => {
   return {
     createdEvent: `Following event has been created:\n${options[0]}`,
     eventNotFound: `Event with id ${options[0]} not found`,
+    editEventExample: `Surround values with triple backticks and split by double newline. For example:\n${options[0]}`,
     futureEvents: `__**Future Events**__\n${options[0]}`,
     insufficientArgumentsAddEvent:
       'Need to supply date (yyyy-mm-dd) and title of event\n_Example_: 2020-01-01 start of the greatest year ever',
-    insufficientArgumentsDeleteEvent: 'Need to supply event ID',
+    insufficientArgumentsEvent: 'Need to supply event ID',
     invalidDateAddEvent: 'Invalid date provided. Must be in format yyyy-mm-dd',
     invalidSubCommand: 'Invalid argument. Following arguments are permitted:',
     noEvents: 'No events yet :(',
@@ -18,8 +19,19 @@ export const getStrings = (...options) => {
   };
 };
 
-export const getFormattedEvent = (event) => {
-  return `${escapedBackticks}
+export const getFormattedEvent = (event, addDetails) => {
+  let details = `${escapedBackticks}
 Event title: ${event.title}
-Date: ${event.date.toDateString()}${escapedBackticks}`;
+Date: ${event.date.toDateString()}`;
+
+  if(addDetails) {
+    details += `
+URL: ${event.url}
+Participant(s): ${event.participants}
+Description: ${event.description}`
+  }
+
+  details += escapedBackticks;
+
+  return details;
 };

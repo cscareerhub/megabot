@@ -4,7 +4,7 @@ import { getStrings } from '../constants';
 
 const handler = async (args) => {
   if (args.length != 1) {
-    client.message.channel.send(getStrings().insufficientArgumentsDeleteEvent);
+    client.message.channel.send(getStrings().insufficientArgumentsEvent);
     return;
   }
 
