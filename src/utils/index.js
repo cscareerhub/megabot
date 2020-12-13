@@ -1,4 +1,5 @@
 import client from '../client';
+import { defaultStrings } from '../constants';
 
 export const escapedBackticks = '```';
 
@@ -22,7 +23,9 @@ export const commandHandler = (subCommands, strings, options = {}) => {
   if (!targetCmd) {
     options.handleInvalidSubCommand ||
       client.message.channel.send(
-        `${strings.invalidSubCommand}\n${getCommandsString(subCommands)}`
+        `${
+          strings.invalidSubCommand || defaultStrings.invalidSubCommand
+        }\n${getCommandsString(subCommands)}`
       );
     return;
   }

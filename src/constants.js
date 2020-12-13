@@ -12,6 +12,7 @@ export const envs = {
 };
 
 // Variables
+export const guildId = '334891772696330241';
 export const prefix = '++';
 export const validCommands = [
   'ama',
@@ -21,3 +22,7 @@ export const validCommands = [
   'salary',
   'settings'
 ];
+
+export const defaultStrings = {
+  invalidSubCommand: 'Invalid argument. Following arguments are permitted:'
+};
