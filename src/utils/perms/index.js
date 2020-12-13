@@ -1,8 +1,8 @@
+import { GUILD_ID } from '../../constants';
 import client from '../../client';
-import { guildId } from '../../constants';
 
 export const getMemberFromUser = async (user) => {
-  const guild = await client.guilds.fetch(guildId);
+  const guild = await client.guilds.fetch(GUILD_ID);
   const member = await guild.members.fetch(user.id);
   return member;
 };
