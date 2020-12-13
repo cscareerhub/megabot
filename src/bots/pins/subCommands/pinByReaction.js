@@ -15,14 +15,11 @@ const pinByReaction = async (reaction, user, action) => {
 };
 
 const pin = (reaction, action) => {
-  action === 'add' &&
-    reaction.message
-      .pin({ reason: 'important' })
-      .catch((err) => console.log(err));
+  action === 'add' && reaction.message.pin().catch((err) => console.log(err));
 
   action === 'remove' &&
     reaction.message
-      .unpin({ reason: 'no longer relevant' })
+      .unpin()
       .then(() =>
         reaction.message.channel.send('The message has been unpinned.')
       )
