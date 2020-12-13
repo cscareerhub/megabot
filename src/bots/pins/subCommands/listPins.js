@@ -9,24 +9,22 @@ const handler = () => {
 const generatePinString = (channels) => {
   // TODO: this should be configurable
   const categories = ['Careers', 'Programming'];
-  channels.cache &&
-    channels.cache.each((channel) => {
-      if (categories.includes(channel.name)) {
-        channel.children.each((child) => {
-          child.messages &&
-            child.messages
-              .fetchPinned()
-              .then((messages) => {
-                let pins = `**#${child.name}**\n\n`;
-                messages.each((message) => {
-                  pins += message.content ? `${message.content}\n\n` : '';
-                });
-                client.message.author.send(pins);
-              })
-              .catch((err) => console.log(err));
-        });
-      }
-    });
+  channels.cache.each((channel) => {
+    if (categories.includes(channel.name)) {
+      channel.children.each((child) => {
+        child.messages
+          .fetchPinned()
+          .then((messages) => {
+            let pins = `**#${child.name}**\n\n`;
+            messages.each((message) => {
+              pins += message.content ? `${message.content}\n\n` : '';
+            });
+            client.message.author.send(pins);
+          })
+          .catch((err) => console.log(err));
+      });
+    }
+  });
 };
 
 const listPins = {
