@@ -7,7 +7,11 @@ describe('pinByReaction', () => {
     message: {
       channel: { send: jest.fn() },
       pin: jest.fn().mockImplementation(() => {
-        return { catch: jest.fn() };
+        return {
+          then: jest.fn().mockImplementation(() => {
+            return { catch: jest.fn() };
+          })
+        };
       }),
       unpin: jest.fn().mockImplementation(() => {
         return {

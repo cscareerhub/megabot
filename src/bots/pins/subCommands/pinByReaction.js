@@ -1,3 +1,4 @@
+import client from '../../../client';
 import { pinEmoji } from '../constants';
 import { getMemberFromUser, isContributor, isMod } from '../../../utils/perms';
 
@@ -15,7 +16,11 @@ const pinByReaction = async (reaction, user, action) => {
 };
 
 const pin = (reaction, action) => {
-  action === 'add' && reaction.message.pin().catch((err) => console.log(err));
+  action === 'add' &&
+    reaction.message
+      .pin()
+      .then(() => {})
+      .catch((err) => client.logger.error(err));
 
   action === 'remove' &&
     reaction.message
@@ -23,7 +28,7 @@ const pin = (reaction, action) => {
       .then(() =>
         reaction.message.channel.send('The message has been unpinned.')
       )
-      .catch((err) => console.log(err));
+      .catch((err) => client.logger.error(err));
 };
 
 export default pinByReaction;

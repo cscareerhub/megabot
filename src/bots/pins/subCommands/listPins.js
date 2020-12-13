@@ -25,7 +25,7 @@ const generatePinString = (channel = {}) => {
       });
       client.message.author.send(pins);
     })
-    .catch((err) => console.log(err));
+    .catch((err) => client.logger.error(err));
 };
 
 const listPins = {
