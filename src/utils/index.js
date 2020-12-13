@@ -5,8 +5,8 @@ export const escapedBackticks = '```';
 
 /**
  * Handles bot-specific commands
- * @param {Object.<string, Object.<string, any>>} subCommands
- * @param {Object.<string, string>} strings
+ * @param {Object.<string, Object.<string, any>>} subCommands - subCommand objects with handlers
+ * @param {Object.<string, string>} strings - string object containing bot message strings
  */
 export const commandHandler = (subCommands, strings, options = {}) => {
   let cmd = parseCommandString();

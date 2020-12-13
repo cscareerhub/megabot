@@ -20,11 +20,6 @@ describe('perms', () => {
     expect(member).toEqual({});
   });
 
-  // test('findRole', () => {
-  //   const hasRole = permUtils.findRole(mockMember, 'Contributor');
-  //   expect(hasRole).toBe(true);
-  // });
-
   test('highestRole', () => {
     const highestRole = permUtils.highestRole(mockMember);
     expect(highestRole.name).toBe('Contributor');
