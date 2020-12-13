@@ -21,7 +21,7 @@ const handler = () => {
  */
 const generatePinStrings = (channel = {}) => {
   channel.messages
-    .fetchPinned()
+    ?.fetchPinned()
     .then((messages) => {
       let pins = `**#${channel.name}**\n\n`;
       messages.each((message) => {
