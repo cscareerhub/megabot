@@ -35,6 +35,7 @@ export const formFields = [
   }
 ];
 
+/** Generates a formatted description string using form fields */
 export const description = () => {
   let form = '';
   formFields.forEach((field) => {

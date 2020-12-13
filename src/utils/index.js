@@ -34,6 +34,15 @@ export const commandHandler = (subCommands, strings, options = {}) => {
 };
 
 /**
+ * Parses message content for commands and arguments
+ * @returns {Object.<string, (string | Array.<string>)>} - an object with the sub command and arguments
+ */
+export const parseCommandString = () => {
+  const messageArray = client.message.content.split(' ');
+  return { arguments: messageArray.slice(2), subCommand: messageArray[1] };
+};
+
+/**
  * Lists sub commands inside a code block
  * @param {Array.<any>} subCommands - sub commands to be listed
  */
@@ -48,15 +57,6 @@ export const getCommandsString = (subCommands) => {
   str += escapedBackticks;
 
   return str;
-};
-
-/**
- * Parses message content for commands and arguments
- * @returns {Object.<string, (string | Array.<string>)>} - an object with the sub command and arguments
- */
-export const parseCommandString = () => {
-  const messageArray = client.message.content.split(' ');
-  return { arguments: messageArray.slice(2), subCommand: messageArray[1] };
 };
 
 /**
