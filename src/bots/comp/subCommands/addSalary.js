@@ -1,4 +1,4 @@
-import { addSalaryEmbed } from '../constants/embeds';
+import { addSalaryEmbed } from '../embeds';
 import client from '../../../client';
 
 const handler = () => {
