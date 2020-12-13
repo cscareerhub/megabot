@@ -1,5 +1,5 @@
-import { GUILD_ID } from '../../constants';
-import client from '../../client';
+import { GUILD_ID } from '../constants';
+import client from '../client';
 
 /**
  * Get GuildMember from User object using guild ID and user ID
