@@ -5,9 +5,9 @@ import { getMemberFromUser, isContributor, isMod } from '../../../utils/perms';
 /**
  * Handles the onMessageReaction and onMessgaeReactionRemove events
  * by checking roles and pinning or messaging accordingly
- * @param {*} reaction - the MessageReaction object
- * @param {*} user - the User who reacted or removed a reaction
- * @param {*} action - specifies whether to add or remove a pinned message
+ * @param {Object.<string, any>} reaction - the MessageReaction object
+ * @param {Object.<string, any>} user - the User who reacted or removed a reaction
+ * @param {string} action - specifies whether to add or remove a pinned message
  */
 const pinByReaction = async (reaction, user, action) => {
   if (reaction.emoji.name === pinEmoji) {
