@@ -5,14 +5,13 @@ const categories = ['Careers', 'Programming'];
 /** Handles getting pinned messages and sending them */
 const handler = () => {
   const channels = client.message.guild?.channels || {};
-  channels.cache &&
-    channels.cache.each((channel) => {
-      if (categories.includes(channel.name)) {
-        channel.children.each((child) => {
-          generatePinStrings(child);
-        });
-      }
-    });
+  channels.cache?.each((channel) => {
+    if (categories.includes(channel.name)) {
+      channel.children?.each((child) => {
+        generatePinStrings(child);
+      });
+    }
+  });
 };
 
 /**
