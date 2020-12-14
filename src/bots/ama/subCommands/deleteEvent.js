@@ -2,6 +2,10 @@ import EventModel from '../models/Event';
 import client from '../../../client';
 import { getStrings } from '../constants';
 
+/**
+ * Handles deleting an event with Event schema
+ * @param {Array.<string>} args - rest of command arguments
+ */
 const handler = async (args) => {
   if (args.length != 1) {
     client.message.channel.send(getStrings().insufficientArgumentsEvent);

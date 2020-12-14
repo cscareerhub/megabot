@@ -2,11 +2,21 @@ import EventModel from '../models/Event';
 import client from '../../../client';
 import { escapedBackticks } from '../../../utils/index';
 import parseDictionary from '../parser';
-import { getFormattedEvent, getStrings } from '../constants';
+import {
+  getFormattedEvent,
+  getStrings,
+  possibleEditFields
+} from '../constants';
 
+/**
+ * Handles editing an event with Event schema and sends message with updated event
+ * @param {Array.<string>} args - rest of command arguments
+ */
 const handler = async (args) => {
   if (args.length < 1) {
-    client.message.channel.send(getStrings(possibleFields).editEventExample);
+    client.message.channel.send(
+      getStrings(possibleEditFields).editEventExample
+    );
     return;
   }
 
@@ -20,9 +30,7 @@ const handler = async (args) => {
 
   if (targetEvent) {
     if (client.message.content.indexOf(escapedBackticks) === -1) {
-      client.message.channel.send(
-        'Must surround data with backticks (codeblock)'
-      );
+      client.message.channel.send(getStrings().noBackticks);
       return;
     }
 
@@ -45,6 +53,10 @@ const handler = async (args) => {
   }
 };
 
+/**
+ * Tokenizes a string block by splitting on double newline then keys are values pre colon and values past colon
+ * @param {string} block - block of text to be turned into dictionary
+ */
 let tokenizeEvent = (block) => {
   let split = block.split('\n\n');
   let tokens = {};
@@ -65,18 +77,6 @@ let tokenizeEvent = (block) => {
 
   return parseDictionary(tokens);
 };
-
-const possibleFields = `++ama edit 5fd3f9a4ea601010fe5875ff
-${escapedBackticks}url: https://cscareerhub.com
-
-date: 2020-12-25
-
-description: Line 1
-Line 2
-
-title: Sample Event
-
-participants: Kevin, Kevin Jr${escapedBackticks}`;
 
 const editEvent = {
   example:

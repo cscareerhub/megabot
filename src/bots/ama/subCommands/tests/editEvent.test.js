@@ -1,10 +1,10 @@
-import Event from '../models/Event';
-import EventModel from '../models/Event';
+import Event from '../../models/Event';
+import EventModel from '../../models/Event';
 import { MongoMemoryServer } from 'mongodb-memory-server';
-import client from '../../../client';
-import editEvent from '../subCommands/editEvent';
-import { escapedBackticks } from '../../../utils';
+import client from '../../../../client';
+import editEvent from '../editEvent';
 import mongoose from 'mongoose';
+import { dedent, escapedBackticks } from '../../../../utils';
 import 'babel-polyfill';
 
 describe('adding Event', () => {
@@ -13,19 +13,22 @@ describe('adding Event', () => {
   test('ama does returns example when no arguments supplied', async () => {
     await editEvent.handler([]);
 
-    expect(client.message.channel.send)
-      .toHaveBeenCalledWith(`Surround values with triple backticks and split by double newline. For example:
-++ama edit 5fd3f9a4ea601010fe5875ff
-${escapedBackticks}url: https://cscareerhub.com
-
-date: 2020-12-25
-
-description: Line 1
-Line 2
-
-title: Sample Event
-
-participants: Kevin, Kevin Jr${escapedBackticks}`);
+    expect(client.message.channel.send).toHaveBeenCalledWith(
+      dedent(
+        `Surround values with triple backticks and split by double newline. For example:
+        ++ama edit 5fd3f9a4ea601010fe5875ff
+        ${escapedBackticks}url: https://cscareerhub.com
+        
+        date: 2020-12-25
+        
+        description: Line 1
+        Line 2
+        
+        title: Sample Event
+        
+        participants: Kevin, Kevin Jr${escapedBackticks}`
+      )
+    );
   });
 
   test('ama does no edits when invalid argument supplied', async () => {
@@ -67,25 +70,28 @@ participants: Kevin, Kevin Jr${escapedBackticks}`);
       title: 'Event 1'
     }).save();
 
-    client.message.content = `++ama edit ${event.id}
-${escapedBackticks}
-title: Event 2
-
-url: https://cscareerhub.com
-${escapedBackticks}`;
+    client.message.content = dedent(`++ama edit ${event.id}
+      ${escapedBackticks}
+      title: Event 2
+      
+      url: https://cscareerhub.com
+      ${escapedBackticks}`);
 
     await editEvent.handler([event.id]);
 
     let newEvent = await EventModel.findOne({});
     await EventModel.deleteMany({});
 
-    expect(client.message.channel.send)
-      .toHaveBeenCalledWith(`${escapedBackticks}
-Event title: Event 2
-Date: Fri May 01 2015
-URL: https://cscareerhub.com
-Participant(s): Person 1, Person 2
-Description: ${escapedBackticks}`);
+    expect(client.message.channel.send).toHaveBeenCalledWith(
+      dedent(
+        `${escapedBackticks}
+        Event title: Event 2
+        Date: Fri May 01 2015
+        URL: https://cscareerhub.com
+        Participant(s): Person 1, Person 2
+        Description: ${escapedBackticks}`
+      )
+    );
 
     expect(newEvent.title).toEqual('Event 2');
     expect(newEvent.url).toEqual('https://cscareerhub.com');
