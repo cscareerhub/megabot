@@ -2,6 +2,10 @@ import Event from '../models/Event';
 import client from '../../../client';
 import { getFormattedEvent, getStrings } from '../constants';
 
+/**
+ * Handles adding an event to Event schema and sends message with new event
+ * @param {Array.<string>} args - rest of command arguments
+ */
 const handler = async (args) => {
   if (args.length < 2) {
     client.message.channel.send(getStrings().insufficientArgumentsAddEvent);

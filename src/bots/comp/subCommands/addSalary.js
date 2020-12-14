@@ -1,6 +1,7 @@
-import { addSalaryEmbed } from '../constants/embeds';
+import { addSalaryEmbed } from '../embeds';
 import client from '../../../client';
 
+/** Sends salary embed to DMs */
 const handler = () => {
   client.message.author.send(addSalaryEmbed);
 };

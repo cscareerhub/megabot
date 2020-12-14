@@ -2,7 +2,7 @@ import dotenv from 'dotenv';
 
 // Env variables
 dotenv.config();
-export const { BOT_TOKEN, ENV, MONGODB } = process.env;
+export const { BOT_TOKEN, ENV, MONGODB, GUILD_ID } = process.env;
 
 // Enums
 export const envs = {
@@ -21,3 +21,7 @@ export const validCommands = [
   'salary',
   'settings'
 ];
+
+export const defaultStrings = {
+  invalidSubCommand: 'Invalid argument. Following arguments are permitted:'
+};

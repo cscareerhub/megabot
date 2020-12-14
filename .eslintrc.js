@@ -21,6 +21,7 @@ module.exports = {
       2,
       {
         require: {
+          ArrowFunctionExpression: true,
           ClassDeclaration: true,
           FunctionDeclaration: true,
           MethodDefinition: true
