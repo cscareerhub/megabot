@@ -15,7 +15,7 @@ describe('adding Event', () => {
 
     expect(client.message.channel.send).toHaveBeenCalledWith(
       dedent(
-        `Surround values with triple backticks and split by double newline. For example:
+        `Split values by double newline. For example:
         ++ama edit 5fd3f9a4ea601010fe5875ff
         ${escapedBackticks}url: https://cscareerhub.com
         
@@ -47,22 +47,6 @@ describe('adding Event', () => {
     );
   });
 
-  test('ama does no edits when code block not created', async () => {
-    let event = await Event({
-      date: new Date('2015-05-01T12:00:00Z'),
-      title: 'Event 1'
-    }).save();
-
-    client.message.content = event.id;
-
-    await editEvent.handler([event.id]);
-    await EventModel.deleteMany({});
-
-    expect(client.message.channel.send).toHaveBeenCalledWith(
-      'Must surround data with backticks (codeblock)'
-    );
-  });
-
   test('ama edits and prints out updated info', async () => {
     let event = await Event({
       date: new Date('2015-05-01T12:00:00Z'),
@@ -71,11 +55,9 @@ describe('adding Event', () => {
     }).save();
 
     client.message.content = dedent(`++ama edit ${event.id}
-      ${escapedBackticks}
       title: Event 2
       
-      url: https://cscareerhub.com
-      ${escapedBackticks}`);
+      url: https://cscareerhub.com`);
 
     await editEvent.handler([event.id]);
 

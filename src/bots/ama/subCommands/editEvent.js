@@ -1,6 +1,5 @@
 import EventModel from '../models/Event';
 import client from '../../../client';
-import { escapedBackticks } from '../../../utils/index';
 import parseObject from '../parser';
 import {
   getFormattedEvent,
@@ -21,35 +20,30 @@ const handler = async (args) => {
   }
 
   let targetEvent;
+  let targetId = args[0];
 
   try {
-    targetEvent = await EventModel.findById(args[0]);
+    targetEvent = await EventModel.findById(targetId);
   } catch {
     client.logger.debug('invalid ObjectId type supplied');
   }
 
   if (targetEvent) {
-    if (client.message.content.indexOf(escapedBackticks) === -1) {
-      client.message.channel.send(getStrings().noBackticks);
-      return;
-    }
-
     let targetBlock = client.message.content.substring(
-      client.message.content.indexOf(escapedBackticks) + 4,
-      client.message.content.lastIndexOf(escapedBackticks)
+      client.message.content.indexOf(targetId) + targetId.length + 1
     );
 
     let tokens = tokenizeEvent(targetBlock);
 
     targetEvent = await EventModel.findOneAndUpdate(
-      { _id: args[0] },
+      { _id: targetId },
       { $set: tokens },
       { new: true }
     );
 
     client.message.channel.send(getFormattedEvent(targetEvent, true));
   } else {
-    client.message.channel.send(getStrings(args[0]).eventNotFound);
+    client.message.channel.send(getStrings(targetId).eventNotFound);
   }
 };
 
