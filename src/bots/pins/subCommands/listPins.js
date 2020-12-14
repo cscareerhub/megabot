@@ -1,23 +1,26 @@
 import client from '../../../client';
 
-// TODO: this should be configurable
 const categories = ['Careers', 'Programming'];
 
+/** Handles getting pinned messages and sending them */
 const handler = () => {
   const channels = client.message.guild?.channels || {};
-  channels.cache &&
-    channels.cache.each((channel) => {
-      if (categories.includes(channel.name)) {
-        channel.children.each((child) => {
-          generatePinString(child);
-        });
-      }
-    });
+  channels.cache?.each((channel) => {
+    if (categories.includes(channel.name)) {
+      channel.children?.each((child) => {
+        generatePinStrings(child);
+      });
+    }
+  });
 };
 
-const generatePinString = (channel = {}) => {
+/**
+ * Generates pin strings and sends each pinned message to user's DMs
+ * @param {Object.<string, any>} channel - channel where pins are from
+ */
+const generatePinStrings = (channel = {}) => {
   channel.messages
-    .fetchPinned()
+    ?.fetchPinned()
     .then((messages) => {
       let pins = `**#${channel.name}**\n\n`;
       messages.each((message) => {

@@ -33,6 +33,7 @@ describe('pinByReaction', () => {
     const user = {};
     const action = 'add';
     await pinByReaction(reaction, user, action);
+
     expect(reaction.message.channel.send).toHaveBeenCalledWith(
       'You do not have permission to manage pins.'
     );
@@ -44,6 +45,7 @@ describe('pinByReaction', () => {
     const user = {};
     const action = 'add';
     await pinByReaction(reaction, user, action);
+
     expect(reaction.message.channel.send).not.toHaveBeenCalled();
   });
 
@@ -53,6 +55,7 @@ describe('pinByReaction', () => {
     const user = {};
     const action = 'add';
     await pinByReaction(reaction, user, action);
+
     expect(reaction.message.channel.send).not.toHaveBeenCalled();
   });
 
@@ -62,6 +65,7 @@ describe('pinByReaction', () => {
     const user = {};
     const action = 'add';
     await pinByReaction(reaction, user, action);
+
     expect(reaction.message.channel.send).not.toHaveBeenCalled();
   });
 
@@ -71,6 +75,7 @@ describe('pinByReaction', () => {
     const user = {};
     const action = 'add';
     await pinByReaction(reaction, user, action);
+
     expect(reaction.message.pin).toHaveBeenCalled();
   });
 
@@ -80,6 +85,7 @@ describe('pinByReaction', () => {
     const user = {};
     const action = 'remove';
     await pinByReaction(reaction, user, action);
+
     expect(reaction.message.unpin).toHaveBeenCalled();
   });
 });

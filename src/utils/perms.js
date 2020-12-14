@@ -41,7 +41,7 @@ export const findRole = (member, roleName) => {
  * @returns {Object.<string, any>} - the member's highest role
  */
 export const highestRole = (member) => {
-  return member.roles && member.roles.highest;
+  return member.roles?.highest;
 };
 
 /**

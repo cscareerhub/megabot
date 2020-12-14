@@ -1,5 +1,10 @@
-import { escapedBackticks } from '../../utils';
+import { dedent, escapedBackticks } from '../../utils';
 
+/**
+ * Contructs string object with options
+ * @param  {...any} options - data for strings and other options
+ * @return {Object.<string, string>} - string object with all AMA bot strings
+ */
 export const getStrings = (...options) => {
   options = options || [{}];
   return {
@@ -14,8 +19,13 @@ export const getStrings = (...options) => {
   };
 };
 
+/**
+ * Formats event string
+ * @param {Object.<string, any>} event - event to be formatted
+ * @returns {string} - formatted event string
+ */
 export const getFormattedEvent = (event) => {
-  return `${escapedBackticks}
-Event title: ${event.title}
-Date: ${event.date.toDateString()}${escapedBackticks}`;
+  return dedent(`${escapedBackticks}
+    Event title: ${event.title}
+    Date: ${event.date.toDateString()}${escapedBackticks}`);
 };
