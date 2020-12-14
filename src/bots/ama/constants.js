@@ -27,17 +27,19 @@ export const getStrings = (...options) => {
 /**
  * Possible edit fields
  */
-export const possibleEditFields = `++ama edit 5fd3f9a4ea601010fe5875ff
-${escapedBackticks}url: https://cscareerhub.com
+export const possibleEditFields = dedent(
+  `++ama edit 5fd3f9a4ea601010fe5875ff
+  ${escapedBackticks}url: https://cscareerhub.com
 
-date: 2020-12-25
+  date: 2020-12-25
 
-description: Line 1
-Line 2
+  description: Line 1
+  Line 2
 
-title: Sample Event
+  title: Sample Event
 
-participants: Kevin, Kevin Jr${escapedBackticks}`;
+  participants: Kevin, Kevin Jr${escapedBackticks}`
+);
 
 /**
  * Formats event string
