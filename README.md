@@ -1,5 +1,7 @@
 # CSCH Megabot
 
+[![License](https://img.shields.io/github/license/cscareerhub/megabot)](LICENSE.md)
+
 A megabot for everything CSCH needs, composed of smaller mostly standalone packages. This project uses [Discord.js](https://discord.js.org/#/).
 
 ## Getting Started
