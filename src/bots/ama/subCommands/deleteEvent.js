@@ -7,23 +7,24 @@ import { getStrings } from '../constants';
  * @param {Array.<string>} args - rest of command arguments
  */
 const handler = async (args) => {
-  if (args.length != 1) {
+  if (args.length !== 1) {
     client.message.channel.send(getStrings().insufficientArgumentsEvent);
     return;
   }
 
   let deleted;
+  let targetId = args[0];
 
   try {
-    deleted = await EventModel.findOneAndDelete({ _id: args[0] });
-  } catch (_) {
+    deleted = await EventModel.findOneAndDelete({ _id: targetId });
+  } catch {
     client.logger.debug('invalid ObjectId type supplied');
   }
 
   if (deleted) {
-    client.message.channel.send(getStrings(args[0]).successfullyDeleted);
+    client.message.channel.send(getStrings(targetId).successfullyDeleted);
   } else {
-    client.message.channel.send(getStrings(args[0]).eventNotFound);
+    client.message.channel.send(getStrings(targetId).eventNotFound);
   }
 };
 

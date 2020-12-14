@@ -3,17 +3,17 @@ import client from '../../client';
 const parsePairs = { date: dateParser, participants: participantParser };
 
 /**
- * Parses dictionary and returns trimmed data with proper conventions for Event schema
- * @param {Object.<string, string>} dict - dictionary to be parsed
- * @returns {Object.<string, Object>} - dictionary with appropriate schema values
+ * Parses object and returns trimmed data with proper conventions for Event schema
+ * @param {Object.<string, string>} obj - Object to be parsed
+ * @returns {Object.<string, Object>} - Object with appropriate schema values
  */
-let parseDictionary = (dict) => {
+let parseObject = (obj) => {
   let parsedValues = {};
 
-  for (let d in dict) {
+  for (let d in obj) {
     let parser = get(parsePairs, d, defaultParser);
 
-    parsedValues[d] = parser(dict[d]);
+    parsedValues[d] = parser(obj[d]);
   }
 
   return parsedValues;
@@ -59,14 +59,14 @@ let defaultParser = (inString) => {
 };
 
 /**
- * Tries to retrieve from dictionary, and returns default_value if nothing found
- * @param {Object.<string, Object>} object - dictionary of strings to be searched
- * @param {string} key - key to be searched in dictionary
- * @param {Object} default_value - value to be returned if value is not found
+ * Tries to retrieve from object, and returns default_value if nothing found
+ * @param {Object.<string, Object>} object - object of strings to be searched
+ * @param {string} key - key to be searched in object
+ * @param {Object} defaultValue - value to be returned if value is not found
  */
-let get = (object, key, default_value) => {
+let get = (object, key, defaultValue) => {
   var result = object[key];
-  return typeof result !== 'undefined' ? result : default_value;
+  return result !== undefined ? result : defaultValue;
 };
 
-export default parseDictionary;
+export default parseObject;

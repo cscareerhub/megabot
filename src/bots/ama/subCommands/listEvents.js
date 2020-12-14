@@ -32,9 +32,10 @@ const formatEvents = (events, showIds) => {
 
   if (splitDate[1].length > 0) {
     let pastEvents = '';
+    let pastEventObjects = splitDate[1];
 
-    for (let s in splitDate[1]) {
-      let next = splitDate[1][s];
+    for (let s in pastEventObjects) {
+      let next = pastEventObjects[s];
 
       pastEvents += `${
         showIds ? next.id + ' ' : ''
@@ -47,18 +48,21 @@ const formatEvents = (events, showIds) => {
   }
 
   if (splitDate[0].length > 0) {
+    let futureEventObjects = splitDate[0];
+    let upcomingEventObject = futureEventObjects[0];
+
     let upcomingEvent = getStrings(
       `${
-        showIds ? splitDate[0][0].id + ' ' : ''
-      }${splitDate[0][0].date.toDateString()}: ${splitDate[0][0].title}`
+        showIds ? upcomingEventObject.id + ' ' : ''
+      }${upcomingEventObject.date.toDateString()}: ${upcomingEventObject.title}`
     ).upcomingEvent;
 
     eventString += upcomingEvent + '\n';
 
     let futureEvents = '';
 
-    for (let i = 1; i < splitDate[0].length; i++) {
-      let next = splitDate[0][i];
+    for (let i = 1; i < futureEventObjects.length; i++) {
+      let next = futureEventObjects[i];
 
       futureEvents += `${
         showIds ? next.id + ' ' : ''
@@ -67,7 +71,7 @@ const formatEvents = (events, showIds) => {
 
     futureEvents = getStrings(futureEvents).futureEvents;
 
-    if (splitDate[0].length > 1) {
+    if (futureEventObjects.length > 1) {
       eventString += futureEvents + '\n';
     }
   }

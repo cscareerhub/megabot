@@ -1,7 +1,7 @@
 import EventModel from '../models/Event';
 import client from '../../../client';
 import { escapedBackticks } from '../../../utils/index';
-import parseDictionary from '../parser';
+import parseObject from '../parser';
 import {
   getFormattedEvent,
   getStrings,
@@ -24,7 +24,7 @@ const handler = async (args) => {
 
   try {
     targetEvent = await EventModel.findById(args[0]);
-  } catch (_) {
+  } catch {
     client.logger.debug('invalid ObjectId type supplied');
   }
 
@@ -55,7 +55,7 @@ const handler = async (args) => {
 
 /**
  * Tokenizes a string block by splitting on double newline then keys are values pre colon and values past colon
- * @param {string} block - block of text to be turned into dictionary
+ * @param {string} block - block of text to be turned into plain javascript object
  */
 let tokenizeEvent = (block) => {
   let split = block.split('\n\n');
@@ -75,7 +75,7 @@ let tokenizeEvent = (block) => {
     );
   }
 
-  return parseDictionary(tokens);
+  return parseObject(tokens);
 };
 
 const editEvent = {
