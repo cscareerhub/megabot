@@ -7,8 +7,8 @@ import { commandHandler, escapedBackticks } from '../index';
 describe('listing events', () => {
   const subCommands = { add: addEvent, list: listEvents };
   const expectedOutString = `${escapedBackticks}
-- add: Specify date then title of event
-\t- Example: add 01/01/2020 Celebrate the best year to date\n
+- add: Adds new event. Specify date then title of event
+\t- Example: add 2020-01-01 Celebrate the best year to date\n
 - list: List all events. Add -i flag to see event IDs.
 \t- Example: list [-i]\n
 ${escapedBackticks}`;
