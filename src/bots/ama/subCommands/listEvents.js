@@ -4,6 +4,7 @@ import { getStrings } from '../constants';
 import { parseCommandString } from '../../../utils/index';
 import { partition } from '../../../utils/index';
 
+/** Handles finding events in the Event schema and listing them in a message */
 const handler = async () => {
   let events = await EventModel.find({}).sort({ date: 'asc' });
 
