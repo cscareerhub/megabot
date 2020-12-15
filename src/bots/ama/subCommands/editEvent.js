@@ -20,7 +20,7 @@ const handler = async (args) => {
   }
 
   let targetEvent;
-  let targetId = args[0];
+  const targetId = args[0];
 
   try {
     targetEvent = await EventModel.findById(targetId);
@@ -52,11 +52,10 @@ const handler = async (args) => {
  * @param {string} block - block of text to be turned into plain javascript object
  */
 let tokenizeEvent = (block) => {
-  let split = block.split('\n\n');
+  const split = block.split('\n\n');
   let tokens = {};
 
-  for (let i = 0; i < split.length; i++) {
-    let entry = split[i];
+  for (let entry of split) {
     let colonLocation = entry.indexOf(':');
 
     if (colonLocation === -1) {

@@ -26,30 +26,28 @@ const handler = async () => {
  * @returns {string} - message string with all events
  */
 const formatEvents = (events, showIds) => {
-  let currentDate = new Date();
-  let splitDate = partition(events, (e) => e.date > currentDate);
+  const currentDate = new Date();
+  const splitDate = partition(events, (e) => e.date > currentDate);
   let eventString = '';
 
   if (splitDate[1].length > 0) {
-    let pastEvents = '';
+    let allPastEvents = '';
     let pastEventObjects = splitDate[1];
 
-    for (let s in pastEventObjects) {
-      let next = pastEventObjects[s];
-
-      pastEvents += `${
-        showIds ? next.id + ' ' : ''
-      }${next.date.toDateString()}: ${next.title}\n`;
+    for (let pastEvent of pastEventObjects) {
+      allPastEvents += `${
+        showIds ? pastEvent.id + ' ' : ''
+      }${pastEvent.date.toDateString()}: ${pastEvent.title}\n`;
     }
 
-    pastEvents = getStrings(pastEvents).pastEvents;
+    allPastEvents = getStrings(allPastEvents).pastEvents;
 
-    eventString += pastEvents + '\n';
+    eventString += allPastEvents + '\n';
   }
 
   if (splitDate[0].length > 0) {
-    let futureEventObjects = splitDate[0];
-    let upcomingEventObject = futureEventObjects[0];
+    const futureEventObjects = splitDate[0];
+    const upcomingEventObject = futureEventObjects[0];
 
     let upcomingEvent = getStrings(
       `${
