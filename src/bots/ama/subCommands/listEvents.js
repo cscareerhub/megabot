@@ -32,7 +32,7 @@ const formatEvents = (events, showIds) => {
 
   if (splitDate[1].length > 0) {
     let allPastEvents = '';
-    let pastEventObjects = splitDate[1];
+    const pastEventObjects = splitDate[1];
 
     for (let pastEvent of pastEventObjects) {
       allPastEvents += `${
