@@ -7,6 +7,8 @@ import './bots/comp';
 import './bots/ping';
 import './bots/pins';
 
+mongoose.set('useFindAndModify', false);
+
 mongoose
   .connect(MONGODB, {
     useNewUrlParser: true,

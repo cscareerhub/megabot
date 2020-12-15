@@ -1,6 +1,7 @@
 import EventModel from '../models/Event';
 import client from '../../../client';
 import { getStrings } from '../constants';
+import { parseCommandString } from '../../../utils/index';
 import { partition } from '../../../utils/index';
 
 /** Handles finding events in the Event schema and listing them in a message */
@@ -10,50 +11,76 @@ const handler = async () => {
   if (events.length === 0) {
     await client.message.channel.send(getStrings().noEvents);
   } else {
-    client.message.channel.send(formatEvents(events));
+    let parsedCmd = parseCommandString();
+
+    client.message.channel.send(
+      formatEvents(events, parsedCmd.arguments.length > 0)
+    );
   }
 };
 
 /**
  * Formats events into a readable string
  * @param {Array.<Object.<string, any>>} events - list of event objects
+ * @param {boolean} showIds - trigger that shows event Database IDs if set to true
  * @returns {string} - message string with all events
  */
-const formatEvents = (events) => {
-  let currentDate = new Date();
-  let splitDate = partition(events, (e) => e.date > currentDate);
+const formatEvents = (events, showIds) => {
+  const currentDate = new Date();
+  const splitDate = partition(events, (e) => e.date > currentDate);
+  let eventString = '';
 
-  let upcomingEvent = getStrings(
-    `${splitDate[0][0].date.toDateString()}: ${splitDate[0][0].title}`
-  ).upcomingEvent;
+  if (splitDate[1].length > 0) {
+    let allPastEvents = '';
+    const pastEventObjects = splitDate[1];
 
-  let futureEvents = '';
+    for (let pastEvent of pastEventObjects) {
+      allPastEvents += `${
+        showIds ? pastEvent.id + ' ' : ''
+      }${pastEvent.date.toDateString()}: ${pastEvent.title}\n`;
+    }
 
-  for (let i = 1; i < splitDate[0].length; i++) {
-    let next = splitDate[0][i];
+    allPastEvents = getStrings(allPastEvents).pastEvents;
 
-    futureEvents += `${next.date.toDateString()}: ${next.title}\n`;
+    eventString += allPastEvents + '\n';
   }
 
-  futureEvents = getStrings(futureEvents).futureEvents;
+  if (splitDate[0].length > 0) {
+    const futureEventObjects = splitDate[0];
+    const upcomingEventObject = futureEventObjects[0];
 
-  let pastEvents = '';
+    let upcomingEvent = getStrings(
+      `${
+        showIds ? upcomingEventObject.id + ' ' : ''
+      }${upcomingEventObject.date.toDateString()}: ${upcomingEventObject.title}`
+    ).upcomingEvent;
 
-  for (let s in splitDate[1]) {
-    let next = splitDate[1][s];
+    eventString += upcomingEvent + '\n';
 
-    pastEvents += `${next.date.toDateString()}: ${next.title}\n`;
+    let futureEvents = '';
+
+    for (let i = 1; i < futureEventObjects.length; i++) {
+      let next = futureEventObjects[i];
+
+      futureEvents += `${
+        showIds ? next.id + ' ' : ''
+      }${next.date.toDateString()}: ${next.title}\n`;
+    }
+
+    futureEvents = getStrings(futureEvents).futureEvents;
+
+    if (futureEventObjects.length > 1) {
+      eventString += futureEvents + '\n';
+    }
   }
 
-  pastEvents = getStrings(pastEvents).pastEvents;
-
-  return `${pastEvents}\n${upcomingEvent}\n${futureEvents}`;
+  return eventString;
 };
 
 const listEvents = {
-  example: 'list',
+  example: 'list [-i]',
   handler,
-  usage: 'List all events'
+  usage: 'List all events. Add -i flag to see event IDs.'
 };
 
 export default listEvents;

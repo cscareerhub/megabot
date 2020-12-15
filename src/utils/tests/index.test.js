@@ -7,10 +7,10 @@ import { commandHandler, dedent, escapedBackticks } from '../index';
 describe('commandHandler', () => {
   const subCommands = { add: addEvent, list: listEvents };
   const expectedOutString = dedent(`${escapedBackticks}
-    - add: Specify date then title of event
-    \t- Example: add 01/01/2020 Celebrate the best year to date\n
-    - list: List all events
-    \t- Example: list\n
+    - add: Adds new event. Specify date then title of event
+    \t- Example: add 2020-01-01 Celebrate the best year to date\n
+    - list: List all events. Add -i flag to see event IDs.
+    \t- Example: list [-i]\n
     ${escapedBackticks}`);
 
   test('listing events - when no arguments provided', () => {
