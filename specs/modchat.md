@@ -10,4 +10,4 @@ Used to anonymously private message bot and information to be relayed to staff t
 ### Future
 
 5. Add throttling in case people try spam bot.
-6. Way to make it two-way communication in case person wants reply and anonymity. 
+6. Way to make it two-way communication in case person wants reply and anonymity.
