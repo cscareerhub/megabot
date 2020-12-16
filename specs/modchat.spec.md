@@ -4,7 +4,7 @@ Allows users to anonymously message or report something to the whole staff team 
 
 1. Responds to `++mc`.
 2. When private messaged with `++mc <message>`, the message will be forward to a designated channel on the server.
-3. `++mc a` anonymizes the message sent to staff.
+3. `++mc -a` anonymizes the message sent to staff.
 4. Allow mods to designate target channel for messages by typing `++mc designate` in the target channel.
 
 ### Future
