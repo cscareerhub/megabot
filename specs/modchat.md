@@ -1,6 +1,6 @@
 # Modchat
 
-Used to anonymously private message bot and information to be relayed to staff team
+Allows users to anonymously message or report something to the whole staff team by private messaging the bot.
 
 1. Responds to `++mc`.
 2. When private messaged with `++mc <message>`, the message will be forward to a designated channel on the server.
