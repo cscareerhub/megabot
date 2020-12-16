@@ -3,7 +3,7 @@
 Used to anonymously private message bot and information to be relayed to staff team
 
 1. Responds to `++mc`.
-2. When private messaged with `++mc` as starting it will forward message to a designated channel on server.
+2. When private messaged with `++mc <message>`, the message will be forward to a designated channel on the server.
 3. Add `-a` flag (so `++mc -a`) to have the message anonymous to staff.
 4. Allow mods to designate target channel for messages with `++mc designate` in the target channel.
 
