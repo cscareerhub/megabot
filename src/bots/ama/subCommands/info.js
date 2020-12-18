@@ -1,6 +1,6 @@
 import EventModel from '../models/Event';
 import client from '../../../client';
-import { getFormattedEvent } from '../constants';
+import { getFormattedEvent, getStrings } from '../constants';
 
 /** Handles finding events in the Event schema and listing them in a message */
 const handler = async () => {
@@ -14,7 +14,7 @@ const handler = async () => {
   if (event) {
     await client.message.author.send(getFormattedEvent(event, true));
   } else {
-    await client.message.author.send('No upcoming events found :(');
+    await client.message.author.send(getStrings().noUpcomingEvents);
   }
 };
 
