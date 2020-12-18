@@ -4,12 +4,14 @@ import { commandHandler } from '../../utils';
 import deleteEvent from './subCommands/deleteEvent';
 import editEvent from './subCommands/editEvent';
 import { getStrings } from './constants';
+import info from './subCommands/info';
 import listEvents from './subCommands/listEvents';
 
 const subCommands = {
   add: addEvent,
   delete: deleteEvent,
   edit: editEvent,
+  info: info,
   list: listEvents
 };
 
