@@ -17,6 +17,7 @@ export const getStrings = (...options) => {
     insufficientArgumentsEvent: 'Need to supply event ID',
     invalidDateAddEvent: 'Invalid date provided. Must be in format yyyy-mm-dd',
     noEvents: 'No events yet :(',
+    noUpcomingEvents: 'No upcoming events found :(',
     pastEvents: `__**Past Events**__\n${options[0]}`,
     successfullyDeleted: `Event with id ${options[0]} successfully deleted`,
     upcomingEvent: `__**Upcoming Event**__\n${options[0]}\n`
