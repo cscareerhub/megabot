@@ -15,6 +15,8 @@ export const getStrings = (...options) => {
     insufficientArgumentsAddEvent:
       'Need to supply date (yyyy-mm-dd) and title of event\n_Example_: 2020-01-01 start of the greatest year ever',
     insufficientArgumentsEvent: 'Need to supply event ID',
+    insufficientPermissions:
+      'You have insufficient permissions to perform this action',
     invalidDateAddEvent: 'Invalid date provided. Must be in format yyyy-mm-dd',
     noEvents: 'No events yet :(',
     noUpcomingEvents: 'No upcoming events found :(',
