@@ -6,12 +6,18 @@ import {
   getStrings,
   possibleEditFields
 } from '../constants';
+import { getMemberFromMessage, isMod } from '../../../utils/perms';
 
 /**
  * Handles editing an event with Event schema and sends message with updated event
  * @param {Array.<string>} args - rest of command arguments
  */
 const handler = async (args) => {
+  if (!isMod(getMemberFromMessage())) {
+    client.message.channel.send(getStrings().insufficientPermissions);
+    return;
+  }
+
   if (args.length < 1) {
     client.message.channel.send(
       getStrings(possibleEditFields).editEventExample

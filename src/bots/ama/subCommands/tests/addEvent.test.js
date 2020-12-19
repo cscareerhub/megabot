@@ -4,6 +4,7 @@ import addEvent from '../addEvent';
 import client from '../../../../client';
 import mongoose from 'mongoose';
 import { dedent, escapedBackticks } from '../../../../utils';
+import * as permUtils from '../../../../utils/perms';
 
 describe('adding Event', () => {
   let uri;
@@ -34,6 +35,16 @@ describe('adding Event', () => {
     );
   });
 
+  test('ama returns error message when insufficient permissions', async () => {
+    jest.spyOn(permUtils, 'isMod').mockImplementationOnce(() => false);
+
+    await addEvent.handler([]);
+
+    expect(client.message.channel.send).toHaveBeenCalledWith(
+      'You have insufficient permissions to perform this action'
+    );
+  });
+
   test('ama does not create event with insufficient information', async () => {
     await addEvent.handler(['2020-10-11']);
     let results = await EventModel.find({});
@@ -57,6 +68,8 @@ describe('adding Event', () => {
   });
 
   beforeEach(async () => {
+    jest.spyOn(permUtils, 'isMod').mockImplementation(() => true);
+
     await mongoose.connect(uri, {
       useNewUrlParser: true,
       useUnifiedTopology: true

@@ -3,6 +3,7 @@ import { MongoMemoryServer } from 'mongodb-memory-server';
 import client from '../../../../client';
 import deleteEvent from '../deleteEvent';
 import mongoose from 'mongoose';
+import * as permUtils from '../../../../utils/perms';
 import 'babel-polyfill';
 
 describe('adding Event', () => {
@@ -13,6 +14,16 @@ describe('adding Event', () => {
 
     expect(client.message.channel.send).toHaveBeenCalledWith(
       'Need to supply event ID'
+    );
+  });
+
+  test('ama returns error message when insufficient permissions', async () => {
+    jest.spyOn(permUtils, 'isMod').mockImplementationOnce(() => false);
+
+    await deleteEvent.handler([]);
+
+    expect(client.message.channel.send).toHaveBeenCalledWith(
+      'You have insufficient permissions to perform this action'
     );
   });
 
@@ -49,6 +60,8 @@ describe('adding Event', () => {
   });
 
   beforeEach(async () => {
+    jest.spyOn(permUtils, 'isMod').mockImplementation(() => true);
+
     await mongoose.connect(uri, {
       useNewUrlParser: true,
       useUnifiedTopology: true
