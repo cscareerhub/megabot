@@ -5,6 +5,7 @@ import client from '../../../../client';
 import editEvent from '../editEvent';
 import mongoose from 'mongoose';
 import { dedent, escapedBackticks } from '../../../../utils';
+import * as permUtils from '../../../../utils/perms';
 import 'babel-polyfill';
 
 describe('adding Event', () => {
@@ -44,6 +45,16 @@ describe('adding Event', () => {
 
     expect(client.message.channel.send).toHaveBeenCalledWith(
       'Event with id 5fd3f9a4ea601010fe5875ff not found'
+    );
+  });
+
+  test('ama returns error message when insufficient permissions', async () => {
+    jest.spyOn(permUtils, 'isMod').mockImplementation(() => false);
+
+    await editEvent.handler([]);
+
+    expect(client.message.channel.send).toHaveBeenCalledWith(
+      'You have insufficient permissions to perform this action'
     );
   });
 
@@ -95,6 +106,8 @@ describe('adding Event', () => {
   });
 
   beforeEach(async () => {
+    jest.spyOn(permUtils, 'isMod').mockImplementation(() => true);
+
     mongoose.set('useFindAndModify', false);
 
     await mongoose.connect(uri, {
