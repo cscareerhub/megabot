@@ -1,14 +1,14 @@
 import EventModel from '../models/Event';
 import client from '../../../client';
 import { getStrings } from '../constants';
-import { isMod } from '../../../utils/perms';
+import { getMemberFromMessage, isMod } from '../../../utils/perms';
 
 /**
  * Handles deleting an event with Event schema
  * @param {Array.<string>} args - rest of command arguments
  */
 const handler = async (args) => {
-  if (!isMod(client.message.member)) {
+  if (!isMod(getMemberFromMessage())) {
     client.message.channel.send(getStrings().insufficientPermissions);
     return;
   }
