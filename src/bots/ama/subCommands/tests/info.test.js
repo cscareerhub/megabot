@@ -5,7 +5,7 @@ import { getFormattedEvent } from '../../constants';
 import info from '../info';
 import mongoose from 'mongoose';
 
-describe('adding Event', () => {
+describe('getting event info', () => {
   let uri;
 
   test('ama returns invalid message if no future events exist', async () => {

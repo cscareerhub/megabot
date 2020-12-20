@@ -6,7 +6,7 @@ import mongoose from 'mongoose';
 import * as permUtils from '../../../../utils/perms';
 import 'babel-polyfill';
 
-describe('adding Event', () => {
+describe('deleting Event', () => {
   let uri;
 
   test('ama returns error message when no arguments passed in', async () => {
