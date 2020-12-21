@@ -1,16 +1,17 @@
-import { MONGODB } from './constants';
 import client from './client';
+import { get } from './environment';
 import mongoose from 'mongoose';
 import './client';
 import './bots/ama';
 import './bots/comp';
 import './bots/ping';
 import './bots/pins';
+import './bots/settings';
 
 mongoose.set('useFindAndModify', false);
 
 mongoose
-  .connect(MONGODB, {
+  .connect(get('MONGODB'), {
     useNewUrlParser: true,
     useUnifiedTopology: true
   })

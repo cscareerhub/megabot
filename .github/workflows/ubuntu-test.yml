@@ -48,6 +48,9 @@ jobs:
     env:
       ENV: testing
       MONGODB: mongodb://localhost:27017/megabot
+      PREFIX: ++
+      MOD_CHANNEL_ID: 123
+      GUILD_ID: 321
 
     steps:
       - uses: actions/checkout@v2

@@ -7,7 +7,7 @@ import listEvents from '../listEvents';
 import mongoose from 'mongoose';
 import 'babel-polyfill';
 
-describe('adding Event', () => {
+describe('listing Events', () => {
   let uri;
 
   test('ama lists all events', async () => {

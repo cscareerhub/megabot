@@ -1,8 +1,9 @@
 import Discord from 'discord.js';
 import { dispatchCommand } from './dispatcher';
+import { get } from './environment';
 import logger from 'winston';
 import mongoose from 'mongoose';
-import { BOT_TOKEN, ENV, envs, prefix, validCommands } from './constants';
+import { envs, validCommands } from './constants';
 
 // Configure logger
 logger.remove(logger.transports.Console);
@@ -15,7 +16,7 @@ logger.level = 'debug';
 const client = new Discord.Client();
 client.commands = validCommands;
 client.logger = logger;
-client.prefix = prefix;
+client.prefix = get('PREFIX');
 
 // Attach debug listeners to client
 client
@@ -32,14 +33,14 @@ client
   .on('warn', (warn) => client.logger.warn(warn));
 
 // Login client
-if (ENV !== envs.TESTING) {
-  client.login(BOT_TOKEN);
+if (get('ENV') !== envs.TESTING) {
+  client.login(get('BOT_TOKEN'));
 }
 
 // Other client listeners
 client.on(
   'message',
-  (message) => ENV !== envs.PRODUCTION && dispatchCommand(message)
+  (message) => get('ENV') !== envs.PRODUCTION && dispatchCommand(message)
 );
 
 export default client;

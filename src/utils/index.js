@@ -1,7 +1,15 @@
 import client from '../client';
 import { defaultStrings } from '../constants';
+import { get } from '../environment';
 
 export const escapedBackticks = '```';
+
+/**
+ * Retrieves mod channel for bot alerts
+ */
+export const getModChannel = () => {
+  return client.channels.get(get('MOD_CHANNEL_ID'));
+};
 
 /**
  * Handles bot-specific commands
