@@ -38,9 +38,9 @@ export const get = (arg) => {
 
 /**
  * Rewrites .env file for updated values
+ * reference: https://stackoverflow.com/questions/55660763/how-to-generically-update-an-existing-environment-variable-to-env-file
  */
 let updateEnvironment = () => {
-  //reference: https://stackoverflow.com/questions/55660763/how-to-generically-update-an-existing-environment-variable-to-env-file
   var envContents = [];
 
   environmentElements.forEach((element) => {
