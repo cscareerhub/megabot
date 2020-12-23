@@ -1,5 +1,6 @@
 import client from '../../../client';
 import handlePrivateMessage from '../messageHandler';
+// import * as utils from '../../../utils/index';
 
 describe('handlePrivateMessage', () => {
   test('messages when user provides no arguments', async () => {
@@ -22,21 +23,29 @@ describe('handlePrivateMessage', () => {
     );
   });
 
-  //   test('sends success message when everything is sent', async () => {
-  //     client.message.content = '++mc hello world';
+  /*test.skip('sends success message when everything is sent', async () => {
+    let modChannelMock = {
+      send: jest.fn()
+    };
 
-  //     let dmChannel = new DMChannel();
-  //     dmChannel.send = jest.fn();
+    let successPattern = /^Message has been forwarded to moderation team.\nIf you wish to follow up with them please reference the following id: \*\*.+\*\*$/;
 
-  //     client.message.channel = dmChannel;
+    jest.spyOn(utils, 'getModChannel').mockImplementationOnce(() => modChannelMock);
 
-  //     await handlePrivateMessage();
+    client.message.content = '++mc hello world';
 
-  //     expect(client.message.channel.send).toHaveBeenCalledWith('Please send this through direct message to bot');
-  //   });
+    await handlePrivateMessage();
+
+    expect(modChannelMock.send).toHaveBeenCalled();
+    expect(client.message.channel.send).toHaveBeenCalledWith(expect.stringMatching(successPattern));
+  });*/
 
   beforeEach(async () => {
     client.message = {
+      author: {
+        discriminator: 1234,
+        username: 'test-user'
+      },
       channel: {
         send: jest.fn()
       }
