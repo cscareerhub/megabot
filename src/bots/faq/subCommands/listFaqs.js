@@ -27,7 +27,7 @@ const handler = async () => {
  * @returns {string} - message string with all FAQs
  */
 const formatFaqs = (faqs, showIds) => {
-  let allFaqs = '**All FAQs:**\n---------\n';
+  let allFaqs = '**All FAQs:**\n\n';
 
   faqs.forEach(
     (faq) => (allFaqs += `${getFormattedFaq(faq, true, showIds)}\n\n`)
