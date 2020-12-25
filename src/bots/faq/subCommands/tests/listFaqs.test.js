@@ -31,7 +31,7 @@ describe('listing Faqs', () => {
     }).save();
 
     await Faq({
-      definition: "You're on it!",
+      definition: 'You are using it!',
       references: ['https://leetcode.com/'],
       term: 'CSCH'
     }).save();
