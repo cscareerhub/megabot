@@ -12,28 +12,28 @@ describe('listing Faqs', () => {
 
   test('faq list lists all faqs', async () => {
     await Faq({
-      term: 'LC',
       definition: 'LeetCode (LC) is a platform',
-      references: ['https://leetcode.com/']
+      references: ['https://leetcode.com/'],
+      term: 'LC'
     }).save();
 
     // Test behavior on identical terms/definitions with different IDs
     await Faq({
-      term: 'LC',
       definition: 'LeetCode (LC) is a platform',
-      references: ['https://leetcode.com/']
+      references: ['https://leetcode.com/'],
+      term: 'LC'
     }).save();
 
     await Faq({
-      term: 'LC',
       definition: 'This is an entirely different definition',
-      references: ['https://leetcode.com/']
+      references: ['https://leetcode.com/'],
+      term: 'LC'
     }).save();
 
     await Faq({
-      term: 'CSCH',
-      definition: 'You\'re on it!',
-      references: ['https://leetcode.com/']
+      definition: "You're on it!",
+      references: ['https://leetcode.com/'],
+      term: 'CSCH'
     }).save();
 
     await listFaqs.handler([]);
@@ -60,15 +60,13 @@ describe('listing Faqs', () => {
 
   test('faq list sends message when no FAQs available', async () => {
     await listFaqs.handler([]);
-    expect(client.message.channel.send).toHaveBeenCalledWith(
-      'No FAQs yet :('
-    );
+    expect(client.message.channel.send).toHaveBeenCalledWith('No FAQs yet :(');
   });
 
   test('faq list sends message with ID when requested with flag', async () => {
     let faq = await Faq({
-      term: 'Example',
-      definition: 'FAQ'
+      definition: 'FAQ',
+      term: 'Example'
     }).save();
 
     client.message.content = '++faq list -i';

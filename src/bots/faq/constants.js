@@ -10,9 +10,9 @@ export const getStrings = (...options) => {
   return {
     createdFaq: `The following FAQ has been created:\n${options[0]}`,
     editFaqExample: `Split values by double newline. For example:\n${options[0]}`,
-    faqNotFound: `FAQ with ID ${options[0]} not found`,
+    faqNotFound: `FAQ with name or ID ${options[0]} not found`,
     insufficientArgumentsAddFaq: 'You must supply a term and a definition',
-    insufficientArgumentsDefineFaq: 'Need to supply event ID',
+    insufficientArgumentsDefineFaq: 'You must supply a term to define',
     insufficientPermissions:
       'You have insufficient permissions to perform this action',
     noFaqs: 'No FAQs yet :(',
