@@ -50,7 +50,7 @@ describe('listing Faqs', () => {
       **LC**: This is an entirely different definition
       References: https://leetcode.com/
 
-      **CSCH**: You're on it!
+      **CSCH**: You are using it!
       References: https://leetcode.com/\n
       `
     );
