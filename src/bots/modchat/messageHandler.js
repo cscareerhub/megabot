@@ -11,18 +11,19 @@ import { getModChannel, parseCommandString } from '../../utils/index';
 let handlePrivateMessage = async () => {
   let cmd = parseCommandString();
   let channel = client.message.channel;
+  let strings = getStrings();
 
   if (cmd.arguments.length === 0) {
-    channel.send(getStrings().explanation);
+    channel.send(strings.explanation);
     return;
   }
 
   if (!(channel instanceof DMChannel)) {
-    channel.send(getStrings().dmOnly);
+    channel.send(strings.dmOnly);
     return;
   }
 
-  let messageId = uuidv4();
+  let footer = uuidv4();
 
   let modChannel = await getModChannel();
 
@@ -31,20 +32,20 @@ let handlePrivateMessage = async () => {
       ? 'Anonymous'
       : `${client.message.author.username}#${client.message.author.discriminator}`;
 
-  let messageBody = cmd.arguments.join(' ');
+  let description = cmd.arguments.join(' ');
 
   if (cmd.subCommand !== '-a') {
-    messageBody = `${cmd.subCommand} ${messageBody}`;
+    description = `${cmd.subCommand} ${description}`;
   }
 
   let embed = generateEmbed({
-    description: messageBody,
-    footer: messageId,
-    title: title
+    description,
+    footer,
+    title
   });
 
   await modChannel.send(embed);
-  channel.send(getStrings([messageId]).success);
+  channel.send(getStrings([footer]).success);
 };
 
 export default handlePrivateMessage;
