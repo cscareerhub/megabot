@@ -23,7 +23,7 @@ let handlePrivateMessage = async () => {
     return;
   }
 
-  let footer = uuidv4();
+  let id = uuidv4();
 
   let modChannel = await getModChannel();
 
@@ -40,12 +40,12 @@ let handlePrivateMessage = async () => {
 
   let embed = generateEmbed({
     description,
-    footer,
+    footer: id,
     title
   });
 
   await modChannel.send(embed);
-  channel.send(getStrings([footer]).success);
+  channel.send(getStrings([id]).success);
 };
 
 export default handlePrivateMessage;
