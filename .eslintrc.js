@@ -12,7 +12,6 @@ module.exports = {
   plugins: ['jest'],
   rules: {
     indent: ['error', 2],
-    'jest/no-disabled-tests': 'error',
     'jest/no-focused-tests': 'error',
     'jest/no-identical-title': 'warn',
     'linebreak-style': ['error', 'unix'],
