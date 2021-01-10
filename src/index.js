@@ -4,6 +4,7 @@ import mongoose from 'mongoose';
 import './client';
 import './bots/ama';
 import './bots/comp';
+import './bots/modchat';
 import './bots/ping';
 import './bots/pins';
 import './bots/settings';

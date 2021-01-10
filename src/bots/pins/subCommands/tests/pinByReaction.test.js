@@ -27,7 +27,7 @@ describe('pinByReaction', () => {
     return {};
   });
 
-  test('messages when uer has no permission', async () => {
+  test('messages when user has no permission', async () => {
     jest.spyOn(permUtils, 'isMod').mockImplementationOnce(() => false);
     jest.spyOn(permUtils, 'isContributor').mockImplementationOnce(() => false);
     const user = {};

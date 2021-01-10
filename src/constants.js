@@ -9,6 +9,7 @@ export const envs = {
 export const validCommands = [
   'ama',
   'faq',
+  'mc',
   'pins',
   'ping',
   'salary',

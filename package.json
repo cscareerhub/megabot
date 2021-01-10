@@ -38,6 +38,7 @@
     "express": "^4.15.4",
     "jsdoc": "^3.6.6",
     "mongoose": "^5.11.8",
+    "uuid": "^8.3.2",
     "winston": "^2.3.1"
   },
   "nodemonConfig": {

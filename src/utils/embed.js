@@ -13,6 +13,10 @@ export const generateEmbed = (strings, options = {}) => {
     .setTitle(strings.title)
     .setDescription(strings.description);
 
+  if (strings.footer) {
+    embed.setFooter(strings.footer);
+  }
+
   return embed;
 };
 

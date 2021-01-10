@@ -7,8 +7,9 @@ export const escapedBackticks = '```';
 /**
  * Retrieves mod channel for bot alerts
  */
-export const getModChannel = () => {
-  return client.channels.get(get('MOD_CHANNEL_ID'));
+export const getModChannel = async () => {
+  const guild = await client.guilds.fetch(get('GUILD_ID'));
+  return guild.channels.cache.get(get('MOD_CHANNEL_ID'));
 };
 
 /**
