@@ -22,4 +22,3 @@ jobs:
             git pull origin development
             yarn install --production --check-files
             pm2 stop megabot-dev; pm2 start yarn --interpreter bash --name megabot-dev -- start
-            
