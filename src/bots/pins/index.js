@@ -5,7 +5,7 @@ import pinByReaction from './subCommands/pinByReaction';
 
 const subCommands = { list: listPins };
 
-client.on('pins', () => commandHandler(subCommands, {}));
+client.on('pins', () => commandHandler(subCommands));
 
 client.on('messageReactionAdd', async (reaction, user) => {
   pinByReaction(reaction, user, 'add');

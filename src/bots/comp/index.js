@@ -4,4 +4,4 @@ import { commandHandler } from '../../utils';
 
 const subCommands = { add: addSalary };
 
-client.on('salary', () => commandHandler(subCommands, []));
+client.on('salary', () => commandHandler(subCommands));
