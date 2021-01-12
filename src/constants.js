@@ -17,5 +17,7 @@ export const validCommands = [
 ];
 
 export const defaultStrings = {
+  insufficientPermissions:
+    'You have insufficient permissions to perform this action.',
   invalidSubCommand: 'Invalid argument. Following arguments are permitted:'
 };

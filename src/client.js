@@ -38,9 +38,15 @@ if (get('ENV') !== envs.TESTING) {
 }
 
 // Other client listeners
-client.on(
-  'message',
-  (message) => get('ENV') !== envs.PRODUCTION && dispatchCommand(message)
-);
+client.on('message', (message) => {
+  const env = get('ENV');
+  if (
+    // env === envs.PRODUCTION || NOTE: this line should be uncommented when we release
+    env === envs.TESTING ||
+    (env === envs.DEVELOPMENT && get('DEV_CHANNEL_ID') === message.channel.id)
+  ) {
+    dispatchCommand(message);
+  }
+});
 
 export default client;

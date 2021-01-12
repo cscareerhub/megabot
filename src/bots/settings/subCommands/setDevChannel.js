@@ -12,15 +12,15 @@ const handler = async () => {
     return;
   }
 
-  updateElement('MOD_CHANNEL_ID', client.message.channel.id);
+  updateElement('DEV_CHANNEL_ID', client.message.channel.id);
 
-  client.message.channel.send('Updated mod channel to current one.');
+  client.message.channel.send('Updated dev channel to current one.');
 };
 
-const setModChannel = {
-  example: 'setModChannel',
+const setDevChannel = {
+  example: 'setDevChannel',
   handler,
   usage: 'sets mod retrieval channel to wherever command is called from.'
 };
 
-export default setModChannel;
+export default setDevChannel;
