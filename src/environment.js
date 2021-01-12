@@ -7,8 +7,9 @@ export const environmentElements = [
   'ENV',
   'MONGODB',
   'GUILD_ID',
-  'PREFIX',
-  'MOD_CHANNEL_ID'
+  'BOT_PREFIX',
+  'MOD_CHANNEL_ID',
+  'DEV_CHANNEL_ID'
 ];
 
 /**

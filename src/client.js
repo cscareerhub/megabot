@@ -16,7 +16,7 @@ logger.level = 'debug';
 const client = new Discord.Client();
 client.commands = validCommands;
 client.logger = logger;
-client.prefix = get('PREFIX');
+client.prefix = get('BOT_PREFIX');
 
 // Attach debug listeners to client
 client
@@ -41,7 +41,6 @@ if (get('ENV') !== envs.TESTING) {
 client.on('message', (message) => {
   const env = get('ENV');
   if (
-    // env === envs.PRODUCTION || NOTE: this line should be uncommented when we release
     env === envs.TESTING ||
     (env === envs.DEVELOPMENT && get('DEV_CHANNEL_ID') === message.channel.id)
   ) {

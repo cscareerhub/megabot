@@ -31,9 +31,9 @@ describe('setting environment variable change', () => {
   });
 
   test('settings updates command prefix', async () => {
-    await updateEnvVar.handler(['PREFIX', '-+-']);
+    await updateEnvVar.handler(['BOT_PREFIX', '-+-']);
 
-    expect(process.env['PREFIX']).toEqual('-+-');
+    expect(process.env['BOT_PREFIX']).toEqual('-+-');
 
     expect(client.message.channel.send).toHaveBeenCalledWith(
       'Updated PREFIX to -+-'
