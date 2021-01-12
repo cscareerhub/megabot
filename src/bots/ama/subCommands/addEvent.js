@@ -1,6 +1,6 @@
 import Event from '../models/Event';
 import client from '../../../client';
-import { getFormattedEvent, getStrings } from '../constants';
+import { getFormattedEvent, strings } from '../constants';
 import { getMemberFromMessage, isMod } from '../../../utils/perms';
 
 /**
@@ -9,19 +9,19 @@ import { getMemberFromMessage, isMod } from '../../../utils/perms';
  */
 const handler = async (args) => {
   if (!isMod(getMemberFromMessage())) {
-    client.message.channel.send(getStrings().insufficientPermissions);
+    client.message.channel.send(strings.insufficientPermissions);
     return;
   }
 
   if (args.length < 2) {
-    client.message.channel.send(getStrings().insufficientArgumentsAddEvent);
+    client.message.channel.send(strings.insufficientArgumentsAddEvent);
     return;
   }
 
   let date = new Date(args[0] + 'T12:00:00Z');
 
   if (date.toString() === 'Invalid Date') {
-    client.message.channel.send(getStrings().invalidDateAddEvent);
+    client.message.channel.send(strings.invalidDateAddEvent);
     return;
   }
 
@@ -31,7 +31,7 @@ const handler = async (args) => {
   }).save();
 
   client.message.channel.send(
-    getStrings(getFormattedEvent(newEvent)).createdEvent
+    strings.createdEvent(getFormattedEvent(newEvent))
   );
 };
 

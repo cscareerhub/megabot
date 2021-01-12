@@ -1,6 +1,6 @@
 import EventModel from '../models/Event';
 import client from '../../../client';
-import { getFormattedEvent, getStrings } from '../constants';
+import { getFormattedEvent, strings } from '../constants';
 
 /** Handles finding the next upcoming event in the Event schema and private messaging them to requestor */
 const handler = async () => {
@@ -14,7 +14,7 @@ const handler = async () => {
   if (event) {
     await client.message.author.send(getFormattedEvent(event, true));
   } else {
-    await client.message.author.send(getStrings().noUpcomingEvents);
+    await client.message.author.send(strings.noUpcomingEvents);
   }
 };
 

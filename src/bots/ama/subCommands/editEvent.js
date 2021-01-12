@@ -1,11 +1,7 @@
 import EventModel from '../models/Event';
 import client from '../../../client';
 import parseObject from '../parser';
-import {
-  getFormattedEvent,
-  getStrings,
-  possibleEditFields
-} from '../constants';
+import { getFormattedEvent, strings, possibleEditFields } from '../constants';
 import { getMemberFromMessage, isMod } from '../../../utils/perms';
 
 /**
@@ -14,14 +10,12 @@ import { getMemberFromMessage, isMod } from '../../../utils/perms';
  */
 const handler = async (args) => {
   if (!isMod(getMemberFromMessage())) {
-    client.message.channel.send(getStrings().insufficientPermissions);
+    client.message.channel.send(strings.insufficientPermissions);
     return;
   }
 
   if (args.length < 1) {
-    client.message.channel.send(
-      getStrings(possibleEditFields).editEventExample
-    );
+    client.message.channel.send(strings.editEventExample(possibleEditFields));
     return;
   }
 
@@ -31,7 +25,7 @@ const handler = async (args) => {
   try {
     targetEvent = await EventModel.findById(targetId);
   } catch {
-    client.logger.debug('invalid ObjectId type supplied');
+    client.logger.debug('Invalid ObjectId type supplied');
   }
 
   if (targetEvent) {
@@ -49,7 +43,7 @@ const handler = async (args) => {
 
     client.message.channel.send(getFormattedEvent(targetEvent, true));
   } else {
-    client.message.channel.send(getStrings(targetId).eventNotFound);
+    client.message.channel.send(strings.eventNotFound(targetId));
   }
 };
 

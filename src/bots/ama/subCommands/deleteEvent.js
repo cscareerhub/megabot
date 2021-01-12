@@ -1,6 +1,6 @@
 import EventModel from '../models/Event';
 import client from '../../../client';
-import { getStrings } from '../constants';
+import { strings } from '../constants';
 import { getMemberFromMessage, isMod } from '../../../utils/perms';
 
 /**
@@ -9,12 +9,12 @@ import { getMemberFromMessage, isMod } from '../../../utils/perms';
  */
 const handler = async (args) => {
   if (!isMod(getMemberFromMessage())) {
-    client.message.channel.send(getStrings().insufficientPermissions);
+    client.message.channel.send(strings.insufficientPermissions);
     return;
   }
 
   if (args.length !== 1) {
-    client.message.channel.send(getStrings().insufficientArgumentsEvent);
+    client.message.channel.send(strings.insufficientArgumentsEvent);
     return;
   }
 
@@ -28,9 +28,9 @@ const handler = async (args) => {
   }
 
   if (deleted) {
-    client.message.channel.send(getStrings(targetId).successfullyDeleted);
+    client.message.channel.send(strings.successfullyDeleted(targetId));
   } else {
-    client.message.channel.send(getStrings(targetId).eventNotFound);
+    client.message.channel.send(strings.eventNotFound(targetId));
   }
 };
 
