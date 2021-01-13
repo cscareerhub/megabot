@@ -1,6 +1,7 @@
 import Event from '../../models/Event';
 import { MongoMemoryServer } from 'mongodb-memory-server';
 import client from '../../../../client';
+import { defaultStrings } from '../../../../constants';
 import deleteEvent from '../deleteEvent';
 import mongoose from 'mongoose';
 import { strings } from '../../constants';
@@ -14,17 +15,22 @@ describe('deleting Event', () => {
     await deleteEvent.handler([]);
 
     expect(client.message.channel.send).toHaveBeenCalledWith(
-      strings.insufficientArgumentsEvent()
+      strings.insufficientArgumentsEvent
     );
   });
 
   test('ama returns error message when insufficient permissions', async () => {
-    jest.spyOn(permUtils, 'isMod').mockImplementationOnce(() => false);
+    jest
+      .spyOn(permUtils, 'insufficientPermissionsAlert')
+      .mockImplementationOnce(() => {
+        client.message.channel.send(defaultStrings.insufficientPermissions);
+        return true;
+      });
 
     await deleteEvent.handler([]);
 
     expect(client.message.channel.send).toHaveBeenCalledWith(
-      'You have insufficient permissions to perform this action'
+      defaultStrings.insufficientPermissions
     );
   });
 
@@ -62,7 +68,9 @@ describe('deleting Event', () => {
   });
 
   beforeEach(async () => {
-    jest.spyOn(permUtils, 'isMod').mockImplementation(() => true);
+    jest
+      .spyOn(permUtils, 'insufficientPermissionsAlert')
+      .mockImplementation(() => false);
 
     await mongoose.connect(uri, {
       useNewUrlParser: true,

@@ -36,7 +36,7 @@ describe('setting environment variable change', () => {
     expect(process.env['BOT_PREFIX']).toEqual('-+-');
 
     expect(client.message.channel.send).toHaveBeenCalledWith(
-      'Updated PREFIX to -+-'
+      'Updated BOT_PREFIX to -+-'
     );
   });
 

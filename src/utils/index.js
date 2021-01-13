@@ -32,9 +32,7 @@ export const commandHandler = (subCommands, strings = {}, options = {}) => {
   if (!targetCmd) {
     options.handleInvalidSubCommand ||
       client.message.channel.send(
-        `${
-          strings.invalidSubCommand || defaultStrings.invalidSubCommand
-        }\n${getCommandsString(subCommands)}`
+        defaultStrings.invalidSubCommand(getCommandsString(subCommands))
       );
     return;
   }

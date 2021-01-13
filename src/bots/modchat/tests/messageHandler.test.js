@@ -1,5 +1,6 @@
 import client from '../../../client';
 import handlePrivateMessage from '../messageHandler';
+import { strings } from '../constants';
 import * as utils from '../../../utils/index';
 
 describe('handlePrivateMessage', () => {
@@ -9,7 +10,7 @@ describe('handlePrivateMessage', () => {
     await handlePrivateMessage();
 
     expect(client.message.channel.send).toHaveBeenCalledWith(
-      'Direct message bot with ++mc -a <message> to privately message mods.\nRemove -a flag to include discord name (otherwise anonymous).'
+      strings.explanation
     );
   });
 
@@ -18,9 +19,7 @@ describe('handlePrivateMessage', () => {
 
     await handlePrivateMessage();
 
-    expect(client.message.channel.send).toHaveBeenCalledWith(
-      'Please send this through direct message to bot'
-    );
+    expect(client.message.channel.send).toHaveBeenCalledWith(strings.dmOnly);
   });
 
   test.skip('sends success message when everything is sent', async () => {
@@ -28,7 +27,7 @@ describe('handlePrivateMessage', () => {
       send: jest.fn()
     };
 
-    let successPattern = /^Message has been forwarded to moderation team.\nIf you wish to follow up with them please reference the following id: \*\*.+\*\*$/;
+    let successPattern = /^Your message has been forwarded to moderation team.\nIf you wish to follow up with them please reference the following id: \*\*.+\*\*$/;
 
     jest
       .spyOn(utils, 'getModChannel')

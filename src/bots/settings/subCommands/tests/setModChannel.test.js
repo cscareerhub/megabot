@@ -3,28 +3,30 @@ import setModChannel from '../setModChannel';
 import * as permUtils from '../../../../utils/perms';
 
 describe('setting mod channel', () => {
-  test('settings returns error message when insufficient permissions', async () => {
-    jest.spyOn(permUtils, 'isMod').mockImplementationOnce(() => false);
+  test('insufficient permissions returns early', async () => {
+    jest
+      .spyOn(permUtils, 'insufficientPermissionsAlert')
+      .mockImplementationOnce(() => true);
 
-    await setModChannel.handler([]);
+    await setModChannel.handler();
 
-    expect(client.message.channel.send).toHaveBeenCalledWith(
-      'You have insufficient permissions to perform this action.'
-    );
+    expect(client.message.channel.send).not.toHaveBeenCalled();
   });
 
   test('settings updates mod channel ID', async () => {
-    await setModChannel.handler([]);
+    await setModChannel.handler();
 
     expect(process.env['MOD_CHANNEL_ID']).toEqual('12321');
 
     expect(client.message.channel.send).toHaveBeenCalledWith(
-      'Update mod channel to current one.'
+      'Updated mod channel to current one.'
     );
   });
 
   beforeEach(async () => {
-    jest.spyOn(permUtils, 'isMod').mockImplementation(() => true);
+    jest
+      .spyOn(permUtils, 'insufficientPermissionsAlert')
+      .mockImplementation(() => false);
 
     client.message = {
       channel: {

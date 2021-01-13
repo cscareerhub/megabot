@@ -1,9 +1,9 @@
 import Event from '../../models/Event';
 import { MongoMemoryServer } from 'mongodb-memory-server';
 import client from '../../../../client';
-import { getFormattedEvent } from '../../constants';
 import info from '../info';
 import mongoose from 'mongoose';
+import { getFormattedEvent, strings } from '../../constants';
 
 describe('getting event info', () => {
   let uri;
@@ -17,7 +17,7 @@ describe('getting event info', () => {
     await info.handler([]);
 
     expect(client.message.author.send).toHaveBeenCalledWith(
-      'No upcoming events found :('
+      strings.noUpcomingEvents
     );
   });
 
