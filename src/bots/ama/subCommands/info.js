@@ -21,7 +21,7 @@ const handler = async () => {
 const info = {
   example: 'info',
   handler,
-  usage: 'Messages user information about upcoming AMA'
+  usage: 'Messages user information about upcoming AMA.'
 };
 
 export default info;

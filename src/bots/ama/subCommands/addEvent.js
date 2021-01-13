@@ -38,7 +38,7 @@ const handler = async (args) => {
 const addEvent = {
   example: 'add 2020-01-01 Celebrate the best year to date',
   handler,
-  usage: 'Adds new event. Specify date then title of event'
+  usage: 'Adds new event. Specify date then title of event.'
 };
 
 export default addEvent;

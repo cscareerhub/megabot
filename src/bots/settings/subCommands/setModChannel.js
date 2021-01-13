@@ -20,7 +20,7 @@ const handler = async () => {
 const setModChannel = {
   example: 'setModChannel',
   handler,
-  usage: 'sets mod retrieval channel to wherever command is called from.'
+  usage: 'Sets mod retrieval channel to wherever command is called from.'
 };
 
 export default setModChannel;

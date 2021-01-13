@@ -4,21 +4,21 @@ import { dedent, escapedBackticks } from '../../utils';
  * String object with functions that return strings with args
  */
 export const strings = {
-  createdEvent: (arg) => `Following event has been created:\n${arg}`,
+  createdEvent: (arg) => `The following event has been created:\n${arg}`,
   editEventExample: (arg) =>
-    `Split values by double newline. For example:\n${arg}`,
-  eventNotFound: (arg) => `Event with id ${arg} not found`,
+    `Split your event's properties by using a double newline. _Example_:\n${arg}`,
+  eventNotFound: (arg) => `Event with id \`${arg}\` not found.`,
   futureEvents: (arg) => `__**Future Events**__\n${arg}`,
   insufficientArgumentsAddEvent:
-    'Need to supply date (yyyy-mm-dd) and title of event\n_Example_: 2020-01-01 start of the greatest year ever',
+    'Please supply a date in the format `yyyy-mm-dd` and an event title.\n_Example_: ++ama add 2020-01-01 start of the greatest year ever',
   insufficientArgumentsEvent: 'Need to supply event ID',
   insufficientPermissions:
     'You have insufficient permissions to perform this action',
-  invalidDateAddEvent: 'Invalid date provided. Must be in format yyyy-mm-dd',
-  noEvents: 'No events yet :(',
-  noUpcomingEvents: 'No upcoming events found :(',
+  invalidDateAddEvent: 'Invalid date provided. Must be in format `yyyy-mm-dd`.',
+  noEvents: 'No events yet. :(',
+  noUpcomingEvents: 'No upcoming events found. :(',
   pastEvents: (arg) => `__**Past Events**__\n${arg}`,
-  successfullyDeleted: (arg) => `Event with id ${arg} successfully deleted`,
+  successfullyDeleted: (arg) => `Event with id ${arg} successfully deleted.`,
   upcomingEvent: (arg) => `__**Upcoming Event**__\n${arg}\n`
 };
 

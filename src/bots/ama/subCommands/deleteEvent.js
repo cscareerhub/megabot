@@ -37,7 +37,7 @@ const handler = async (args) => {
 const deleteEvent = {
   example: 'delete 5fd3f9a4ea601010fe5875ff',
   handler,
-  usage: 'Specify object ID supplied in `++ama list -i`'
+  usage: 'Specify object ID supplied in `++ama list -i`.'
 };
 
 export default deleteEvent;
