@@ -10,7 +10,7 @@ A megabot for everything CSCH needs, composed of smaller mostly standalone packa
 
 0. Install prerequisites.
 
-- [MongoDB](https://docs.mongodb.com/manual/administration/install-community/)
+- [MongoDB](https://docs.mongodb.com/manual/administration/install-community/) (only works on MongoDB v4.2)
 - [Yarn](https://classic.yarnpkg.com/en/docs/install/)
 
 1. Clone repo.
