@@ -13,6 +13,30 @@ import 'babel-polyfill';
 describe('adding Event', () => {
   let uri;
 
+  beforeAll(async () => {
+    client.message = {
+      channel: {
+        send: jest.fn()
+      }
+    };
+
+    const mongod = new MongoMemoryServer();
+    uri = await mongod.getUri();
+  });
+
+  beforeEach(async () => {
+    jest
+      .spyOn(permUtils, 'insufficientPermissionsAlert')
+      .mockImplementation(() => false);
+
+    mongoose.set('useFindAndModify', false);
+
+    await mongoose.connect(uri, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true
+    });
+  });
+
   test('ama does returns example when no arguments supplied', async () => {
     await editEvent.handler([]);
 
@@ -88,29 +112,5 @@ describe('adding Event', () => {
     expect(newEvent.participants.sort().toString()).toEqual(
       event.participants.sort().toString()
     );
-  });
-
-  beforeAll(async () => {
-    client.message = {
-      channel: {
-        send: jest.fn()
-      }
-    };
-
-    const mongod = new MongoMemoryServer();
-    uri = await mongod.getUri();
-  });
-
-  beforeEach(async () => {
-    jest
-      .spyOn(permUtils, 'insufficientPermissionsAlert')
-      .mockImplementation(() => false);
-
-    mongoose.set('useFindAndModify', false);
-
-    await mongoose.connect(uri, {
-      useNewUrlParser: true,
-      useUnifiedTopology: true
-    });
   });
 });

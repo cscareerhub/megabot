@@ -8,6 +8,24 @@ import { getFormattedEvent, strings } from '../../constants';
 describe('getting event info', () => {
   let uri;
 
+  beforeAll(async () => {
+    client.message = {
+      author: {
+        send: jest.fn()
+      }
+    };
+
+    const mongod = new MongoMemoryServer();
+    uri = await mongod.getUri();
+  });
+
+  beforeEach(async () => {
+    await mongoose.connect(uri, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true
+    });
+  });
+
   test('ama returns invalid message if no future events exist', async () => {
     await Event({
       date: new Date('1915-05-01T12:00:00Z'),
@@ -37,23 +55,5 @@ describe('getting event info', () => {
     expect(client.message.author.send).toHaveBeenCalledWith(
       getFormattedEvent(futureEvent, true)
     );
-  });
-
-  beforeAll(async () => {
-    client.message = {
-      author: {
-        send: jest.fn()
-      }
-    };
-
-    const mongod = new MongoMemoryServer();
-    uri = await mongod.getUri();
-  });
-
-  beforeEach(async () => {
-    await mongoose.connect(uri, {
-      useNewUrlParser: true,
-      useUnifiedTopology: true
-    });
   });
 });

@@ -11,6 +11,28 @@ import 'babel-polyfill';
 describe('deleting Event', () => {
   let uri;
 
+  beforeAll(async () => {
+    client.message = {
+      channel: {
+        send: jest.fn()
+      }
+    };
+
+    const mongod = new MongoMemoryServer();
+    uri = await mongod.getUri();
+  });
+
+  beforeEach(async () => {
+    jest
+      .spyOn(permUtils, 'insufficientPermissionsAlert')
+      .mockImplementation(() => false);
+
+    await mongoose.connect(uri, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true
+    });
+  });
+
   test('ama returns error message when no arguments passed in', async () => {
     await deleteEvent.handler([]);
 
@@ -54,27 +76,5 @@ describe('deleting Event', () => {
     expect(client.message.channel.send).toHaveBeenCalledWith(
       strings.successfullyDeleted(event.id)
     );
-  });
-
-  beforeAll(async () => {
-    client.message = {
-      channel: {
-        send: jest.fn()
-      }
-    };
-
-    const mongod = new MongoMemoryServer();
-    uri = await mongod.getUri();
-  });
-
-  beforeEach(async () => {
-    jest
-      .spyOn(permUtils, 'insufficientPermissionsAlert')
-      .mockImplementation(() => false);
-
-    await mongoose.connect(uri, {
-      useNewUrlParser: true,
-      useUnifiedTopology: true
-    });
   });
 });

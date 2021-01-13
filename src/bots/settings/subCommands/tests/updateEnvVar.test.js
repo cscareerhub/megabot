@@ -4,6 +4,17 @@ import updateEnvVar from '../updateEnvVar';
 import * as permUtils from '../../../../utils/perms';
 
 describe('setting environment variable change', () => {
+  beforeEach(async () => {
+    jest.spyOn(permUtils, 'isMod').mockImplementation(() => true);
+
+    client.message = {
+      channel: {
+        id: 12321,
+        send: jest.fn()
+      }
+    };
+  });
+
   test('settings returns error message when insufficient permissions', async () => {
     jest.spyOn(permUtils, 'isMod').mockImplementationOnce(() => false);
 
@@ -38,16 +49,5 @@ describe('setting environment variable change', () => {
     expect(client.message.channel.send).toHaveBeenCalledWith(
       'Updated BOT_PREFIX to -+-'
     );
-  });
-
-  beforeEach(async () => {
-    jest.spyOn(permUtils, 'isMod').mockImplementation(() => true);
-
-    client.message = {
-      channel: {
-        id: 12321,
-        send: jest.fn()
-      }
-    };
   });
 });

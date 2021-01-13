@@ -11,6 +11,28 @@ import * as permUtils from '../../../../utils/perms';
 describe('adding Event', () => {
   let uri;
 
+  beforeAll(async () => {
+    client.message = {
+      channel: {
+        send: jest.fn()
+      }
+    };
+
+    const mongod = new MongoMemoryServer();
+    uri = await mongod.getUri();
+  });
+
+  beforeEach(async () => {
+    jest
+      .spyOn(permUtils, 'insufficientPermissionsAlert')
+      .mockImplementation(() => false);
+
+    await mongoose.connect(uri, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true
+    });
+  });
+
   test('ama creates an event if valid information provided', async () => {
     await addEvent.handler(['2020-04-20', 'Birthday', 'Party']);
     let results = await EventModel.find({});
@@ -60,27 +82,5 @@ describe('adding Event', () => {
     expect(client.message.channel.send).toHaveBeenCalledWith(
       strings.insufficientArgumentsAddEvent
     );
-  });
-
-  beforeAll(async () => {
-    client.message = {
-      channel: {
-        send: jest.fn()
-      }
-    };
-
-    const mongod = new MongoMemoryServer();
-    uri = await mongod.getUri();
-  });
-
-  beforeEach(async () => {
-    jest
-      .spyOn(permUtils, 'insufficientPermissionsAlert')
-      .mockImplementation(() => false);
-
-    await mongoose.connect(uri, {
-      useNewUrlParser: true,
-      useUnifiedTopology: true
-    });
   });
 });

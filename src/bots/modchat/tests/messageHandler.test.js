@@ -5,6 +5,18 @@ import { strings } from '../constants';
 import * as utils from '../../../utils/index';
 
 describe('handlePrivateMessage', () => {
+  beforeEach(async () => {
+    client.message = {
+      author: {
+        discriminator: 1234,
+        username: 'test-user'
+      },
+      channel: {
+        send: jest.fn()
+      }
+    };
+  });
+
   test('messages when user provides no arguments', async () => {
     client.message.content = '++mc';
 
@@ -44,17 +56,5 @@ describe('handlePrivateMessage', () => {
     expect(client.message.channel.send).toHaveBeenCalledWith(
       expect.stringMatching(successPattern)
     );
-  });
-
-  beforeEach(async () => {
-    client.message = {
-      author: {
-        discriminator: 1234,
-        username: 'test-user'
-      },
-      channel: {
-        send: jest.fn()
-      }
-    };
   });
 });

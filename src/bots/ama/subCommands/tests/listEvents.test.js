@@ -11,6 +11,28 @@ import 'babel-polyfill';
 describe('listing Events', () => {
   let uri;
 
+  beforeAll(async () => {
+    client.message = {
+      channel: {
+        send: jest.fn()
+      },
+
+      content: '++ama list'
+    };
+
+    const mongod = new MongoMemoryServer();
+    uri = await mongod.getUri();
+  });
+
+  beforeEach(async () => {
+    await mongoose.connect(uri, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true
+    });
+
+    await EventModel.deleteMany({});
+  });
+
   test('ama lists all events', async () => {
     await Event({
       date: new Date('2015-05-01T12:00:00Z'),
@@ -93,27 +115,5 @@ Wed May 01 2115: New 1\n
 `;
 
     expect(client.message.channel.send).toHaveBeenCalledWith(expectedEventList);
-  });
-
-  beforeAll(async () => {
-    client.message = {
-      channel: {
-        send: jest.fn()
-      },
-
-      content: '++ama list'
-    };
-
-    const mongod = new MongoMemoryServer();
-    uri = await mongod.getUri();
-  });
-
-  beforeEach(async () => {
-    await mongoose.connect(uri, {
-      useNewUrlParser: true,
-      useUnifiedTopology: true
-    });
-
-    await EventModel.deleteMany({});
   });
 });
