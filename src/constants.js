@@ -2,8 +2,7 @@
 export const envs = {
   DEVELOPMENT: 'development',
   PRODUCTION: 'production',
-  TESTING: 'testing',
-  UAT: 'uat'
+  TESTING: 'testing'
 };
 
 // Commands
