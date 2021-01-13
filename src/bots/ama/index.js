@@ -3,7 +3,6 @@ import client from '../../client';
 import { commandHandler } from '../../utils';
 import deleteEvent from './subCommands/deleteEvent';
 import editEvent from './subCommands/editEvent';
-import { getStrings } from './constants';
 import info from './subCommands/info';
 import listEvents from './subCommands/listEvents';
 
@@ -15,4 +14,4 @@ const subCommands = {
   list: listEvents
 };
 
-client.on('ama', () => commandHandler(subCommands, getStrings()));
+client.on('ama', () => commandHandler(subCommands));

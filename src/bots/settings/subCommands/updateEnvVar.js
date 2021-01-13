@@ -29,7 +29,7 @@ const handler = async (args) => {
   }
 
   client.message.channel.send(`Updated ${args[0]} to ${args[1]}`);
-  client.prefix = get('PREFIX');
+  client.prefix = get('BOT_PREFIX');
 };
 
 const updateEnvVar = {

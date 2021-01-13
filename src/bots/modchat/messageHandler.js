@@ -1,7 +1,8 @@
 import { DMChannel } from 'discord.js';
 import client from '../../client';
+import { defaultStrings } from '../../constants';
 import generateEmbed from '../../utils/embed';
-import { getStrings } from './constants';
+import { strings } from './constants';
 import { v4 as uuidv4 } from 'uuid';
 import { getModChannel, parseCommandString } from '../../utils/index';
 
@@ -11,7 +12,6 @@ import { getModChannel, parseCommandString } from '../../utils/index';
 let handlePrivateMessage = async () => {
   let cmd = parseCommandString();
   let channel = client.message.channel;
-  let strings = getStrings();
 
   if (cmd.arguments.length === 0) {
     channel.send(strings.explanation);
@@ -19,11 +19,9 @@ let handlePrivateMessage = async () => {
   }
 
   if (!(channel instanceof DMChannel)) {
-    channel.send(strings.dmOnly);
+    channel.send(defaultStrings.dmOnly);
     return;
   }
-
-  let id = uuidv4();
 
   let modChannel = await getModChannel();
 
@@ -38,6 +36,7 @@ let handlePrivateMessage = async () => {
     description = `${cmd.subCommand} ${description}`;
   }
 
+  let id = uuidv4();
   let embed = generateEmbed({
     description,
     footer: id,
@@ -45,7 +44,7 @@ let handlePrivateMessage = async () => {
   });
 
   await modChannel.send(embed);
-  channel.send(getStrings([id]).success);
+  channel.send(strings.success(id));
 };
 
 export default handlePrivateMessage;
