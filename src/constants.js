@@ -17,6 +17,8 @@ export const validCommands = [
 ];
 
 export const defaultStrings = {
+  dmOnly:
+    'Please send your message to the bot through direct messages instead.',
   insufficientPermissions:
     'You have insufficient permissions to perform this action.',
   invalidSubCommand: (arg) =>

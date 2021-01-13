@@ -1,5 +1,6 @@
 import { DMChannel } from 'discord.js';
 import client from '../../client';
+import { defaultStrings } from '../../constants';
 import generateEmbed from '../../utils/embed';
 import { strings } from './constants';
 import { v4 as uuidv4 } from 'uuid';
@@ -18,7 +19,7 @@ let handlePrivateMessage = async () => {
   }
 
   if (!(channel instanceof DMChannel)) {
-    channel.send(strings.dmOnly);
+    channel.send(defaultStrings.dmOnly);
     return;
   }
 

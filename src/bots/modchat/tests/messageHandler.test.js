@@ -1,4 +1,5 @@
 import client from '../../../client';
+import { defaultStrings } from '../../../constants';
 import handlePrivateMessage from '../messageHandler';
 import { strings } from '../constants';
 import * as utils from '../../../utils/index';
@@ -19,7 +20,9 @@ describe('handlePrivateMessage', () => {
 
     await handlePrivateMessage();
 
-    expect(client.message.channel.send).toHaveBeenCalledWith(strings.dmOnly);
+    expect(client.message.channel.send).toHaveBeenCalledWith(
+      defaultStrings.dmOnly
+    );
   });
 
   test.skip('sends success message when everything is sent', async () => {
