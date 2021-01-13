@@ -3,6 +3,7 @@ import { MongoMemoryServer } from 'mongodb-memory-server';
 import client from '../../../../client';
 import deleteEvent from '../deleteEvent';
 import mongoose from 'mongoose';
+import { strings } from '../../constants';
 import * as permUtils from '../../../../utils/perms';
 import 'babel-polyfill';
 
@@ -13,7 +14,7 @@ describe('deleting Event', () => {
     await deleteEvent.handler([]);
 
     expect(client.message.channel.send).toHaveBeenCalledWith(
-      'Need to supply event ID'
+      strings.insufficientArgumentsEvent()
     );
   });
 
@@ -28,10 +29,11 @@ describe('deleting Event', () => {
   });
 
   test('ama does not delete if provided wrong object ID', async () => {
-    await deleteEvent.handler(['5fd3f9a4ea601010fe5875f6']);
+    const id = '5fd3f9a4ea601010fe5875f6';
+    await deleteEvent.handler([id]);
 
     expect(client.message.channel.send).toHaveBeenCalledWith(
-      'Event with id 5fd3f9a4ea601010fe5875f6 not found'
+      strings.eventNotFound(id)
     );
   });
 
@@ -44,7 +46,7 @@ describe('deleting Event', () => {
     await deleteEvent.handler([event.id]);
 
     expect(client.message.channel.send).toHaveBeenCalledWith(
-      `Event with id ${event.id} successfully deleted`
+      strings.successfullyDeleted(event.id)
     );
   });
 

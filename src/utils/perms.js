@@ -1,4 +1,5 @@
 import client from '../client';
+import { defaultStrings } from '../constants';
 import { get } from '../environment';
 
 /**
@@ -73,4 +74,16 @@ export const isMod = (member) => {
  */
 export const isAdmin = (member) => {
   return member.hasPermission('ADMINISTRATOR');
+};
+
+/**
+ * Sends a message if GuildMember is not a Mod
+ * @param {Object.<string, any>} member - the GuildMember object
+ * * @returns {boolean} - whether or not the member has Mod permissions
+ */
+export const insufficientPermissionsAlert = () => {
+  if (!isMod(getMemberFromMessage())) {
+    client.message.channel.send(defaultStrings.insufficientPermissions);
+    return true;
+  }
 };

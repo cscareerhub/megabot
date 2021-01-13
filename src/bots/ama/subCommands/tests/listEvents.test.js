@@ -5,6 +5,7 @@ import client from '../../../../client';
 import { dedent } from '../../../../utils';
 import listEvents from '../listEvents';
 import mongoose from 'mongoose';
+import { strings } from '../../constants';
 import 'babel-polyfill';
 
 describe('listing Events', () => {
@@ -57,9 +58,7 @@ describe('listing Events', () => {
 
   test('ama sends message when no events available', async () => {
     await listEvents.handler([]);
-    expect(client.message.channel.send).toHaveBeenCalledWith(
-      'No events yet :('
-    );
+    expect(client.message.channel.send).toHaveBeenCalledWith(strings.noEvents);
   });
 
   test('ama sends message with ID when requested with flag', async () => {

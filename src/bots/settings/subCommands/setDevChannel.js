@@ -1,14 +1,12 @@
 import client from '../../../client';
-import { defaultStrings } from '../../../constants';
+import { insufficientPermissionsAlert } from '../../../utils/perms';
 import { updateElement } from '../../../environment';
-import { getMemberFromMessage, isMod } from '../../../utils/perms';
 
 /**
  * Handles setting of mod communication channel with bot
  */
 const handler = async () => {
-  if (!isMod(getMemberFromMessage())) {
-    client.message.channel.send(defaultStrings.insufficientPermissions);
+  if (insufficientPermissionsAlert()) {
     return;
   }
 

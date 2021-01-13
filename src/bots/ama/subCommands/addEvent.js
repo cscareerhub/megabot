@@ -1,15 +1,14 @@
 import Event from '../models/Event';
 import client from '../../../client';
+import { insufficientPermissionsAlert } from '../../../utils/perms';
 import { getFormattedEvent, strings } from '../constants';
-import { getMemberFromMessage, isMod } from '../../../utils/perms';
 
 /**
  * Handles adding an event to Event schema and sends message with new event
  * @param {Array.<string>} args - rest of command arguments
  */
 const handler = async (args) => {
-  if (!isMod(getMemberFromMessage())) {
-    client.message.channel.send(strings.insufficientPermissions);
+  if (insufficientPermissionsAlert()) {
     return;
   }
 

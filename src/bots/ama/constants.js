@@ -11,9 +11,7 @@ export const strings = {
   futureEvents: (arg) => `__**Future Events**__\n${arg}`,
   insufficientArgumentsAddEvent:
     'Please supply a date in the format `yyyy-mm-dd` and an event title.\n_Example_: ++ama add 2020-01-01 start of the greatest year ever',
-  insufficientArgumentsEvent: 'Need to supply event ID',
-  insufficientPermissions:
-    'You have insufficient permissions to perform this action',
+  insufficientArgumentsEvent: 'Please supply an event ID.',
   invalidDateAddEvent: 'Invalid date provided. Must be in format `yyyy-mm-dd`.',
   noEvents: 'No events yet. :(',
   noUpcomingEvents: 'No upcoming events found. :(',
