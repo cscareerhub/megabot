@@ -1,7 +1,7 @@
 import EventModel from '../models/Event';
 import client from '../../../client';
 import parseObject from '../parser';
-import { getFormattedEvent, strings, possibleEditFields } from '../constants';
+import { getFormattedEvent, possibleEditFields, strings } from '../constants';
 import { getMemberFromMessage, isMod } from '../../../utils/perms';
 
 /**

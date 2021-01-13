@@ -1,15 +1,15 @@
 import EventModel from '../models/Event';
 import client from '../../../client';
-import { strings } from '../constants';
 import { parseCommandString } from '../../../utils/index';
 import { partition } from '../../../utils/index';
+import { strings } from '../constants';
 
 /** Handles finding events in the Event schema and listing them in a message */
 const handler = async () => {
   let events = await EventModel.find({}).sort({ date: 'asc' });
 
   if (events.length === 0) {
-    await client.message.channel.send(getStrings().noEvents);
+    await client.message.channel.send(strings.noEvents);
   } else {
     let parsedCmd = parseCommandString();
 

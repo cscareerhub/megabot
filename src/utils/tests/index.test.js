@@ -1,6 +1,6 @@
 import addEvent from '../../bots/ama/subCommands/addEvent';
 import client from '../../client';
-import { getStrings } from '../../bots/ama/constants';
+import { strings } from '../../bots/ama/constants';
 import listEvents from '../../bots/ama/subCommands/listEvents';
 import { commandHandler, dedent, escapedBackticks } from '../index';
 
@@ -14,13 +14,13 @@ describe('commandHandler', () => {
     ${escapedBackticks}`);
 
   test('listing events - when no arguments provided', () => {
-    commandHandler(subCommands, getStrings());
+    commandHandler(subCommands, strings);
     expect(client.message.channel.send).toHaveBeenCalledWith(expectedOutString);
   });
 
   test('listing events - when invalid arguments provided', () => {
     client.message.content = '++ama idklol';
-    commandHandler(subCommands, getStrings());
+    commandHandler(subCommands, strings);
     expect(client.message.channel.send).toHaveBeenCalledWith(
       `Invalid argument. Following arguments are permitted:\n${expectedOutString}`
     );
