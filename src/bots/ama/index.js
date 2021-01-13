@@ -5,7 +5,6 @@ import deleteEvent from './subCommands/deleteEvent';
 import editEvent from './subCommands/editEvent';
 import info from './subCommands/info';
 import listEvents from './subCommands/listEvents';
-import { strings } from './constants';
 
 const subCommands = {
   add: addEvent,
@@ -15,4 +14,4 @@ const subCommands = {
   list: listEvents
 };
 
-client.on('ama', () => commandHandler(subCommands, strings));
+client.on('ama', () => commandHandler(subCommands));

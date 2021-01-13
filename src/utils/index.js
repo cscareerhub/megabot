@@ -15,25 +15,22 @@ export const getModChannel = async () => {
 /**
  * Handles bot-specific commands
  * @param {Object.<string, Object.<string, any>>} subCommands - subCommand objects with handlers
- * @param {Object.<string, string>} strings - string object containing bot message strings
  */
-export const commandHandler = (subCommands, strings = {}, options = {}) => {
+export const commandHandler = (subCommands) => {
   let cmd = parseCommandString();
   let subCommand = cmd.subCommand;
 
   if (!subCommand) {
-    options.handleNoSubCommand ||
-      client.message.channel.send(getCommandsString(subCommands));
+    client.message.channel.send(getCommandsString(subCommands));
     return;
   }
 
   let targetCmd = subCommands[subCommand];
 
   if (!targetCmd) {
-    options.handleInvalidSubCommand ||
-      client.message.channel.send(
-        defaultStrings.invalidSubCommand(getCommandsString(subCommands))
-      );
+    client.message.channel.send(
+      defaultStrings.invalidSubCommand(getCommandsString(subCommands))
+    );
     return;
   }
 
