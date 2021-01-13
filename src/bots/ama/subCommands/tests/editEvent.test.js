@@ -2,59 +2,79 @@ import Event from '../../models/Event';
 import EventModel from '../../models/Event';
 import { MongoMemoryServer } from 'mongodb-memory-server';
 import client from '../../../../client';
+import { defaultStrings } from '../../../../constants';
 import editEvent from '../editEvent';
 import mongoose from 'mongoose';
 import { dedent, escapedBackticks } from '../../../../utils';
+import { possibleEditFields, strings } from '../../constants';
 import * as permUtils from '../../../../utils/perms';
 import 'babel-polyfill';
 
 describe('adding Event', () => {
   let uri;
 
+  beforeAll(async () => {
+    client.message = {
+      channel: {
+        send: jest.fn()
+      }
+    };
+
+    const mongod = new MongoMemoryServer();
+    uri = await mongod.getUri();
+  });
+
+  beforeEach(async () => {
+    jest
+      .spyOn(permUtils, 'insufficientPermissionsAlert')
+      .mockImplementation(() => false);
+
+    mongoose.set('useFindAndModify', false);
+
+    await mongoose.connect(uri, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true
+    });
+  });
+
   test('ama does returns example when no arguments supplied', async () => {
     await editEvent.handler([]);
 
     expect(client.message.channel.send).toHaveBeenCalledWith(
-      dedent(
-        `Split values by double newline. For example:
-        ++ama edit 5fd3f9a4ea601010fe5875ff
-        ${escapedBackticks}url: https://cscareerhub.com
-        
-        date: 2020-12-25
-        
-        description: Line 1
-        Line 2
-        
-        title: Sample Event
-        
-        participants: Kevin, Kevin Jr${escapedBackticks}`
-      )
+      strings.editEventExample(possibleEditFields)
     );
   });
 
   test('ama does no edits when invalid argument supplied', async () => {
-    await editEvent.handler(['abc123']);
+    const id = 'abc123';
+    await editEvent.handler([id]);
 
     expect(client.message.channel.send).toHaveBeenCalledWith(
-      'Event with id abc123 not found'
+      strings.eventNotFound(id)
     );
   });
 
   test('ama does no edits when target Event is not found', async () => {
-    await editEvent.handler(['5fd3f9a4ea601010fe5875ff']);
+    const id = '5fd3f9a4ea601010fe5875ff';
+    await editEvent.handler([id]);
 
     expect(client.message.channel.send).toHaveBeenCalledWith(
-      'Event with id 5fd3f9a4ea601010fe5875ff not found'
+      strings.eventNotFound(id)
     );
   });
 
   test('ama returns error message when insufficient permissions', async () => {
-    jest.spyOn(permUtils, 'isMod').mockImplementation(() => false);
+    jest
+      .spyOn(permUtils, 'insufficientPermissionsAlert')
+      .mockImplementationOnce(() => {
+        client.message.channel.send(defaultStrings.insufficientPermissions);
+        return true;
+      });
 
     await editEvent.handler([]);
 
     expect(client.message.channel.send).toHaveBeenCalledWith(
-      'You have insufficient permissions to perform this action'
+      defaultStrings.insufficientPermissions
     );
   });
 
@@ -92,27 +112,5 @@ describe('adding Event', () => {
     expect(newEvent.participants.sort().toString()).toEqual(
       event.participants.sort().toString()
     );
-  });
-
-  beforeAll(async () => {
-    client.message = {
-      channel: {
-        send: jest.fn()
-      }
-    };
-
-    const mongod = new MongoMemoryServer();
-    uri = await mongod.getUri();
-  });
-
-  beforeEach(async () => {
-    jest.spyOn(permUtils, 'isMod').mockImplementation(() => true);
-
-    mongoose.set('useFindAndModify', false);
-
-    await mongoose.connect(uri, {
-      useNewUrlParser: true,
-      useUnifiedTopology: true
-    });
   });
 });

@@ -1,8 +1,8 @@
-import Discord from 'discord.js';
 import { dispatchCommand } from './dispatcher';
 import { get } from './environment';
 import logger from 'winston';
 import mongoose from 'mongoose';
+import Discord, { DMChannel } from 'discord.js';
 import { envs, validCommands } from './constants';
 
 // Configure logger
@@ -16,7 +16,7 @@ logger.level = 'debug';
 const client = new Discord.Client();
 client.commands = validCommands;
 client.logger = logger;
-client.prefix = get('PREFIX');
+client.prefix = get('BOT_PREFIX');
 
 // Attach debug listeners to client
 client
@@ -38,9 +38,15 @@ if (get('ENV') !== envs.TESTING) {
 }
 
 // Other client listeners
-client.on(
-  'message',
-  (message) => get('ENV') !== envs.PRODUCTION && dispatchCommand(message)
-);
+client.on('message', (message) => {
+  const env = get('ENV');
+  if (
+    message.channel instanceof DMChannel ||
+    env === envs.TESTING ||
+    (env === envs.DEVELOPMENT && get('DEV_CHANNEL_ID') === message.channel.id)
+  ) {
+    dispatchCommand(message);
+  }
+});
 
 export default client;
