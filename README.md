@@ -65,7 +65,7 @@ misc/<yourmiscchange>
 
 4. Format your code to the project's specifications using Prettier. You can either use an editor plugin to do it automatically or run `yarn format`.
 
-5. Once you've made change, create a pull request to the CSCH megabot repo's master branch with the type of change, which should correspond to the first part of your branch name, in the PR title.
+5. Once you've made change, create a pull request to the CSCH megabot repo's `development` branch with the type of change, which should correspond to the first part of your branch name, in the PR title.
 
 ```
 branch name: docs/change
