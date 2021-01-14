@@ -7,7 +7,7 @@ const subCommands = { list: listPins };
 
 client.on('pins', () => commandHandler(subCommands));
 
-client.on('messageReactionAdd', async (reaction, user) => {
+client.on('messageReactionAdd', (reaction, user) => {
   pinByReaction(reaction, user, 'add');
 });
 
