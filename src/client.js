@@ -1,8 +1,9 @@
+import Discord from 'discord.js';
 import { dispatchCommand } from './dispatcher';
 import { get } from './environment';
 import logger from 'winston';
 import mongoose from 'mongoose';
-import Discord, { DMChannel } from 'discord.js';
+import { shouldListen } from './utils';
 import { envs, validCommands } from './constants';
 
 // Configure logger
@@ -39,12 +40,7 @@ if (get('ENV') !== envs.TESTING) {
 
 // Other client listeners
 client.on('message', (message) => {
-  const env = get('ENV');
-  if (
-    message.channel instanceof DMChannel ||
-    env === envs.TESTING ||
-    (env === envs.DEVELOPMENT && get('DEV_CHANNEL_ID') === message.channel.id)
-  ) {
+  if (shouldListen(message)) {
     dispatchCommand(message);
   }
 });
