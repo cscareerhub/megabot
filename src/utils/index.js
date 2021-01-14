@@ -90,6 +90,7 @@ export const partition = (array, isValid) => {
 
 /**
  * Whether or not bot should be listening to events
+ * @param {Object.<string, any>} message - message that was sent
  */
 export const shouldListen = (message) => {
   const env = get('ENV');
