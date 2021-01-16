@@ -16,9 +16,10 @@ describe('listing Events', () => {
       channel: {
         send: jest.fn()
       },
-
       content: '++ama list'
     };
+
+    client.prefix = '++';
 
     const mongod = new MongoMemoryServer();
     uri = await mongod.getUri();

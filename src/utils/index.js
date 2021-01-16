@@ -5,14 +5,6 @@ import { get } from '../environment';
 export const escapedBackticks = '```';
 
 /**
- * Retrieves mod channel for bot alerts
- */
-export const getModChannel = async () => {
-  const guild = await client.guilds.fetch(get('GUILD_ID'));
-  return guild.channels.cache.get(get('MOD_CHANNEL_ID'));
-};
-
-/**
  * Handles bot-specific commands
  * @param {Object.<string, Object.<string, any>>} subCommands - subCommand objects with handlers
  */
@@ -38,6 +30,16 @@ export const commandHandler = (subCommands) => {
 };
 
 /**
+ * Unindents ES6-style concatenated strings
+ * Source: https://stackoverflow.com/questions/25924057/multiline-strings-that-dont-break-indentation
+ * Note: only works when using spaces not tabs and will break strings that require double spaces
+ * @param {string} string - the ES6 string to be unindented
+ */
+export const dedent = (string) => {
+  return string.replace(/  +/g, '');
+};
+
+/**
  * Lists sub commands inside a code block
  * @param {Array.<any>} subCommands - sub commands to be listed
  */
@@ -55,12 +57,23 @@ export const getCommandsString = (subCommands) => {
 };
 
 /**
+ * Retrieves mod channel for bot alerts
+ */
+export const getModChannel = async () => {
+  const guild = await client.guilds.fetch(get('GUILD_ID'));
+  return guild.channels.cache.get(get('MOD_CHANNEL_ID'));
+};
+
+/**
  * Parses message content for commands and arguments
  * @returns {Object.<string, (string | Array.<string>)>} - an object with the sub command and arguments
  */
 export const parseCommandString = () => {
   const messageArray = client.message.content.split(/\s+/);
-  return { arguments: messageArray.slice(2), subCommand: messageArray[1] };
+  return {
+    arguments: messageArray.slice(2),
+    subCommand: messageArray[1]
+  };
 };
 
 /**
@@ -75,14 +88,4 @@ export const partition = (array, isValid) => {
     },
     [[], []]
   );
-};
-
-/**
- * Unindents ES6-style concatenated strings
- * Source: https://stackoverflow.com/questions/25924057/multiline-strings-that-dont-break-indentation
- * Note: only works when using spaces not tabs and will break strings that require double spaces
- * @param {string} string - the ES6 string to be unindented
- */
-export const dedent = (string) => {
-  return string.replace(/  +/g, '');
 };

@@ -15,6 +15,8 @@ describe('handlePrivateMessage', () => {
         send: jest.fn()
       }
     };
+
+    client.prefix = '++';
   });
 
   test('messages when user provides no arguments', async () => {

@@ -3,9 +3,23 @@ import client from '../../client';
 import { defaultStrings } from '../../constants';
 import listEvents from '../../bots/ama/subCommands/listEvents';
 import { strings } from '../../bots/ama/constants';
-import { commandHandler, dedent, escapedBackticks } from '../index';
+import {
+  commandHandler,
+  dedent,
+  escapedBackticks,
+  parseCommandString
+} from '../index';
 
 describe('commandHandler', () => {
+  beforeAll(async () => {
+    client.message = {
+      channel: {
+        send: jest.fn()
+      },
+      content: '++ama'
+    };
+  });
+
   const subCommands = { add: addEvent, list: listEvents };
   const expectedOutString = dedent(`${escapedBackticks}
     - add: Adds new event. Specify date then title of event.
@@ -26,14 +40,35 @@ describe('commandHandler', () => {
       defaultStrings.invalidSubCommand(expectedOutString)
     );
   });
+});
 
+describe('utils', () => {
   beforeAll(async () => {
     client.message = {
       channel: {
         send: jest.fn()
       },
-
-      content: '++ama'
+      content: '++command string'
     };
+
+    client.prefix = '++';
   });
+
+  test('dedent', () => {
+    const string = `blah  blah
+      blah`;
+    expect(dedent(string)).toBe('blahblah\nblah');
+  });
+
+  test('getCommandsString', () => {});
+  test('getModChannel', () => {});
+
+  test('parseCommandString', () => {
+    expect(parseCommandString()).toEqual({
+      arguments: [],
+      subCommand: 'string'
+    });
+  });
+
+  test('partition', () => {});
 });
