@@ -8,11 +8,9 @@ import {
   dedent,
   escapedBackticks,
   getCommandsString,
-  getModChannel,
   parseCommandString,
   partition
 } from '../index';
-import { get } from '../../environment';
 
 describe('commandHandler', () => {
   beforeAll(async () => {
