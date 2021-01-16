@@ -7,8 +7,12 @@ import {
   commandHandler,
   dedent,
   escapedBackticks,
-  parseCommandString
+  getCommandsString,
+  getModChannel,
+  parseCommandString,
+  partition
 } from '../index';
+import { get } from '../../environment';
 
 describe('commandHandler', () => {
   beforeAll(async () => {
@@ -60,8 +64,14 @@ describe('utils', () => {
     expect(dedent(string)).toBe('blahblah\nblah');
   });
 
-  test('getCommandsString', () => {});
-  test('getModChannel', () => {});
+  test('getCommandsString', () => {
+    const subCommands = {
+      test: { example: 'test example', usage: 'test things' }
+    };
+    expect(getCommandsString(subCommands)).toBe(
+      '```\n- test: test things\n\t- Example: test example\n\n```'
+    );
+  });
 
   test('parseCommandString', () => {
     expect(parseCommandString()).toEqual({
@@ -70,5 +80,7 @@ describe('utils', () => {
     });
   });
 
-  test('partition', () => {});
+  test('partition', () => {
+    expect(partition(['a', 'b'], (e) => e === 'b')).toEqual([['b'], ['a']]);
+  });
 });
