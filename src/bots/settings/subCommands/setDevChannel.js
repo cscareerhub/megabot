@@ -1,5 +1,6 @@
 import client from '../../../client';
 import { insufficientPermissionsAlert } from '../../../utils/perms';
+import { strings } from '../constants';
 import { updateElement } from '../../../environment';
 
 /**
@@ -12,7 +13,9 @@ const handler = async () => {
 
   updateElement('DEV_CHANNEL_ID', client.message.channel.id);
 
-  client.message.channel.send('Updated dev channel to current one.');
+  client.message.channel.send(
+    strings.successfullyUpdated('dev channel', 'the current one')
+  );
 };
 
 const setDevChannel = {

@@ -32,7 +32,7 @@ describe('setting dev channel', () => {
     expect(process.env['DEV_CHANNEL_ID']).toEqual('12321');
 
     expect(client.message.channel.send).toHaveBeenCalledWith(
-      'Updated dev channel to current one.'
+      'Updated dev channel to the current one.'
     );
   });
 });
