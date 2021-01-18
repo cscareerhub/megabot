@@ -1,16 +1,9 @@
+import { DMChannel } from 'discord.js';
 import client from '../client';
-import { defaultStrings } from '../constants';
 import { get } from '../environment';
+import { defaultStrings, envs } from '../constants';
 
 export const escapedBackticks = '```';
-
-/**
- * Retrieves mod channel for bot alerts
- */
-export const getModChannel = async () => {
-  const guild = await client.guilds.fetch(get('GUILD_ID'));
-  return guild.channels.cache.get(get('MOD_CHANNEL_ID'));
-};
 
 /**
  * Handles bot-specific commands
@@ -38,6 +31,16 @@ export const commandHandler = (subCommands) => {
 };
 
 /**
+ * Unindents ES6-style concatenated strings
+ * Source: https://stackoverflow.com/questions/25924057/multiline-strings-that-dont-break-indentation
+ * Note: only works when using spaces not tabs and will break strings that require double spaces
+ * @param {string} string - the ES6 string to be unindented
+ */
+export const dedent = (string) => {
+  return string.replace(/  +/g, '');
+};
+
+/**
  * Lists sub commands inside a code block
  * @param {Array.<any>} subCommands - sub commands to be listed
  */
@@ -52,6 +55,14 @@ export const getCommandsString = (subCommands) => {
   str += escapedBackticks;
 
   return str;
+};
+
+/**
+ * Retrieves mod channel for bot alerts
+ */
+export const getModChannel = async () => {
+  const guild = await client.guilds.fetch(get('GUILD_ID'));
+  return guild.channels.cache.get(get('MOD_CHANNEL_ID'));
 };
 
 /**
@@ -78,11 +89,14 @@ export const partition = (array, isValid) => {
 };
 
 /**
- * Unindents ES6-style concatenated strings
- * Source: https://stackoverflow.com/questions/25924057/multiline-strings-that-dont-break-indentation
- * Note: only works when using spaces not tabs and will break strings that require double spaces
- * @param {string} string - the ES6 string to be unindented
+ * Whether or not bot should be listening to events
+ * @param {Object.<string, any>} message - message that was sent
  */
-export const dedent = (string) => {
-  return string.replace(/  +/g, '');
+export const shouldListen = (message) => {
+  const env = get('ENV');
+  return (
+    message.channel instanceof DMChannel ||
+    env === envs.TESTING ||
+    (env === envs.DEVELOPMENT && get('DEV_CHANNEL_ID') === message.channel.id)
+  );
 };
