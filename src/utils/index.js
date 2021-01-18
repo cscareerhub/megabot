@@ -71,7 +71,10 @@ export const getModChannel = async () => {
  */
 export const parseCommandString = () => {
   const messageArray = client.message.content.split(/\s+/);
-  return { arguments: messageArray.slice(2), subCommand: messageArray[1] };
+  return {
+    arguments: messageArray.slice(2),
+    subCommand: messageArray[1]
+  };
 };
 
 /**
