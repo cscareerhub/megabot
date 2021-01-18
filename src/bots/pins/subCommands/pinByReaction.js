@@ -1,6 +1,7 @@
 import client from '../../../client';
-import { pinEmoji } from '../constants';
+import { defaultStrings } from '../../../constants';
 import { getMemberFromUser, isContributor, isMod } from '../../../utils/perms';
+import { pinEmoji, strings } from '../constants';
 
 /**
  * Handles the onMessageReaction and onMessgaeReactionRemove events
@@ -15,9 +16,7 @@ const pinByReaction = async (reaction, user, action) => {
     if (isContributor(member) || isMod(member)) {
       pin(reaction, action);
     } else {
-      reaction.message.channel.send(
-        'You do not have permission to manage pins.'
-      );
+      reaction.message.channel.send(defaultStrings.insufficientPermissions);
     }
   }
 };
@@ -37,9 +36,7 @@ const pin = (reaction, action) => {
   action === 'remove' &&
     reaction.message
       .unpin()
-      .then(() =>
-        reaction.message.channel.send('The message has been unpinned.')
-      )
+      .then(() => reaction.message.channel.send(strings.successfullyUnpinned))
       .catch((err) => client.logger.error(err));
 };
 

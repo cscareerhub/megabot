@@ -32,7 +32,7 @@ describe('setting mod channel', () => {
     expect(process.env['MOD_CHANNEL_ID']).toEqual('12321');
 
     expect(client.message.channel.send).toHaveBeenCalledWith(
-      'Updated mod channel to current one.'
+      'The mod channel has been updated to the current one.'
     );
   });
 });
