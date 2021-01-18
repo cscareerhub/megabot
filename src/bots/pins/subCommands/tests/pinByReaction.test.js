@@ -1,3 +1,4 @@
+import { defaultStrings } from '../../../../constants';
 import pinByReaction from '../pinByReaction';
 import * as permUtils from '../../../../utils/perms';
 
@@ -35,7 +36,7 @@ describe('pinByReaction', () => {
     await pinByReaction(reaction, user, action);
 
     expect(reaction.message.channel.send).toHaveBeenCalledWith(
-      'You do not have permission to manage pins.'
+      defaultStrings.insufficientPermissions
     );
   });
 

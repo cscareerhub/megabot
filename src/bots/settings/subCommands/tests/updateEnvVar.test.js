@@ -1,5 +1,7 @@
 import client from '../../../../client';
+import { defaultStrings } from '../../../../constants';
 import { environmentElements } from '../../../../environment';
+import { strings } from '../../constants';
 import updateEnvVar from '../updateEnvVar';
 import * as permUtils from '../../../../utils/perms';
 
@@ -21,7 +23,7 @@ describe('setting environment variable change', () => {
     await updateEnvVar.handler([]);
 
     expect(client.message.channel.send).toHaveBeenCalledWith(
-      'You have insufficient permissions to perform this action.'
+      defaultStrings.insufficientPermissions
     );
   });
 
@@ -29,7 +31,7 @@ describe('setting environment variable change', () => {
     await updateEnvVar.handler([]);
 
     expect(client.message.channel.send).toHaveBeenCalledWith(
-      'You need to supply variable name and new value.'
+      strings.insufficientArguments
     );
   });
 
@@ -37,7 +39,7 @@ describe('setting environment variable change', () => {
     await updateEnvVar.handler(['TEST_TOKEN', 'IDKLOL']);
 
     expect(client.message.channel.send).toHaveBeenCalledWith(
-      `Variable not found. Available options: ${environmentElements.join(', ')}`
+      strings.variableNotFound(environmentElements.join(', '))
     );
   });
 
@@ -47,7 +49,7 @@ describe('setting environment variable change', () => {
     expect(process.env['BOT_PREFIX']).toEqual('-+-');
 
     expect(client.message.channel.send).toHaveBeenCalledWith(
-      'Updated BOT_PREFIX to -+-'
+      strings.successfullyUpdated('BOT_PREFIX', '-+-')
     );
   });
 });

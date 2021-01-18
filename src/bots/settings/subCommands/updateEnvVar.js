@@ -1,4 +1,6 @@
 import client from '../../../client';
+import { defaultStrings } from '../../../constants';
+import { strings } from '../constants';
 import { environmentElements, get, updateElement } from '../../../environment';
 import { getMemberFromMessage, isMod } from '../../../utils/perms';
 
@@ -8,27 +10,23 @@ import { getMemberFromMessage, isMod } from '../../../utils/perms';
  */
 const handler = async (args) => {
   if (!isMod(getMemberFromMessage())) {
-    client.message.channel.send(
-      'You have insufficient permissions to perform this action.'
-    );
+    client.message.channel.send(defaultStrings.insufficientPermissions);
     return;
   }
 
   if (args.length < 2) {
-    client.message.channel.send(
-      'You need to supply variable name and new value.'
-    );
+    client.message.channel.send(strings.insufficientArguments);
     return;
   }
 
   if (!updateElement(args[0], args[1])) {
     client.message.channel.send(
-      'Variable not found. Available options: ' + environmentElements.join(', ')
+      strings.variableNotFound(environmentElements.join(', '))
     );
     return;
   }
 
-  client.message.channel.send(`Updated ${args[0]} to ${args[1]}`);
+  client.message.channel.send(strings.successfullyUpdated(args[0], args[1]));
   client.prefix = get('BOT_PREFIX');
 };
 

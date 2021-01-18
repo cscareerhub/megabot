@@ -37,7 +37,7 @@ describe('deleting Event', () => {
     await deleteEvent.handler([]);
 
     expect(client.message.channel.send).toHaveBeenCalledWith(
-      strings.insufficientArgumentsEvent
+      strings.insufficientArgumentsDeleteEvent
     );
   });
 

@@ -13,7 +13,7 @@ const handler = async (args) => {
   }
 
   if (args.length !== 1) {
-    client.message.channel.send(strings.insufficientArgumentsEvent);
+    client.message.channel.send(strings.insufficientArgumentsDeleteEvent);
     return;
   }
 
