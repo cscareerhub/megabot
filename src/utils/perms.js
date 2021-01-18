@@ -3,6 +3,20 @@ import { defaultStrings } from '../constants';
 import { get } from '../environment';
 
 /**
+ * Find a role in a member's list of roles
+ * @param {Object.<string, any>} member - the GuideMember object
+ * @param {string} roleName - the name of the role
+ * @return {boolean} - whether or not the user has the role
+ */
+export const findRole = (member, roleName) => {
+  member.roles.cache.each((role) => {
+    if (role.name === roleName) {
+      return true;
+    }
+  });
+};
+
+/**
  * Get GuildMember from User object using guild ID and user ID
  * @param {Object.<string, any>} user - a User object
  * @return {Object.<string, any>} - the GuildMember
@@ -23,26 +37,32 @@ export const getMemberFromMessage = (message) => {
 };
 
 /**
- * Find a role in a member's list of roles
- * @param {Object.<string, any>} member - the GuideMember object
- * @param {string} roleName - the name of the role
- * @return {boolean} - whether or not the user has the role
- */
-export const findRole = (member, roleName) => {
-  member.roles.cache.each((role) => {
-    if (role.name === roleName) {
-      return true;
-    }
-  });
-};
-
-/**
  * Gets the highest role of a member
  * @param {Object.<string, any>} member - the GuildMember object
  * @returns {Object.<string, any>} - the member's highest role
  */
 export const highestRole = (member) => {
   return member.roles?.highest;
+};
+
+/**
+ * Sends a message if GuildMember is not a Mod
+ * @returns {boolean} - whether or not the member has insufficient permissions
+ */
+export const insufficientPermissionsAlert = () => {
+  if (!isMod(getMemberFromMessage())) {
+    client.message.channel.send(defaultStrings.insufficientPermissions);
+    return true;
+  }
+};
+
+/**
+ * Checks if GuildMember is a Admin
+ * @param {Object.<string, any>} member - the GuildMember object
+ * @returns {boolean} - whether or not the member has Admin permissions
+ */
+export const isAdmin = (member) => {
+  return member.hasPermission('ADMINISTRATOR');
 };
 
 /**
@@ -65,24 +85,4 @@ export const isContributor = (member) => {
  */
 export const isMod = (member) => {
   return member.hasPermission('MANAGE_MESSAGES');
-};
-
-/**
- * Checks if GuildMember is a Admin
- * @param {Object.<string, any>} member - the GuildMember object
- * @returns {boolean} - whether or not the member has Admin permissions
- */
-export const isAdmin = (member) => {
-  return member.hasPermission('ADMINISTRATOR');
-};
-
-/**
- * Sends a message if GuildMember is not a Mod
- * @returns {boolean} - whether or not the member has insufficient permissions
- */
-export const insufficientPermissionsAlert = () => {
-  if (!isMod(getMemberFromMessage())) {
-    client.message.channel.send(defaultStrings.insufficientPermissions);
-    return true;
-  }
 };

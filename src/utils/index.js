@@ -1,6 +1,7 @@
+import { DMChannel } from 'discord.js';
 import client from '../client';
-import { defaultStrings } from '../constants';
 import { get } from '../environment';
+import { defaultStrings, envs } from '../constants';
 
 export const escapedBackticks = '```';
 
@@ -87,5 +88,18 @@ export const partition = (array, isValid) => {
       return isValid(elem) ? [[...pass, elem], fail] : [pass, [...fail, elem]];
     },
     [[], []]
+  );
+};
+
+/**
+ * Whether or not bot should be listening to events
+ * @param {Object.<string, any>} message - message that was sent
+ */
+export const shouldListen = (message) => {
+  const env = get('ENV');
+  return (
+    message.channel instanceof DMChannel ||
+    env === envs.TESTING ||
+    (env === envs.DEVELOPMENT && get('DEV_CHANNEL_ID') === message.channel.id)
   );
 };
