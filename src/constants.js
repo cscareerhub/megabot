@@ -16,6 +16,7 @@ export const validCommands = [
   'settings'
 ];
 
+// Strings shared across bots
 export const defaultStrings = {
   dmOnly:
     'Please send your message to the bot through direct messages instead.',
