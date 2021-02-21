@@ -5,10 +5,34 @@ import client from '../../../../client';
 import { dedent } from '../../../../utils';
 import listEvents from '../listEvents';
 import mongoose from 'mongoose';
+import { strings } from '../../constants';
 import 'babel-polyfill';
 
 describe('listing Events', () => {
   let uri;
+
+  beforeAll(async () => {
+    client.message = {
+      channel: {
+        send: jest.fn()
+      },
+      content: '++ama list'
+    };
+
+    client.prefix = '++';
+
+    const mongod = new MongoMemoryServer();
+    uri = await mongod.getUri();
+  });
+
+  beforeEach(async () => {
+    await mongoose.connect(uri, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true
+    });
+
+    await EventModel.deleteMany({});
+  });
 
   test('ama lists all events', async () => {
     await Event({
@@ -57,9 +81,7 @@ describe('listing Events', () => {
 
   test('ama sends message when no events available', async () => {
     await listEvents.handler([]);
-    expect(client.message.channel.send).toHaveBeenCalledWith(
-      'No events yet :('
-    );
+    expect(client.message.channel.send).toHaveBeenCalledWith(strings.noEvents);
   });
 
   test('ama sends message with ID when requested with flag', async () => {
@@ -94,27 +116,5 @@ Wed May 01 2115: New 1\n
 `;
 
     expect(client.message.channel.send).toHaveBeenCalledWith(expectedEventList);
-  });
-
-  beforeAll(async () => {
-    client.message = {
-      channel: {
-        send: jest.fn()
-      },
-
-      content: '++ama list'
-    };
-
-    const mongod = new MongoMemoryServer();
-    uri = await mongod.getUri();
-  });
-
-  beforeEach(async () => {
-    await mongoose.connect(uri, {
-      useNewUrlParser: true,
-      useUnifiedTopology: true
-    });
-
-    await EventModel.deleteMany({});
   });
 });

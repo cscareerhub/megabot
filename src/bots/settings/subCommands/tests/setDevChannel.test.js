@@ -1,8 +1,8 @@
 import client from '../../../../client';
-import setModChannel from '../setModChannel';
+import setDevChannel from '../setDevChannel';
 import * as permUtils from '../../../../utils/perms';
 
-describe('setting mod channel', () => {
+describe('setting dev channel', () => {
   beforeEach(async () => {
     jest
       .spyOn(permUtils, 'insufficientPermissionsAlert')
@@ -21,18 +21,18 @@ describe('setting mod channel', () => {
       .spyOn(permUtils, 'insufficientPermissionsAlert')
       .mockImplementationOnce(() => true);
 
-    await setModChannel.handler();
+    await setDevChannel.handler();
 
     expect(client.message.channel.send).not.toHaveBeenCalled();
   });
 
-  test('settings updates mod channel ID', async () => {
-    await setModChannel.handler();
+  test('settings updates dev channel ID', async () => {
+    await setDevChannel.handler();
 
-    expect(process.env['MOD_CHANNEL_ID']).toEqual('12321');
+    expect(process.env['DEV_CHANNEL_ID']).toEqual('12321');
 
     expect(client.message.channel.send).toHaveBeenCalledWith(
-      'The mod channel has been updated to the current one.'
+      'The dev channel has been updated to the current one.'
     );
   });
 });

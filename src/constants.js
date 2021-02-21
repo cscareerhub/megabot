@@ -16,6 +16,12 @@ export const validCommands = [
   'settings'
 ];
 
+// Strings shared across bots
 export const defaultStrings = {
-  invalidSubCommand: 'Invalid argument. Following arguments are permitted:'
+  dmOnly:
+    'Please send your message to the bot through direct messages instead.',
+  insufficientPermissions:
+    'You have insufficient permissions to perform this action.',
+  invalidSubCommand: (arg) =>
+    `Invalid argument. Following arguments are permitted:${arg}`
 };

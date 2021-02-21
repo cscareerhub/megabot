@@ -1,29 +1,23 @@
 import { dedent, escapedBackticks } from '../../utils';
 
 /**
- * Contructs string object with options
- * @param  {...any} options - data for strings and other options
- * @return {Object.<string, string>} - string object with all AMA bot strings
+ * String object with functions that return strings with args
  */
-export const getStrings = (...options) => {
-  options = options || [{}];
-  return {
-    createdEvent: `Following event has been created:\n${options[0]}`,
-    editEventExample: `Split values by double newline. For example:\n${options[0]}`,
-    eventNotFound: `Event with id ${options[0]} not found`,
-    futureEvents: `__**Future Events**__\n${options[0]}`,
-    insufficientArgumentsAddEvent:
-      'Need to supply date (yyyy-mm-dd) and title of event\n_Example_: 2020-01-01 start of the greatest year ever',
-    insufficientArgumentsEvent: 'Need to supply event ID',
-    insufficientPermissions:
-      'You have insufficient permissions to perform this action',
-    invalidDateAddEvent: 'Invalid date provided. Must be in format yyyy-mm-dd',
-    noEvents: 'No events yet :(',
-    noUpcomingEvents: 'No upcoming events found :(',
-    pastEvents: `__**Past Events**__\n${options[0]}`,
-    successfullyDeleted: `Event with id ${options[0]} successfully deleted`,
-    upcomingEvent: `__**Upcoming Event**__\n${options[0]}\n`
-  };
+export const strings = {
+  createdEvent: (arg) => `The following event has been created:\n${arg}`,
+  editEventExample: (arg) =>
+    `Split your event's properties by using a double newline. _Example_:\n${arg}`,
+  eventNotFound: (arg) => `Event with id \`${arg}\` not found.`,
+  futureEvents: (arg) => `__**Future Events**__\n${arg}`,
+  insufficientArgumentsAddEvent:
+    'Please supply a date in the format `yyyy-mm-dd` and an event title.\n_Example_: ++ama add 2020-01-01 start of the greatest year ever',
+  insufficientArgumentsDeleteEvent: 'Please supply an event ID.',
+  invalidDateAddEvent: 'Invalid date provided. Must be in format `yyyy-mm-dd`.',
+  noEvents: 'No events yet. :(',
+  noUpcomingEvents: 'No upcoming events found. :(',
+  pastEvents: (arg) => `__**Past Events**__\n${arg}`,
+  successfullyDeleted: (arg) => `Event with id ${arg} successfully deleted.`,
+  upcomingEvent: (arg) => `__**Upcoming Event**__\n${arg}\n`
 };
 
 /**

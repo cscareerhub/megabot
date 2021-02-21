@@ -1,0 +1,24 @@
+name: Deploy Development Bot to Server
+
+on:
+  push:
+    branches: [development]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+
+    steps:
+      - name: SSH and Deploy
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USERNAME }}
+          key: ${{ secrets.SSH_KEY }}
+          port: ${{ secrets.SSH_PORT }}
+          script: |
+            cd ~/megabot-dev
+            git pull origin development
+            yarn install --production --check-files
+            pm2 stop megabot-dev; pm2 start yarn --interpreter bash --name megabot-dev -- start

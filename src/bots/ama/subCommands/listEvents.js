@@ -1,15 +1,15 @@
 import EventModel from '../models/Event';
 import client from '../../../client';
-import { getStrings } from '../constants';
 import { parseCommandString } from '../../../utils/index';
 import { partition } from '../../../utils/index';
+import { strings } from '../constants';
 
 /** Handles finding events in the Event schema and listing them in a message */
 const handler = async () => {
   let events = await EventModel.find({}).sort({ date: 'asc' });
 
   if (events.length === 0) {
-    await client.message.channel.send(getStrings().noEvents);
+    await client.message.channel.send(strings.noEvents);
   } else {
     let parsedCmd = parseCommandString();
 
@@ -40,7 +40,7 @@ const formatEvents = (events, showIds) => {
       }${pastEvent.date.toDateString()}: ${pastEvent.title}\n`;
     }
 
-    allPastEvents = getStrings(allPastEvents).pastEvents;
+    allPastEvents = strings.pastEvents(allPastEvents);
 
     eventString += allPastEvents + '\n';
   }
@@ -49,11 +49,11 @@ const formatEvents = (events, showIds) => {
     const futureEventObjects = splitDate[0];
     const upcomingEventObject = futureEventObjects[0];
 
-    let upcomingEvent = getStrings(
+    let upcomingEvent = strings.upcomingEvent(
       `${
-        showIds ? upcomingEventObject.id + ' ' : ''
+        showIds ? `${upcomingEventObject.id} ` : ''
       }${upcomingEventObject.date.toDateString()}: ${upcomingEventObject.title}`
-    ).upcomingEvent;
+    );
 
     eventString += upcomingEvent + '\n';
 
@@ -67,7 +67,7 @@ const formatEvents = (events, showIds) => {
       }${next.date.toDateString()}: ${next.title}\n`;
     }
 
-    futureEvents = getStrings(futureEvents).futureEvents;
+    futureEvents = strings.futureEvents(futureEvents);
 
     if (futureEventObjects.length > 1) {
       eventString += futureEvents + '\n';

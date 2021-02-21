@@ -3,6 +3,7 @@ import { dispatchCommand } from './dispatcher';
 import { get } from './environment';
 import logger from 'winston';
 import mongoose from 'mongoose';
+import { shouldListen } from './utils';
 import { envs, validCommands } from './constants';
 
 // Configure logger
@@ -16,7 +17,7 @@ logger.level = 'debug';
 const client = new Discord.Client();
 client.commands = validCommands;
 client.logger = logger;
-client.prefix = get('PREFIX');
+client.prefix = get('BOT_PREFIX');
 
 // Attach debug listeners to client
 client
@@ -38,9 +39,10 @@ if (get('ENV') !== envs.TESTING) {
 }
 
 // Other client listeners
-client.on(
-  'message',
-  (message) => get('ENV') !== envs.PRODUCTION && dispatchCommand(message)
-);
+client.on('message', (message) => {
+  if (shouldListen(message)) {
+    dispatchCommand(message);
+  }
+});
 
 export default client;
