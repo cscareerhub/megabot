@@ -99,7 +99,7 @@ export const shouldListen = (message) => {
   const env = get('ENV');
   return (
     message.channel instanceof DMChannel ||
-    env === envs.TESTING ||
+    (env === envs.TESTING || env === envs.PRODUCTION) ||
     (env === envs.DEVELOPMENT && get('DEV_CHANNEL_ID') === message.channel.id)
   );
 };
