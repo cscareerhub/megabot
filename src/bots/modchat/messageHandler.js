@@ -19,6 +19,7 @@ let handlePrivateMessage = async () => {
   }
 
   if (!(channel instanceof DMChannel)) {
+    client.message.delete();
     channel.send(defaultStrings.dmOnly);
     return;
   }
