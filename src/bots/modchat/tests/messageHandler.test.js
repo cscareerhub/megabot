@@ -13,7 +13,8 @@ describe('handlePrivateMessage', () => {
       },
       channel: {
         send: jest.fn()
-      }
+      },
+      delete: jest.fn()
     };
 
     client.prefix = '++';
@@ -34,6 +35,7 @@ describe('handlePrivateMessage', () => {
 
     await handlePrivateMessage();
 
+    expect(client.message.delete).toHaveBeenCalled();
     expect(client.message.channel.send).toHaveBeenCalledWith(
       defaultStrings.dmOnly
     );
