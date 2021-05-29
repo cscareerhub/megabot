@@ -6,14 +6,17 @@ import { get } from '../environment';
  * Find a role in a member's list of roles
  * @param {Object.<string, any>} member - the GuideMember object
  * @param {string} roleName - the name of the role
+ * @param {boolean} approx - if true searches with 'endsWith'. '===' otherwise
  * @return {boolean} - whether or not the user has the role
  */
-export const findRole = (member, roleName) => {
+export const findRole = (member, roleName, approx = false) => {
   member.roles.cache.each((role) => {
-    if (role.name === roleName) {
+    if ((approx && role.name.endsWith(roleName)) || role.name === roleName) {
       return true;
     }
   });
+
+  return false;
 };
 
 /**
@@ -73,7 +76,7 @@ export const isAdmin = (member) => {
 export const isContributor = (member) => {
   return (
     member.roles &&
-    (highestRole(member).name === 'Contributor' ||
+    (highestRole(member).name.endsWith('Contributor') ||
       findRole(member, 'Contributor'))
   );
 };

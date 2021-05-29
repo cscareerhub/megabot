@@ -11,6 +11,29 @@ describe('perms', () => {
       highest: { name: 'Contributor' }
     }
   };
+
+  let mockServerContributor = {
+    fetch: jest.fn().mockImplementation(() => {}),
+    hasPermission: jest.fn().mockImplementation(() => false),
+    roles: {
+      cache: {
+        each: jest.fn()
+      },
+      highest: { name: 'Community Contributor' }
+    }
+  };
+
+  let mockFakeContributor = {
+    fetch: jest.fn().mockImplementation(() => {}),
+    hasPermission: jest.fn().mockImplementation(() => false),
+    roles: {
+      cache: {
+        each: jest.fn()
+      },
+      highest: { name: 'Contributor Fake' }
+    }
+  };
+
   const message = {
     member: {}
   };
@@ -28,6 +51,16 @@ describe('perms', () => {
   test('isContributor', () => {
     const isContributor = permUtils.isContributor(mockMember);
     expect(isContributor).toBe(true);
+  });
+
+  test('isCommunityContributor', () => {
+    const isContributor = permUtils.isContributor(mockServerContributor);
+    expect(isContributor).toBe(true);
+  });
+
+  test('isContributorFake', () => {
+    const isContributor = permUtils.isContributor(mockFakeContributor);
+    expect(isContributor).toBe(false);
   });
 
   test('isMod', () => {
