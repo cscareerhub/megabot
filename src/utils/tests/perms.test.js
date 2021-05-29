@@ -1,3 +1,4 @@
+import { Collection } from 'discord.js';
 import * as permUtils from '../perms';
 
 describe('perms', () => {
@@ -6,7 +7,7 @@ describe('perms', () => {
     hasPermission: jest.fn().mockImplementation(() => false),
     roles: {
       cache: {
-        each: jest.fn()
+        some: jest.fn()
       },
       highest: { name: 'Contributor' }
     }
@@ -16,10 +17,8 @@ describe('perms', () => {
     fetch: jest.fn().mockImplementation(() => {}),
     hasPermission: jest.fn().mockImplementation(() => false),
     roles: {
-      cache: {
-        each: jest.fn()
-      },
-      highest: { name: 'Community Contributor' }
+      cache: new Collection(),
+      highest: { name: 'CEO' }
     }
   };
 
@@ -27,9 +26,7 @@ describe('perms', () => {
     fetch: jest.fn().mockImplementation(() => {}),
     hasPermission: jest.fn().mockImplementation(() => false),
     roles: {
-      cache: {
-        each: jest.fn()
-      },
+      cache: new Collection(),
       highest: { name: 'Contributor Fake' }
     }
   };
@@ -54,6 +51,10 @@ describe('perms', () => {
   });
 
   test('isCommunityContributor', () => {
+    mockServerContributor.roles.cache.set('Commpunity Contributor', {
+      name: 'Commpunity Contributor'
+    });
+
     const isContributor = permUtils.isContributor(mockServerContributor);
     expect(isContributor).toBe(true);
   });

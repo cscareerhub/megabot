@@ -10,13 +10,9 @@ import { get } from '../environment';
  * @return {boolean} - whether or not the user has the role
  */
 export const findRole = (member, roleName, approx = false) => {
-  member.roles.cache.each((role) => {
-    if ((approx && role.name.endsWith(roleName)) || role.name === roleName) {
-      return true;
-    }
-  });
-
-  return false;
+  return member.roles.cache.some(
+    (role) => (approx && role.name.endsWith(roleName)) || role.name === roleName
+  );
 };
 
 /**
