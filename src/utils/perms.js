@@ -77,7 +77,7 @@ export const isContributor = (member) => {
   return (
     member.roles &&
     (highestRole(member).name.endsWith('Contributor') ||
-      findRole(member, 'Contributor'))
+      findRole(member, 'Contributor', true))
   );
 };
 
