@@ -73,7 +73,11 @@ export const isContributor = (member) => {
   return (
     member.roles &&
     (highestRole(member).name.endsWith('Contributor') ||
+<<<<<<< HEAD
       findRole(member, 'Contributor', true))
+=======
+      findRole(member, 'Contributor'))
+>>>>>>> ed2fa49 (Change the way contributor is perceived)
   );
 };
 
