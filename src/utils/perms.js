@@ -6,14 +6,13 @@ import { get } from '../environment';
  * Find a role in a member's list of roles
  * @param {Object.<string, any>} member - the GuideMember object
  * @param {string} roleName - the name of the role
+ * @param {boolean} approx - if true searches with 'endsWith'. '===' otherwise
  * @return {boolean} - whether or not the user has the role
  */
-export const findRole = (member, roleName) => {
-  member.roles.cache.each((role) => {
-    if (role.name === roleName) {
-      return true;
-    }
-  });
+export const findRole = (member, roleName, approx = false) => {
+  return member.roles.cache.some(
+    (role) => (approx && role.name.endsWith(roleName)) || role.name === roleName
+  );
 };
 
 /**
@@ -50,10 +49,27 @@ export const highestRole = (member) => {
  * @returns {boolean} - whether or not the member has insufficient permissions
  */
 export const insufficientPermissionsAlert = () => {
-  if (!isMod(getMemberFromMessage())) {
-    client.message.channel.send(defaultStrings.insufficientPermissions);
+  if (!checkRuleList(getMemberFromMessage(), [isMod])) {
+    client.message.author.send(defaultStrings.insufficientPermissions);
     return true;
   }
+
+  return false;
+};
+
+/**
+ * Checks a rule list for a member and returns true if at least one rule applies.
+ * Default rule set is [isMod, isContributor, isAdmin].
+ *
+ * @param {Object.<string, any>} member - the GuildMember object
+ * @param {Array.<function>} rules - rules to be applied to a member
+ * @returns
+ */
+export const checkRuleList = (
+  member,
+  rules = [isMod, isContributor, isAdmin]
+) => {
+  return rules.some((rule) => rule(member));
 };
 
 /**
@@ -73,8 +89,8 @@ export const isAdmin = (member) => {
 export const isContributor = (member) => {
   return (
     member.roles &&
-    (highestRole(member).name === 'Contributor' ||
-      findRole(member, 'Contributor'))
+    (highestRole(member).name.endsWith('Contributor') ||
+      findRole(member, 'Contributor', true))
   );
 };
 

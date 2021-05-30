@@ -1,3 +1,4 @@
+import { Collection } from 'discord.js';
 import * as permUtils from '../perms';
 
 describe('perms', () => {
@@ -6,11 +7,30 @@ describe('perms', () => {
     hasPermission: jest.fn().mockImplementation(() => false),
     roles: {
       cache: {
-        each: jest.fn()
+        some: jest.fn()
       },
       highest: { name: 'Contributor' }
     }
   };
+
+  let mockServerContributor = {
+    fetch: jest.fn().mockImplementation(() => {}),
+    hasPermission: jest.fn().mockImplementation(() => false),
+    roles: {
+      cache: new Collection(),
+      highest: { name: 'CEO' }
+    }
+  };
+
+  let mockFakeContributor = {
+    fetch: jest.fn().mockImplementation(() => {}),
+    hasPermission: jest.fn().mockImplementation(() => false),
+    roles: {
+      cache: new Collection(),
+      highest: { name: 'Contributor Fake' }
+    }
+  };
+
   const message = {
     member: {}
   };
@@ -28,6 +48,20 @@ describe('perms', () => {
   test('isContributor', () => {
     const isContributor = permUtils.isContributor(mockMember);
     expect(isContributor).toBe(true);
+  });
+
+  test('isCommunityContributor', () => {
+    mockServerContributor.roles.cache.set('Commpunity Contributor', {
+      name: 'Commpunity Contributor'
+    });
+
+    const isContributor = permUtils.isContributor(mockServerContributor);
+    expect(isContributor).toBe(true);
+  });
+
+  test('isContributorFake', () => {
+    const isContributor = permUtils.isContributor(mockFakeContributor);
+    expect(isContributor).toBe(false);
   });
 
   test('isMod', () => {
