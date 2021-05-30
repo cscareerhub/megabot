@@ -69,11 +69,7 @@ export const checkRuleList = (
   member,
   rules = [isMod, isContributor, isAdmin]
 ) => {
-  if (rules.some((rule) => rule.apply(member))) {
-    return true;
-  }
-
-  return false;
+  return rules.some((rule) => rule(member));
 };
 
 /**
