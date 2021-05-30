@@ -23,7 +23,7 @@ const handler = async (args) => {
 
   try {
     targetEvent = await EventModel.findById(targetId);
-  } catch {
+  } catch (error) {
     client.logger.debug('Invalid ObjectId type supplied');
   }
 
