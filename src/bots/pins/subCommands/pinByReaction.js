@@ -1,6 +1,11 @@
 import client from '../../../client';
 import { defaultStrings } from '../../../constants';
-import { getMemberFromUser, isContributor, isMod } from '../../../utils/perms';
+import {
+  checkRuleList,
+  getMemberFromUser,
+  isContributor,
+  isMod
+} from '../../../utils/perms';
 import { pinEmoji, strings } from '../constants';
 
 /**
@@ -13,10 +18,11 @@ import { pinEmoji, strings } from '../constants';
 const pinByReaction = async (reaction, user, action) => {
   if (reaction.emoji.name === pinEmoji) {
     const member = await getMemberFromUser(user);
-    if (isContributor(member) || isMod(member)) {
+
+    if (checkRuleList(member, [isMod, isContributor])) {
       pin(reaction, action);
     } else {
-      reaction.message.channel.send(defaultStrings.insufficientPermissions);
+      member.send(defaultStrings.insufficientPermissions);
     }
   }
 };
