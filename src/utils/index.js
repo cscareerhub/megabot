@@ -99,7 +99,8 @@ export const shouldListen = (message) => {
   const env = get('ENV');
   const shouldDevListen =
     env === envs.DEVELOPMENT && get('DEV_CHANNEL_ID') === message.channel.id;
-  const shouldProdListen = env === envs.PRODUCTION && !get('DEV_CHANNEL_ID') !== message.channel.id;
+  const shouldProdListen =
+    env === envs.PRODUCTION && get('DEV_CHANNEL_ID') !== message.channel.id;
 
   return (
     message.channel instanceof DMChannel ||
