@@ -9,6 +9,7 @@ describe('handlePrivateMessage', () => {
     client.message = {
       author: {
         discriminator: 1234,
+        send: jest.fn(),
         username: 'test-user'
       },
       channel: {
@@ -25,7 +26,7 @@ describe('handlePrivateMessage', () => {
 
     await handlePrivateMessage();
 
-    expect(client.message.channel.send).toHaveBeenCalledWith(
+    expect(client.message.author.send).toHaveBeenCalledWith(
       strings.explanation
     );
   });
@@ -36,7 +37,7 @@ describe('handlePrivateMessage', () => {
     await handlePrivateMessage();
 
     expect(client.message.delete).toHaveBeenCalled();
-    expect(client.message.channel.send).toHaveBeenCalledWith(
+    expect(client.message.author.send).toHaveBeenCalledWith(
       defaultStrings.dmOnly
     );
   });

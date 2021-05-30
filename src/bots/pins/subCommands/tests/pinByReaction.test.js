@@ -24,18 +24,23 @@ describe('pinByReaction', () => {
     }
   };
 
+  const user = {};
+  const member = {
+    send: jest.fn()
+  };
+
   jest.spyOn(permUtils, 'getMemberFromUser').mockImplementation(() => {
-    return {};
+    return member;
   });
 
   test('messages when user has no permission', async () => {
     jest.spyOn(permUtils, 'isMod').mockImplementationOnce(() => false);
     jest.spyOn(permUtils, 'isContributor').mockImplementationOnce(() => false);
-    const user = {};
+
     const action = 'add';
     await pinByReaction(reaction, user, action);
 
-    expect(reaction.message.channel.send).toHaveBeenCalledWith(
+    expect(member.send).toHaveBeenCalledWith(
       defaultStrings.insufficientPermissions
     );
   });
@@ -43,37 +48,37 @@ describe('pinByReaction', () => {
   test('does not message when user has permission', async () => {
     jest.spyOn(permUtils, 'isMod').mockImplementationOnce(() => true);
     jest.spyOn(permUtils, 'isContributor').mockImplementationOnce(() => true);
-    const user = {};
+
     const action = 'add';
     await pinByReaction(reaction, user, action);
 
-    expect(reaction.message.channel.send).not.toHaveBeenCalled();
+    expect(member.send).not.toHaveBeenCalled();
   });
 
   test('does not message when user has Contributor role but not Mod role', async () => {
     jest.spyOn(permUtils, 'isMod').mockImplementationOnce(() => false);
     jest.spyOn(permUtils, 'isContributor').mockImplementationOnce(() => true);
-    const user = {};
+
     const action = 'add';
     await pinByReaction(reaction, user, action);
 
-    expect(reaction.message.channel.send).not.toHaveBeenCalled();
+    expect(member.send).not.toHaveBeenCalled();
   });
 
   test('does not message when user has Mod role but not Contributor role', async () => {
     jest.spyOn(permUtils, 'isMod').mockImplementationOnce(() => true);
     jest.spyOn(permUtils, 'isContributor').mockImplementationOnce(() => false);
-    const user = {};
+
     const action = 'add';
     await pinByReaction(reaction, user, action);
 
-    expect(reaction.message.channel.send).not.toHaveBeenCalled();
+    expect(member.send).not.toHaveBeenCalled();
   });
 
   test('calls pin when add action is passed', async () => {
     jest.spyOn(permUtils, 'isMod').mockImplementationOnce(() => true);
     jest.spyOn(permUtils, 'isContributor').mockImplementationOnce(() => true);
-    const user = {};
+
     const action = 'add';
     await pinByReaction(reaction, user, action);
 
@@ -83,7 +88,7 @@ describe('pinByReaction', () => {
   test('calls unpin when remove action is passed', async () => {
     jest.spyOn(permUtils, 'isMod').mockImplementationOnce(() => true);
     jest.spyOn(permUtils, 'isContributor').mockImplementationOnce(() => true);
-    const user = {};
+
     const action = 'remove';
     await pinByReaction(reaction, user, action);
 

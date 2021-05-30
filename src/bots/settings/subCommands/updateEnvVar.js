@@ -1,16 +1,14 @@
 import client from '../../../client';
-import { defaultStrings } from '../../../constants';
+import { insufficientPermissionsAlert } from '../../../utils/perms';
 import { strings } from '../constants';
 import { environmentElements, get, updateElement } from '../../../environment';
-import { getMemberFromMessage, isMod } from '../../../utils/perms';
 
 /**
  * Handles updating environment variables and client prefix.
  * @param {Array.<string>} args - size 2 length array corresponding to [variable name, new variable value]
  */
 const handler = async (args) => {
-  if (!isMod(getMemberFromMessage())) {
-    client.message.channel.send(defaultStrings.insufficientPermissions);
+  if (insufficientPermissionsAlert()) {
     return;
   }
 

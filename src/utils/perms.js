@@ -49,10 +49,27 @@ export const highestRole = (member) => {
  * @returns {boolean} - whether or not the member has insufficient permissions
  */
 export const insufficientPermissionsAlert = () => {
-  if (!isMod(getMemberFromMessage())) {
-    client.message.channel.send(defaultStrings.insufficientPermissions);
+  if (!checkRuleList(getMemberFromMessage(), [isMod])) {
+    client.message.author.send(defaultStrings.insufficientPermissions);
     return true;
   }
+
+  return false;
+};
+
+/**
+ * Checks a rule list for a member and returns true if at least one rule applies.
+ * Default rule set is [isMod, isContributor, isAdmin].
+ *
+ * @param {Object.<string, any>} member - the GuildMember object
+ * @param {Array.<function>} rules - rules to be applied to a member
+ * @returns
+ */
+export const checkRuleList = (
+  member,
+  rules = [isMod, isContributor, isAdmin]
+) => {
+  return rules.some((rule) => rule(member));
 };
 
 /**

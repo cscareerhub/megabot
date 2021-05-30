@@ -12,15 +12,16 @@ import { getModChannel, parseCommandString } from '../../utils/index';
 let handlePrivateMessage = async () => {
   let cmd = parseCommandString();
   let channel = client.message.channel;
+  let author = client.message.author;
 
   if (cmd.arguments.length === 0) {
-    channel.send(strings.explanation);
+    author.send(strings.explanation);
     return;
   }
 
   if (!(channel instanceof DMChannel)) {
     client.message.delete();
-    channel.send(defaultStrings.dmOnly);
+    author.send(defaultStrings.dmOnly);
     return;
   }
 

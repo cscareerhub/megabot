@@ -13,6 +13,10 @@ describe('deleting Event', () => {
 
   beforeAll(async () => {
     client.message = {
+      author: {
+        send: jest.fn()
+      },
+
       channel: {
         send: jest.fn()
       }
@@ -34,9 +38,10 @@ describe('deleting Event', () => {
   });
 
   test('ama returns error message when no arguments passed in', async () => {
+    jest.spyOn(permUtils, 'isMod').mockImplementation(() => true);
     await deleteEvent.handler([]);
 
-    expect(client.message.channel.send).toHaveBeenCalledWith(
+    expect(client.message.author.send).toHaveBeenCalledWith(
       strings.insufficientArgumentsDeleteEvent
     );
   });
@@ -45,13 +50,13 @@ describe('deleting Event', () => {
     jest
       .spyOn(permUtils, 'insufficientPermissionsAlert')
       .mockImplementationOnce(() => {
-        client.message.channel.send(defaultStrings.insufficientPermissions);
+        client.message.author.send(defaultStrings.insufficientPermissions);
         return true;
       });
 
     await deleteEvent.handler([]);
 
-    expect(client.message.channel.send).toHaveBeenCalledWith(
+    expect(client.message.author.send).toHaveBeenCalledWith(
       defaultStrings.insufficientPermissions
     );
   });
