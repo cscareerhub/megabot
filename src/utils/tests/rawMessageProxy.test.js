@@ -2,7 +2,6 @@ import { Collection } from 'discord.js';
 import * as rawMsgUtils from '../rawMessageProxy';
 
 describe('rawMessageProxy', () => {
-
   let mockClient = {};
 
   let message = {
@@ -29,7 +28,7 @@ describe('rawMessageProxy', () => {
         name: 'pin'
       },
       message_id: '654321',
-      user_id: '654',
+      user_id: '654'
     },
     t: 'MESSAGE_REACTION_ADD'
   };
@@ -64,7 +63,7 @@ describe('rawMessageProxy', () => {
     };
   });
 
-  test('no reaction when packet isn\'t for reactions', async () => {
+  test("no reaction when packet isn't for reactions", async () => {
     let packet = {
       t: 'MESSAGE_CHAT'
     };
@@ -81,7 +80,7 @@ describe('rawMessageProxy', () => {
 
     expect(mockClient.emit).not.toHaveBeenCalled();
   });
-    
+
   test('reaction sends when all details match', async () => {
     await rawMsgUtils.processRawMessageForReactions(mockClient, packet);
 
