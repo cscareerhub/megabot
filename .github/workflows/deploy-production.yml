@@ -20,7 +20,7 @@ jobs:
           script: |
             cd ~/megabot-prod
             git reset --hard
-            git pull origin master
+            git checkout origin/master
             pm2 flush megabot-prod
             yarn install --production --check-files
             pm2 stop megabot-prod; pm2 start yarn --interpreter bash --name megabot-prod -- start
