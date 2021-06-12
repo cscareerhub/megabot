@@ -1,18 +1,20 @@
 import Discord from 'discord.js';
 import { dispatchCommand } from './dispatcher';
 import { get } from './environment';
-import logger from 'winston';
 import mongoose from 'mongoose';
 import { processRawMessageForReactions } from './utils/rawMessageProxy';
 import { shouldListen } from './utils';
 import { envs, validCommands } from './constants';
+import * as winston from 'winston';
 
 // Configure logger
-logger.remove(logger.transports.Console);
-logger.add(logger.transports.Console, {
-  colorize: true
+const logger = winston.createLogger({
+  format: winston.format.combine(
+    winston.format.simple(),
+    winston.format.colorize()
+  ),
+  transports: [new winston.transports.Console({ level: 'debug' })]
 });
-logger.level = 'debug';
 
 // Initialize client
 const client = new Discord.Client();
