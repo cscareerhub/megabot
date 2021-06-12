@@ -22,6 +22,7 @@ jobs:
             export NVM_DIR=~/.nvm
             source ~/.nvm/nvm.sh
             git reset --hard
+            git fetch
             git checkout origin/development
             pm2 flush megabot-dev
             yarn install --production --check-files
