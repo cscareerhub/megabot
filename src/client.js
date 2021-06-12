@@ -3,6 +3,7 @@ import { dispatchCommand } from './dispatcher';
 import { get } from './environment';
 import logger from 'winston';
 import mongoose from 'mongoose';
+import { processRawMessageForReactions } from './utils/rawMessageProxy';
 import { shouldListen } from './utils';
 import { envs, validCommands } from './constants';
 
@@ -31,7 +32,8 @@ client
   })
   .on('reconnecting', () => client.logger.info('Bot reconnecting'))
   .on('error', (err) => client.logger.error(err))
-  .on('warn', (warn) => client.logger.warn(warn));
+  .on('warn', (warn) => client.logger.warn(warn))
+  .on('raw', (rawMessage) => processRawMessageForReactions(client, rawMessage));
 
 // Login client
 if (get('ENV') !== envs.TESTING) {

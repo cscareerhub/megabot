@@ -97,10 +97,15 @@ export const partition = (array, isValid) => {
  */
 export const shouldListen = (message) => {
   const env = get('ENV');
+  const shouldDevListen =
+    env === envs.DEVELOPMENT && get('DEV_CHANNEL_ID') === message.channel.id;
+  const shouldProdListen =
+    env === envs.PRODUCTION && get('DEV_CHANNEL_ID') !== message.channel.id;
+
   return (
     message.channel instanceof DMChannel ||
     env === envs.TESTING ||
-    env === envs.PRODUCTION ||
-    (env === envs.DEVELOPMENT && get('DEV_CHANNEL_ID') === message.channel.id)
+    shouldProdListen ||
+    shouldDevListen
   );
 };
