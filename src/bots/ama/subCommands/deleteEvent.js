@@ -22,7 +22,7 @@ const handler = async (args) => {
 
   try {
     deleted = await EventModel.findOneAndDelete({ _id: targetId });
-  } catch {
+  } catch (error) {
     client.logger.debug('Invalid ObjectId type supplied');
   }
 
