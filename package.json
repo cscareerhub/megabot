@@ -9,7 +9,7 @@
   "license": "MIT",
   "scripts": {
     "build": "babel src -d lib --ignore **/*.test.js",
-    "start": "nodemon",
+    "start": "nodemon -L",
     "serve": "node lib/index.js",
     "coverage": "jest --coverage",
     "test": "jest",
