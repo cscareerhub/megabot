@@ -21,7 +21,6 @@ jobs:
             cd ~/megabot-dev
             export NVM_DIR=~/.nvm
             source ~/.nvm/nvm.sh
-            node -v
             git reset --hard
             git checkout origin/development
             pm2 flush megabot-dev
