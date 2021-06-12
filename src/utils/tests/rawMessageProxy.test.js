@@ -63,7 +63,7 @@ describe('rawMessageProxy', () => {
     };
   });
 
-  test('no reaction when packet isn\'t for reactions', async () => {
+  test('no reaction when packet is not for reactions', async () => {
     let packet = {
       t: 'MESSAGE_CHAT'
     };
