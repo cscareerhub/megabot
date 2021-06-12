@@ -19,10 +19,11 @@ jobs:
           port: ${{ secrets.SSH_PORT }}
           script: |
             cd ~/megabot-dev
+            export NVM_DIR=~/.nvm
+            source ~/.nvm/nvm.sh
+            node -v
             git reset --hard
             git checkout origin/development
             pm2 flush megabot-dev
-            nvm list
-            nvm use 16.3.0
             yarn install --production --check-files
             pm2 stop megabot-dev; pm2 start yarn --interpreter bash --name megabot-dev -- start
