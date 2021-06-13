@@ -9,7 +9,7 @@ import { checkRuleList, getMemberFromUser } from '../../utils/perms';
  * 1. Alerts mods of reacted message (:warning: emoji currently)
  * 2. Removes reaction to be safe
  * 3. Messages in an embed with a link
- * 
+ *
  * @param {Object.<string, any>} reaction - the MessageReaction object
  * @param {Object.<string, any>} user - the User who reacted or removed a reaction
  * @param {string} action - specifies whether it was an add or removal action
