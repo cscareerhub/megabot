@@ -1,8 +1,8 @@
 # CSCH Megabot
 
-[![License](https://img.shields.io/github/license/cscareerhub/megabot)](LICENSE.md)
-![GitHub Workflow Status](https://img.shields.io/github/workflow/status/cscareerhub/megabot/Ubuntu%20Latest%20Lint%20and%20Test)
-![Discord](https://img.shields.io/discord/334891772696330241)
+| License                                                                             | Github                                                                                                                           | Discord                                                       | Dependencies                                                                                                   |
+| ----------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------- |
+| [![License](https://img.shields.io/github/license/cscareerhub/megabot)](LICENSE.md) | ![GitHub Workflow Status](https://img.shields.io/github/workflow/status/cscareerhub/megabot/Ubuntu%20Latest%20Lint%20and%20Test) | ![Discord](https://img.shields.io/discord/334891772696330241) | [![Dependency Status](https://david-dm.org/cscareerhub/megabot.svg)](https://david-dm.org/cscareerhub/megabot) |
 
 A megabot for everything CSCH needs, composed of smaller mostly standalone packages. This project uses [Discord.js](https://discord.js.org/#/).
 

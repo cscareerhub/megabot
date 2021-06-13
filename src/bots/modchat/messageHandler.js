@@ -14,7 +14,7 @@ let handlePrivateMessage = async () => {
   let channel = client.message.channel;
   let author = client.message.author;
 
-  if (cmd.arguments.length === 0) {
+  if (cmd.subCommand === undefined) {
     author.send(strings.explanation);
     return;
   }
