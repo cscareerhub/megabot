@@ -47,8 +47,7 @@ describe('handlePrivateMessage', () => {
       send: jest.fn()
     };
 
-    let successPattern =
-      /^Your message has been forwarded to moderation team.\nIf you wish to follow up with them please reference the following id: \*\*.+\*\*$/;
+    let successPattern = /^Your message has been forwarded to moderation team.\nIf you wish to follow up with them please reference the following id: \*\*.+\*\*$/;
 
     jest
       .spyOn(utils, 'getModChannel')

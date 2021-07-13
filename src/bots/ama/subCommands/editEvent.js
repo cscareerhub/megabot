@@ -63,9 +63,9 @@ let tokenizeEvent = (block) => {
     }
 
     //TODO: the \n is a tactical fix. This may need to be revisited for better parsing
-    tokens[entry.substring(0, colonLocation).replace(/\n/gi, '')] = entry
-      .substring(colonLocation + 2)
-      .replace(/\n/gi, '');
+    tokens[
+      entry.substring(0, colonLocation).replace(/\n/gi, '')
+    ] = entry.substring(colonLocation + 2).replace(/\n/gi, '');
   }
 
   return parseObject(tokens);
