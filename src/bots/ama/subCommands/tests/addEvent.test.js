@@ -18,8 +18,8 @@ describe('adding Event', () => {
       }
     };
 
-    const mongod = new MongoMemoryServer();
-    uri = await mongod.getUri();
+    const mongod = await MongoMemoryServer.create();
+    uri = mongod.getUri();
   });
 
   beforeEach(async () => {
