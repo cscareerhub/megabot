@@ -15,7 +15,7 @@ module.exports = {
     'jest/no-focused-tests': 'error',
     'jest/no-identical-title': 'warn',
     'linebreak-style': ['error', 'unix'],
-    quotes: ['error', 'single'],
+    quotes: ['error', 'single', { avoidEscape: true }],
     'require-jsdoc': [
       2,
       {
