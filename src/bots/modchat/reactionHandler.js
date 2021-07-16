@@ -27,10 +27,11 @@ let alertModChannel = async (reaction, user, action) => {
 
   let modChannel = await getModChannel();
 
+  let url = reaction.message.url;
   let title = `${reaction.message.author.username}#${reaction.message.author.discriminator}`;
   let userName = `${user.username}#${user.discriminator}`;
 
-  let footer = `${reaction.message.url} reported by: ${userName}`;
+  let footer = `Channel: ${reaction.message.channel.name} | Reported by: ${userName}`;
   let description = reaction.message.content;
 
   await reaction.users.remove(user.id);
@@ -46,7 +47,7 @@ let alertModChannel = async (reaction, user, action) => {
     }
   );
 
-  await modChannel.send(embed);
+  await modChannel.send(url, { embed });
   member.send(strings.modsHaveBeenMessaged);
 };
 

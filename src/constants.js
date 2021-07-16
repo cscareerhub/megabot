@@ -10,6 +10,7 @@ export const validCommands = [
   'ama',
   'faq',
   'mc',
+  'misc',
   'pins',
   'ping',
   'salary',
