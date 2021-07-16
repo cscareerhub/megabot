@@ -1,7 +1,7 @@
 {
   "private": true,
   "name": "megabot",
-  "version": "1.6.2",
+  "version": "1.6.3",
   "description": "CSCH megabot with standalone packages",
   "main": "src/index.js",
   "repository": "https://github.com/cscareerhub/megabot.git",

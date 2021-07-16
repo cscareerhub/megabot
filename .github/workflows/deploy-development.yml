@@ -26,4 +26,4 @@ jobs:
             git checkout origin/development
             pm2 flush megabot-dev
             yarn install --production --check-files
-            pm2 stop megabot-dev; pm2 start yarn --interpreter bash --cron-restart="0 0 * * *" --name megabot-dev -- start
+            pm2 stop megabot-dev; pm2 delete megabot-dev; pm2 start yarn --interpreter bash --name megabot-dev -- start; pm2 restart megabot-dev --cron-restart="0 0 * * *"

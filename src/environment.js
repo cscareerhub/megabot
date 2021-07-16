@@ -9,7 +9,8 @@ export const environmentElements = [
   'GUILD_ID',
   'BOT_PREFIX',
   'MOD_CHANNEL_ID',
-  'DEV_CHANNEL_ID'
+  'DEV_CHANNEL_ID',
+  'EVENT_QUESTIONS_CHANNEL_ID'
 ];
 
 /**
@@ -35,6 +36,24 @@ export const updateElement = (key, value) => {
  */
 export const get = (arg) => {
   return process.env[arg];
+};
+
+/**
+ * Searches for all environment variables that belong to a channel ID
+ *
+ * @param {string} channelId - channel id to be tested
+ * @returns array of environment IDs that relate to channel
+ */
+export const getElementsForChannelId = (channelId) => {
+  let ids = [];
+
+  for (let envVar of environmentElements) {
+    if (get(envVar) === channelId) {
+      ids.push(envVar);
+    }
+  }
+
+  return ids;
 };
 
 /**
