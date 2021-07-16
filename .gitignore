@@ -6,4 +6,5 @@ coverage/
 
 *.log
 .env
+.env_backup
 .DS_Store
