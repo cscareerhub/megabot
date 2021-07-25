@@ -23,7 +23,7 @@ describe('lmgtfy', () => {
       .spyOn(permUtils, 'insufficientPermissionsAlert')
       .mockImplementationOnce(() => true);
 
-    lmgtfy.handler(['Nik', 'Hello', 'World.', '<>&>']);
+    lmgtfy.handler(['Nik', 'Hello', 'World.', '<>(a.b']);
 
     expect(client.message.channel.send).not.toHaveBeenCalled();
   });
@@ -33,10 +33,10 @@ describe('lmgtfy', () => {
       .spyOn(permUtils, 'insufficientPermissionsAlert')
       .mockImplementationOnce(() => false);
 
-    lmgtfy.handler(['Nik', 'Hello', 'World.', '<>&>']);
+    lmgtfy.handler(['Nik', 'Hello', 'World.', '<>(a.b']);
 
     expect(client.message.channel.send).toHaveBeenCalledWith(
-      'https://lmgtfy.app/?q=Nik+Hello+World.+%3C%3E%26%3E'
+      'https://letmegooglethat.com/?q=Nik+Hello+World.+%3C%3E(a.b'
     );
   });
 });

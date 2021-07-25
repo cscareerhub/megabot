@@ -2,7 +2,7 @@ import client from '../../../client';
 import { insufficientPermissionsAlert } from '../../../utils/perms';
 import { strings } from '../constants';
 
-const baseUrl = 'https://lmgtfy.app/?q=';
+const baseUrl = 'https://letmegooglethat.com/?q=';
 
 /**
  * Sends lmgtfy link for requested params
