@@ -6,7 +6,7 @@ const baseUrl = 'https://lmgtfy.app/?q=';
 
 /**
  * Sends lmgtfy link for requested params
- * 
+ *
  * @param {Array[String]} args - the query for lmgtfy
  * @returns lmgtfy link as string
  */
