@@ -23,6 +23,7 @@ jobs:
             source ~/.nvm/nvm.sh
             git reset --hard
             git fetch
+            git clean -d -f .
             git checkout origin/development
             pm2 flush megabot-dev
             yarn install --production --check-files
