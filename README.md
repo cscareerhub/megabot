@@ -18,9 +18,9 @@ A megabot for everything CSCH needs, composed of smaller mostly standalone packa
 |   `faq`    | Show information about FAQ requested and links to longer form answer on our wiki (which is yet to be written) |
 | `modchat`  |  Allow users to anonymously message or report something to the whole staff team by private messaging the bot  |
 |   `pins`   |                                   Allows mods, contributors to pin messages                                   |
-<!-- |   `comp`   |          Easily allow users to compare salaries with other community members by company and position          | -->
 | `settings` |                                      Manage settings for the entire bot                                       |
 |   `misc`   |                                      Utility commands for minor actions                                       |
+<!-- |   `comp`   |          Easily allow users to compare salaries with other community members by company and position          | -->
 
 **Permissions:**
 - Admin - Access to all server permissions
@@ -36,7 +36,7 @@ A megabot for everything CSCH needs, composed of smaller mostly standalone packa
 |           `info`           |           Show information about the AMA event            |          Admin          |
 |           `list`           |        Show all the scheduled AMAs for the future         |          Admin          |
 |        **Modchat**         |                                                           |                         |
-|            `mc`            |     Alerts moderators with anonyomus private message      |        Everyone         |
+|            `mc`            |     Alerts moderators with anonymous private message      |        Everyone         |
 |          **Pins**          |                                                           |                         |
 |           `list`           |       Messages you with list of all pinned messages       | Admin, Mod, Contributor |
 |   :safetypin: (reaction)   |            Pin a message to the server channel            | Admin, Mod, Contributor |
