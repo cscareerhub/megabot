@@ -6,6 +6,51 @@
 
 A megabot for everything CSCH needs, composed of smaller mostly standalone packages. This project uses [Discord.js](https://discord.js.org/#/).
 
+## Commands
+
+**Default prefix:** `++`
+
+**Command types:**
+
+|    Type    |                                                  Description                                                  |
+| ---------- | ------------------------------------------------------------------------------------------------------------- |
+|   `ama`    |                              Used to queue or collect questions for AMA events.                               |
+|   `faq`    | Show information about FAQ requested and links to longer form answer on our wiki (which is yet to be written) |
+| `modchat`  |  Allow users to anonymously message or report something to the whole staff team by private messaging the bot  |
+|   `pins`   |                                   Allows mods, contributors to pin messages                                   |
+<!-- |   `comp`   |          Easily allow users to compare salaries with other community members by company and position          | -->
+| `settings` |                                      Manage settings for the entire bot                                       |
+|   `misc`   |                                      Utility commands for minor actions                                       |
+
+**Permissions:**
+- Admin - Access to all server permissions
+- Mod - Able to manage channel messages
+- (Server) Contributor - Able to pin messages, create threads
+
+|          Command           |                        Description                        |       Permissions       |
+| -------------------------- | --------------------------------------------------------- | ----------------------- |
+|          **AMA**           |                                                           |                         |
+|           `add`            |          Adds a scheduled AMA event to the queue          |          Admin          |
+|          `delete`          |         Delete scheduled AMA event from the queue         |          Admin          |
+|           `edit`           |             Edit AMA information (time, info)             |          Admin          |
+|           `info`           |           Show information about the AMA event            |          Admin          |
+|           `list`           |        Show all the scheduled AMAs for the future         |          Admin          |
+|        **Modchat**         |                                                           |                         |
+|            `mc`            |     Alerts moderators with anonyomus private message      |        Everyone         |
+|          **Pins**          |                                                           |                         |
+|           `list`           |       Messages you with list of all pinned messages       | Admin, Mod, Contributor |
+|   :safetypin: (reaction)   |            Pin a message to the server channel            | Admin, Mod, Contributor |
+|        **Settings**        |                                                           |                         |
+|  `purge [delete \| lock]`  |      Deletes all messages from or locks the channel       |          Admin          |
+|      `setDevChannel`       |            Sets channel as a developer channel            |          Admin          |
+|     `setEventChannel`      |             Sets channel as an event channel              |          Admin          |
+|      `setModChannel`       |               Sets channel as a mod channel               |          Admin          |
+| `update VAR_NAME <value>`  | Updates environment variable and refreshes env to take it |          Admin          |
+|          **Misc**          |                                                           |                         |
+|      `lmgtfy <query>`      |            Creates a lmgtfy link for the query            |        Everyone         |
+| `pm @<username> <message>` |                  Direct messages a user                   |        Everyone         |
+
+
 ## Getting Started
 
 0. Install prerequisites.
