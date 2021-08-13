@@ -12,44 +12,45 @@ A megabot for everything CSCH needs, composed of smaller mostly standalone packa
 
 **Command types:**
 
-|    Type    |                                                  Description                                                  |
-| ---------- | ------------------------------------------------------------------------------------------------------------- |
-|   `ama`    |                              Used to queue or collect questions for AMA events.                               |
-|   `faq`    | Show information about FAQ requested and links to longer form answer on our wiki (which is yet to be written) |
-| `modchat`  |  Allow users to anonymously message or report something to the whole staff team by private messaging the bot  |
-|   `pins`   |                                   Allows mods, contributors to pin messages                                   |
-| `settings` |                                      Manage settings for the entire bot                                       |
-|   `misc`   |                                      Utility commands for minor actions                                       |
-<!-- |   `comp`   |          Easily allow users to compare salaries with other community members by company and position          | -->
+| Type       | Description                                                                                                        |
+| ---------- | ------------------------------------------------------------------------------------------------------------------ |
+| `ama`      | Used for creating and displaying information on AMA events, as well as queueing and collecting questions for them. |
+| `faq`      | Show information about FAQ requested and links to longer form answer on our wiki (which is yet to be written)      |
+| `modchat`  | Allow users to anonymously message or report something to the whole staff team by private messaging the bot        |
+| `pins`     | Allows mods, contributors to pin messages                                                                          |
+| `settings` | Manage settings for the entire bot                                                                                 |
+| `misc`     | Utility commands for minor actions                                                                                 |
+
+<!--       | `comp`                                                                                                             | Easily allow users to compare salaries with other community members by company and position | --> |
 
 **Permissions:**
+
 - Admin - Access to all server permissions
 - Mod - Able to manage channel messages
 - (Server) Contributor - Able to pin messages, create threads
 
-|          Command           |                        Description                        |       Permissions       |
+| Command                    | Description                                               | Permissions             |
 | -------------------------- | --------------------------------------------------------- | ----------------------- |
-|          **AMA**           |                                                           |                         |
-|           `add`            |          Adds a scheduled AMA event to the queue          |          Admin          |
-|          `delete`          |         Delete scheduled AMA event from the queue         |          Admin          |
-|           `edit`           |             Edit AMA information (time, info)             |          Admin          |
-|           `info`           |           Show information about the AMA event            |          Admin          |
-|           `list`           |        Show all the scheduled AMAs for the future         |          Admin          |
-|        **Modchat**         |                                                           |                         |
-|            `mc`            |     Alerts moderators with anonymous private message      |        Everyone         |
-|          **Pins**          |                                                           |                         |
-|           `list`           |       Messages you with list of all pinned messages       | Admin, Mod, Contributor |
-|   :safetypin: (reaction)   |            Pin a message to the server channel            | Admin, Mod, Contributor |
-|        **Settings**        |                                                           |                         |
-|  `purge [delete \| lock]`  |      Deletes all messages from or locks the channel       |          Admin          |
-|      `setDevChannel`       |            Sets channel as a developer channel            |          Admin          |
-|     `setEventChannel`      |             Sets channel as an event channel              |          Admin          |
-|      `setModChannel`       |               Sets channel as a mod channel               |          Admin          |
-| `update VAR_NAME <value>`  | Updates environment variable and refreshes env to take it |          Admin          |
-|          **Misc**          |                                                           |                         |
-|      `lmgtfy <query>`      |            Creates a lmgtfy link for the query            |        Everyone         |
-| `pm @<username> <message>` |                  Direct messages a user                   |        Everyone         |
-
+| **AMA**                    |                                                           |                         |
+| `add`                      | Adds a scheduled AMA event to the queue                   | Admin, Mod              |
+| `delete`                   | Delete scheduled AMA event from the queue                 | Admin, Mod              |
+| `edit`                     | Edit AMA information (time, info)                         | Admin, Mod              |
+| `info`                     | Show information about the AMA event                      | Everyone                |
+| `list`                     | Show all the scheduled AMAs for the future                | Everyone                |
+| **Modchat**                |                                                           |                         |
+| `mc`                       | Alerts moderators with anonymous private message          | Everyone                |
+| **Pins**                   |                                                           |                         |
+| `list`                     | Messages you with list of all pinned messages             | Admin, Mod, Contributor |
+| :safetypin: (reaction)     | Pin a message to the server channel                       | Admin, Mod, Contributor |
+| **Settings**               |                                                           |                         |
+| `purge [delete \| lock]`   | Deletes all messages from or locks the channel            | Admin, Mod              |
+| `setDevChannel`            | Sets channel as a developer channel                       | Admin, Mod              |
+| `setEventChannel`          | Sets channel as an event channel                          | Admin, Mod              |
+| `setModChannel`            | Sets channel as a mod channel                             | Admin, Mod              |
+| `update VAR_NAME <value>`  | Updates environment variable and refreshes env to take it | Admin, Mod              |
+| **Misc**                   |                                                           |                         |
+| `lmgtfy <query>`           | Creates a lmgtfy link for the query                       | Admin, Mod              |
+| `pm @<username> <message>` | Direct messages a user                                    | Admin, Mod              |
 
 ## Getting Started
 

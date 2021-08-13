@@ -1,6 +1,6 @@
 # AMA
 
-Used to queue or collect questions for AMA events.
+Used for creating and displaying information on AMA events, as well as queueing and collecting questions for them.
 
 1. Responds to `++ama`.
 2. DMs info on the latest AMA when `++ama info` is used.
