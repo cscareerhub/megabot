@@ -1,10 +1,10 @@
-import Discord from 'discord.js';
+import { Client } from 'discord.js';
 import { dispatchCommand } from './dispatcher';
 import { get } from './environment';
 import mongoose from 'mongoose';
 import { processRawMessageForReactions } from './utils/rawMessageProxy';
 import { shouldListen } from './utils';
-import { envs, validCommands } from './constants';
+import { envs, validCommands, clientIntents } from './constants';
 import * as winston from 'winston';
 
 // Configure logger
@@ -17,7 +17,7 @@ const logger = winston.createLogger({
 });
 
 // Initialize client
-const client = new Discord.Client();
+const client = new Client({ intents: clientIntents });
 client.commands = validCommands;
 client.logger = logger;
 client.prefix = get('BOT_PREFIX');
@@ -43,7 +43,7 @@ if (get('ENV') !== envs.TESTING) {
 }
 
 // Other client listeners
-client.on('message', (message) => {
+client.on('messageCreate', (message) => {
   if (shouldListen(message)) {
     dispatchCommand(message);
   }
