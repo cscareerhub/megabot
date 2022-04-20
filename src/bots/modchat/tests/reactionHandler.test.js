@@ -22,8 +22,8 @@ describe('alertModChannel', () => {
           username: 'test'
         },
         channel: {
-          send: jest.fn(),
-          name: 'Test Channel'
+          name: 'Test Channel',
+          send: jest.fn()
         },
         content: 'Example message content.'
       },

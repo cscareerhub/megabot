@@ -4,7 +4,7 @@ import { get } from './environment';
 import mongoose from 'mongoose';
 import { processRawMessageForReactions } from './utils/rawMessageProxy';
 import { shouldListen } from './utils';
-import { envs, validCommands, clientIntents } from './constants';
+import { clientIntents, envs, validCommands } from './constants';
 import * as winston from 'winston';
 
 // Configure logger
