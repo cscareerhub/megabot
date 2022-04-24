@@ -28,8 +28,8 @@ let alertModChannel = async (reaction, user, action) => {
   let modChannel = await getModChannel();
 
   let url = reaction.message.url;
-  let title = `${reaction.message.author.username}#${reaction.message.author.discriminator}`;
-  let userName = `${user.username}#${user.discriminator}`;
+  const { author } = reaction.message;
+  let userName = `${author.username}#${author.discriminator}`;
 
   let footer = `Channel: ${reaction.message.channel.name} | Reported by: ${userName}`;
   let description = reaction.message.content;
@@ -40,7 +40,7 @@ let alertModChannel = async (reaction, user, action) => {
     {
       description,
       footer: footer,
-      title
+      title: userName
     },
     {
       color: '#FF0000'

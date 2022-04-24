@@ -11,7 +11,7 @@ module.exports = {
   },
   plugins: ['jest'],
   rules: {
-    indent: ['error', 2],
+    indent: ['error', 2, { SwitchCase: 1 }],
     'jest/no-focused-tests': 'error',
     'jest/no-identical-title': 'warn',
     'linebreak-style': ['error', 'unix'],

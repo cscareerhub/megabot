@@ -5,6 +5,7 @@ import './client';
 import './bots/ama';
 import './bots/comp';
 import './bots/misc';
+import './bots/monitor';
 import './bots/modchat';
 import './bots/ping';
 import './bots/pins';
