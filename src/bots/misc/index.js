@@ -11,7 +11,7 @@ const subCommands = {
 
 client.on('misc', () => commandHandler(subCommands));
 
-client.on('message', (message) => {
+client.on('messageCreate', (message) => {
   //Don't upvote commands
   if (message.content.startsWith(client.prefix)) {
     return;

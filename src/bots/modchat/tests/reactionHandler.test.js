@@ -21,7 +21,11 @@ describe('alertModChannel', () => {
           discriminator: 'test2',
           username: 'test'
         },
-        channel: { send: jest.fn() }
+        channel: {
+          name: 'Test Channel',
+          send: jest.fn()
+        },
+        content: 'Example message content.'
       },
       users: {
         remove: jest.fn()
