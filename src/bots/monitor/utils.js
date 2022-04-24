@@ -1,6 +1,10 @@
 import { Util } from 'discord.js';
 import { VALID_FORMATS } from './constants';
-import { defaultStrings } from './constants';
+import {
+  CHANNEL_INFORMATION,
+  CHANNEL_NAMES, // eslint-disable-line
+  defaultStrings
+} from './constants';
 
 /**
  * Verifies if an attachment matches the valid image
@@ -65,4 +69,57 @@ export function getAttachmentsArrFromMap(attachments) {
  */
 export function isMessageReply(message) {
   return message.reference !== null;
+}
+
+/**
+ * Check if it's a channel name we know
+ * @param {string} channelName
+ */
+export function isKnownChannelName(channelName) {
+  const channelNames = Object.keys(CHANNEL_INFORMATION);
+  return channelNames.includes(channelName);
+}
+
+/**
+ * Gets the channel's post title for channel name
+ * @param {CHANNEL_NAMES} channelName Name of the channel
+ * @returns {string} The post title for relevant channel
+ */
+export function getChannelPostTitleForName(channelName) {
+  if (isKnownChannelName(channelName))
+    return CHANNEL_INFORMATION[channelName].postTitle;
+
+  // Should never go into this case
+  throw 'Received an unknown channel name.';
+}
+
+/**
+ * Gets the channel ID for channel name
+ * @param {CHANNEL_NAMES} channelName Name of the channel
+ * @returns {string} The channel ID
+ */
+export function getChannelIdForName(channelName) {
+  if (isKnownChannelName(channelName))
+    return CHANNEL_INFORMATION[channelName].id;
+
+  // Should never go into this case
+  throw 'Received an unknown channel name.';
+}
+
+/**
+ * Gets the channel name based off its ID
+ * @param {string} channelId ID of the channel
+ * @returns {string | null} Name of the channel
+ */
+export function getChannelNameForId(channelId) {
+  for (const [channelName, channelInfo] of Object.entries(
+    CHANNEL_INFORMATION
+  )) {
+    if (channelInfo.id === channelId) return channelName;
+  }
+
+  // Should never go into this case
+  // Avoid throwing error to prevent breaking bot
+  console.error('Passed in a channel ID that we do not recognize.');
+  return null;
 }
