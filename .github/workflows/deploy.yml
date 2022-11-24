@@ -2,14 +2,25 @@ name: Deploy Production Bot to Server
 
 on:
   push:
-    branches: [master]
+    tags: ["v*"]
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    timeout-minutes: 5
+    timeout-minutes: 10
 
     steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Build binary
+        run: cargo build --release
+
+      - name: Release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: target/release/megabot
+
       - name: SSH and Deploy
         uses: appleboy/ssh-action@master
         with:
@@ -18,12 +29,9 @@ jobs:
           key: ${{ secrets.SSH_KEY }}
           port: ${{ secrets.SSH_PORT }}
           script: |
-            cd ~/megabot-prod
-            export NVM_DIR=~/.nvm
-            source ~/.nvm/nvm.sh
+            cd ~/megabot-rs
             git reset --hard
             git fetch
             git checkout origin/master
-            pm2 flush megabot-prod
-            yarn install --production --check-files
-            pm2 stop megabot-prod; pm2 delete megabot-prod; pm2 start yarn --interpreter bash --name megabot-prod -- start; pm2 restart megabot-prod --cron-restart="0 0 * * *"
+            curl -fsSL github.com/cscareerhub/megabot/releases/latest/download/megabot -O
+            just deploy megabot

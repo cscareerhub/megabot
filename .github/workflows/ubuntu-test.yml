@@ -1,68 +1,30 @@
-name: Ubuntu Latest Lint and Test
+name: CI
 
-on:
-  push:
-    branches: [master, development]
-  pull_request:
-    branches: [master, development]
+on: push
 
 jobs:
-  lint:
+  lint-and-test:
     runs-on: ubuntu-latest
-
     timeout-minutes: 10
-
-    strategy:
-      matrix:
-        node-version: [14.x]
 
     steps:
       - name: Check out Git repository
         uses: actions/checkout@v2
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v1
+
+      - name: Install 1.63 toolchain
+        uses: dtolnay/rust-toolchain@master
         with:
-          node-version: ${{ matrix.node-version }}
-      - run: yarn install --update-checksums
-      - name: Run Linter
-        run: yarn lint
-      - name: Run Prettify Check
-        run: yarn prettier --check .
+          toolchain: 1.63.0
+          components: rustfmt, clippy
 
-  unit-test:
-    runs-on: ubuntu-latest
+      - name: Run cargo fmt
+        run: cargo fmt --all -- --check
 
-    timeout-minutes: 10
+      - name: Run cargo check
+        run: cargo check
 
-    strategy:
-      matrix:
-        node-version: [14.x]
-        mongodb-version: [4.4]
+      - name: Run cargo clippy
+        run: cargo clippy -- --deny warnings
 
-    services:
-      mongodb:
-        image: mongo
-        ports:
-          - 27017:27017
-
-    env:
-      ENV: testing
-      MONGODB: mongodb://localhost:27017/megabot
-      BOT_PREFIX: ++
-      MOD_CHANNEL_ID: 123
-      GUILD_ID: 321
-
-    steps:
-      - uses: actions/checkout@v2
-
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v1
-        with:
-          node-version: ${{ matrix.node-version }}
-
-      - run: yarn install --update-checksums
-
-      - name: Install jest for testing
-        run: yarn add --dev jest
-
-      - run: yarn test --forceExit
+      - name: Run cargo test
+        run: cargo test
