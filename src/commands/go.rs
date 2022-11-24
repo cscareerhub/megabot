@@ -1,3 +1,5 @@
+use std::fmt::Write;
+
 use serenity::builder::CreateApplicationCommand;
 use serenity::model::prelude::command::CommandOptionType;
 use serenity::model::prelude::interaction::application_command::{
@@ -46,7 +48,7 @@ fn list_shortcuts(link_store: &kv::Store<String>) -> String {
 
             response.push_str("```");
             for (shortcut, link) in links {
-                response.push_str(&format!("{shortcut} => {link}\n"));
+                writeln!(response, "{shortcut} => {link}\n").unwrap();
             }
             response.push_str("```");
 
