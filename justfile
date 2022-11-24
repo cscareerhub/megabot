@@ -1,10 +1,9 @@
 print-bot-version:
   @cargo pkgid --package megabot | awk -F '#' '{print $2}'
-  
-deploy:
-  cargo build --release
+
+deploy binary="target/release/megabot":
   sudo mv /usr/local/bin/megabot /usr/local/bin/megabot.bak
-  sudo cp target/release/megabot /usr/local/bin/megabot
+  sudo cp {{binary}} /usr/local/bin/megabot
   sudo systemctl restart megabot
 
 rollback:
