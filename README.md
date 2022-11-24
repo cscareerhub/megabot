@@ -1,8 +1,8 @@
 # CSCH Megabot
 
-| License                                                                             | Github                                                                                                                           | Discord                                                       | Dependencies                                                                                                   |
+| License                                                                             | Github                                                                                                                           | Discord                                                       | 
 | ----------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------- |
-| [![License](https://img.shields.io/github/license/cscareerhub/megabot)](LICENSE.md) | ![GitHub Workflow Status](https://img.shields.io/github/workflow/status/cscareerhub/megabot/Ubuntu%20Latest%20Lint%20and%20Test) | ![Discord](https://img.shields.io/discord/334891772696330241) | 
+| [![License](https://img.shields.io/github/license/cscareerhub/megabot)](LICENSE.md) | ![GitHub Workflow Status](https://img.shields.io/github/workflow/status/cscareerhub/megabot/CI/master) | ![Discord](https://img.shields.io/discord/334891772696330241) | 
 
 A megabot for everything CSCH needs, composed of smaller mostly standalone packages. This project uses [Serenity](https://github.com/serenity-rs/serenity).
 
@@ -42,7 +42,7 @@ test/<yourtestingchange>
 misc/<yourmiscchange>
 ```
 
-4. Once you've made change, create a pull request to the CSCH megabot repo's `development` branch with the type of change, which should correspond to the first part of your branch name, in the PR title.
+4. Once you've made change, create a pull request to the CSCH megabot repo's `master` branch with the type of change, which should correspond to the first part of your branch name, in the PR title.
 
 ```
 branch name: docs/change
