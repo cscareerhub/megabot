@@ -5,6 +5,7 @@ use serenity::model::prelude::command::CommandOptionType;
 use serenity::model::prelude::interaction::application_command::{
     CommandDataOption, CommandDataOptionValue,
 };
+use url::Url;
 
 enum Command {
     Add(String, String),
@@ -12,7 +13,7 @@ enum Command {
     List,
 }
 
-pub fn exec(options: &[CommandDataOption], link_store: &kv::Store<String>) -> String {
+pub fn exec(options: &[CommandDataOption], link_store: &kv::Store<Url>) -> String {
     let command = get_command(options).unwrap();
     match command {
         Command::Add(shortcut, link) => add_shortcut(link_store, &shortcut, &link),
@@ -21,8 +22,12 @@ pub fn exec(options: &[CommandDataOption], link_store: &kv::Store<String>) -> St
     }
 }
 
-fn add_shortcut(link_store: &kv::Store<String>, shortcut: &str, link: &String) -> String {
-    match link_store.set(shortcut, link) {
+fn add_shortcut(link_store: &kv::Store<Url>, shortcut: &str, link: &String) -> String {
+    let link = match Url::parse(link) {
+        Ok(url) => url,
+        Err(err) => return format!("`{link}` is not a valid URL: {err}"),
+    };
+    match link_store.set(shortcut, &link) {
         Ok(()) => format!("{link} was registered under `{shortcut}`!"),
         Err(e) => {
             log::error!("Link store error: {e}");
@@ -31,7 +36,7 @@ fn add_shortcut(link_store: &kv::Store<String>, shortcut: &str, link: &String) -
     }
 }
 
-fn remove_shortcut(link_store: &kv::Store<String>, shortcut: &str) -> String {
+fn remove_shortcut(link_store: &kv::Store<Url>, shortcut: &str) -> String {
     match link_store.unset(shortcut) {
         Ok(()) => format!("{shortcut} was unregistered!"),
         Err(e) => {
@@ -41,7 +46,7 @@ fn remove_shortcut(link_store: &kv::Store<String>, shortcut: &str) -> String {
     }
 }
 
-fn list_shortcuts(link_store: &kv::Store<String>) -> String {
+fn list_shortcuts(link_store: &kv::Store<Url>) -> String {
     match link_store.to_map() {
         Ok(links) => {
             let mut response = String::with_capacity(links.len() * 100);

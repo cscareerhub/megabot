@@ -8,14 +8,17 @@ use serenity::async_trait;
 use serenity::model::channel::Reaction;
 use serenity::model::gateway::Ready;
 use serenity::model::prelude::interaction::{Interaction, InteractionResponseType};
-use serenity::model::prelude::{ChannelId, GuildId, MessageId, ReactionType, RoleId, UserId};
+use serenity::model::prelude::{
+    ChannelId, GuildId, MessageId, PartialMember, ReactionType, RoleId, UserId,
+};
 use serenity::prelude::*;
+use url::Url;
 
 pub async fn run(
     token: String,
     guild_id: GuildId,
     config: Arc<RwLock<Config>>,
-    link_store: kv::Store<String>,
+    link_store: kv::Store<Url>,
 ) {
     // Set gateway intents, which decides what events the bot will be notified about
     let intents = GatewayIntents::GUILD_MESSAGES
@@ -39,7 +42,7 @@ pub async fn run(
 
 struct Handler {
     guild_id: GuildId,
-    link_store: kv::Store<String>,
+    link_store: kv::Store<Url>,
     config: Arc<RwLock<Config>>,
 }
 
@@ -62,11 +65,7 @@ impl EventHandler for Handler {
         } = reaction;
 
         if self.is_enabled(Feature::Pins) && is_pin_emoji(emoji) {
-            let user_roles = match (member, user_id) {
-                (Some(member), _) => member.roles,
-                (None, Some(user_id)) => fetch_user_roles(&ctx, user_id, self.guild_id).await,
-                _ => return log::error!("No member info for pin reaction"),
-            };
+            let user_roles = roles_from_partial_member(member, user_id, self.guild_id, &ctx).await;
 
             if has_allowed_role(&user_roles, &self.config.read().pin_roles) {
                 log::info!("Pinning message {}", reaction.message_id);
@@ -88,11 +87,7 @@ impl EventHandler for Handler {
         } = reaction;
 
         if self.is_enabled(Feature::Pins) && is_pin_emoji(emoji) {
-            let user_roles = match (member, user_id) {
-                (Some(member), _) => member.roles,
-                (None, Some(user_id)) => fetch_user_roles(&ctx, user_id, self.guild_id).await,
-                _ => return log::error!("No member info for pin reaction"),
-            };
+            let user_roles = roles_from_partial_member(member, user_id, self.guild_id, &ctx).await;
 
             if has_allowed_role(&user_roles, &self.config.read().pin_roles) {
                 log::info!("Unpinning message {}", reaction.message_id);
@@ -150,6 +145,22 @@ impl EventHandler for Handler {
         if let Err(e) = result {
             log::error!("Unable to create commands: {e}");
             std::process::exit(1);
+        }
+    }
+}
+
+async fn roles_from_partial_member(
+    member: Option<PartialMember>,
+    user_id: Option<UserId>,
+    guild_id: GuildId,
+    ctx: &Context,
+) -> Vec<RoleId> {
+    match (member, user_id) {
+        (Some(member), _) => member.roles,
+        (None, Some(user_id)) => fetch_user_roles(ctx, user_id, guild_id).await,
+        _ => {
+            log::error!("Unable to extract roles from member: no member info");
+            Vec::new()
         }
     }
 }

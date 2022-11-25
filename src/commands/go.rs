@@ -3,8 +3,9 @@ use serenity::model::prelude::command::CommandOptionType;
 use serenity::model::prelude::interaction::application_command::{
     CommandDataOption, CommandDataOptionValue,
 };
+use url::Url;
 
-pub fn exec(options: &[CommandDataOption], link_store: &kv::Store<String>) -> String {
+pub fn exec(options: &[CommandDataOption], link_store: &kv::Store<Url>) -> String {
     let shortcut = get_shortcut(options).unwrap();
     match link_store.get(&shortcut) {
         Ok(Some(link)) => format!("`[{shortcut}]`: {link}"),
