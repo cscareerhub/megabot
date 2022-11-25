@@ -4,7 +4,7 @@ use serenity::model::prelude::interaction::application_command::{
     CommandDataOption, CommandDataOptionValue,
 };
 
-pub fn run(options: &[CommandDataOption]) -> String {
+pub fn exec(options: &[CommandDataOption]) -> String {
     if let Some(CommandDataOptionValue::User(user, _member)) =
         options.get(0).and_then(|opt| opt.resolved.as_ref())
     {

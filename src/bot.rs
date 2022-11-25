@@ -113,9 +113,9 @@ impl EventHandler for Handler {
 
             let response_data = match command.data.name.as_str() {
                 "ping" => format!("Pong! Megabot version: {}", env!("CARGO_PKG_VERSION")),
-                "codefmt" => commands::codefmt::run(&command.data.options),
-                "go" => commands::go::run(&command.data.options, &self.link_store),
-                "golink" => commands::go::run_link(&command.data.options, &self.link_store),
+                "codefmt" => commands::codefmt::exec(&command.data.options),
+                "go" => commands::go::exec(&command.data.options, &self.link_store),
+                "golink" => commands::golink::exec(&command.data.options, &self.link_store),
                 _ => "command not yet implemented".to_string(),
             };
 
@@ -143,7 +143,7 @@ impl EventHandler for Handler {
                     .create_application_command(commands::ping::register)
                     .create_application_command(commands::codefmt::register)
                     .create_application_command(commands::go::register)
-                    .create_application_command(commands::go::register_link)
+                    .create_application_command(commands::golink::register)
             })
             .await;
 
