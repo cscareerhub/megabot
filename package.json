@@ -33,7 +33,7 @@
     "babel-polyfill": "^6.26.0",
     "discord.js": "^12.5.1",
     "dotenv": "^10.0.0",
-    "express": "^4.15.4",
+    "express": "^4.17.3",
     "husky": "^7.0.1",
     "jsdoc": "^3.6.7",
     "mongoose": "^5.11.8",
