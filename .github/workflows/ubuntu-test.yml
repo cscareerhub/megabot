@@ -31,10 +31,10 @@ jobs:
           sudo chmod +x $HOME/.local/bin/sccache
           echo "$HOME/.local/bin" >> $GITHUB_PATH 
 
-      - name: Install 1.63 toolchain
+      - name: Install 1.66 toolchain
         uses: dtolnay/rust-toolchain@master
         with:
-          toolchain: 1.63.0
+          toolchain: 1.66.0
           components: rustfmt, clippy
 
       - name: Cache rust
