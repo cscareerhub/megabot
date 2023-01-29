@@ -38,6 +38,9 @@ pub struct Config {
 
     /// Currently enabled feature flags.
     pub enabled_features: Vec<Feature>,
+
+    /// API Key for the Perspective API.
+    pub perspective_api_key: String,
 }
 
 impl std::fmt::Display for Config {

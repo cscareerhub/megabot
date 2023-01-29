@@ -1,6 +1,7 @@
 mod bot;
 mod commands;
 mod config;
+mod toxicity;
 
 use crate::config::Config;
 

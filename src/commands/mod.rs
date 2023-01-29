@@ -1,3 +1,4 @@
+pub mod analyze;
 pub mod codefmt;
 pub mod go;
 pub mod golink;

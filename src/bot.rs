@@ -30,6 +30,7 @@ pub async fn run(
         .event_handler(Handler {
             guild_id,
             config,
+            http_client: reqwest::Client::new(),
             link_store,
         })
         .await
@@ -43,12 +44,17 @@ pub async fn run(
 struct Handler {
     guild_id: GuildId,
     link_store: kv::Store<Url>,
+    http_client: reqwest::Client,
     config: Arc<RwLock<Config>>,
 }
 
 impl Handler {
     fn is_enabled(&self, feature: Feature) -> bool {
         self.config.read().enabled_features.contains(&feature)
+    }
+
+    fn perspective_api_key(&self) -> String {
+        self.config.read().perspective_api_key.clone()
     }
 }
 
@@ -111,6 +117,14 @@ impl EventHandler for Handler {
                 "codefmt" => commands::codefmt::exec(&command.data.options),
                 "go" => commands::go::exec(&command.data.options, &self.link_store),
                 "golink" => commands::golink::exec(&command.data.options, &self.link_store),
+                "analyze" => {
+                    commands::analyze::run(
+                        &command.data.options,
+                        &self.http_client,
+                        &self.perspective_api_key(),
+                    )
+                    .await
+                }
                 _ => "command not yet implemented".to_string(),
             };
 
@@ -139,6 +153,7 @@ impl EventHandler for Handler {
                     .create_application_command(commands::codefmt::register)
                     .create_application_command(commands::go::register)
                     .create_application_command(commands::golink::register)
+                    .create_application_command(commands::analyze::register)
             })
             .await;
 
