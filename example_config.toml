@@ -1,0 +1,5 @@
+moderator_channel_id = 961034841191763988
+pin_roles = [961034940361887764]
+enabled_features = ["pins"]
+perspective_api_key = "KEY"
+

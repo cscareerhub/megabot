@@ -1,17 +1,16 @@
 # CSCH Megabot
 
-| License                                                                             | Github                                                                                                                           | Discord                                                       | Dependencies                                                                                                   |
-| ----------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------- |
-| [![License](https://img.shields.io/github/license/cscareerhub/megabot)](LICENSE.md) | ![GitHub Workflow Status](https://img.shields.io/github/workflow/status/cscareerhub/megabot/Ubuntu%20Latest%20Lint%20and%20Test) | ![Discord](https://img.shields.io/discord/334891772696330241) | [![Dependency Status](https://david-dm.org/cscareerhub/megabot.svg)](https://david-dm.org/cscareerhub/megabot) |
+| License                                                                             | Github                                                                                                                           | Discord                                                       | 
+| ----------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------- |
+| [![License](https://img.shields.io/github/license/cscareerhub/megabot)](LICENSE.md) | ![GitHub Workflow Status](https://img.shields.io/github/workflow/status/cscareerhub/megabot/CI/master) | ![Discord](https://img.shields.io/discord/334891772696330241) | 
 
-A megabot for everything CSCH needs, composed of smaller mostly standalone packages. This project uses [Discord.js](https://discord.js.org/#/).
+A megabot for everything CSCH needs, composed of smaller mostly standalone packages. This project uses [Serenity](https://github.com/serenity-rs/serenity).
 
 ## Getting Started
 
 0. Install prerequisites.
 
-- [MongoDB](https://docs.mongodb.com/manual/administration/install-community/) (only works on MongoDB v4.2)
-- [Yarn](https://classic.yarnpkg.com/en/docs/install/)
+- [Rust](https://rustup.rs/)
 
 1. Clone repo.
 
@@ -19,30 +18,10 @@ A megabot for everything CSCH needs, composed of smaller mostly standalone packa
 git clone https://github.com/cscareerhub/megabot.git
 ```
 
-2. Use [nvm](https://github.com/nvm-sh/nvm) to switch to Node version 14.
+2. Run bot.
 
-```
-nvm install 14
-nvm use 14
-```
-
-3. Use yarn to install dependencies.
-
-```
-yarn install
-```
-
-4. Use `.env.template` to set up env variables. Set `ENV` to `testing` if you're running unit tests.
-
-```
-BOT_TOKEN=yourbottoken
-...
-```
-
-5. Run bot.
-
-```
-yarn start
+```sh
+DISCORD_TOKEN="your token" DISCORD_GUILD_ID="id of your test server" DISCORD_GO_LINKS_DB_PATH="test.db" cargo run --bin megabot -- --config example_config.toml
 ```
 
 ## Contributing
@@ -63,9 +42,7 @@ test/<yourtestingchange>
 misc/<yourmiscchange>
 ```
 
-4. Format your code to the project's specifications using Prettier. You can either use an editor plugin to do it automatically or run `yarn format`.
-
-5. Once you've made change, create a pull request to the CSCH megabot repo's `development` branch with the type of change, which should correspond to the first part of your branch name, in the PR title.
+4. Once you've made change, create a pull request to the CSCH megabot repo's `master` branch with the type of change, which should correspond to the first part of your branch name, in the PR title.
 
 ```
 branch name: docs/change
@@ -73,3 +50,9 @@ PR title: [docs] Changed this and that
 ```
 
 All PRs will require at least one review from CSCH staff. If it's been over a week, feel free to ping us once in the Discord.
+
+## Operation
+
+The bot is operated on production using a standard Systemd service file, [megabot.service](megabot.service). As such, the usual systemd commands are all applicable for managing it.
+In addition, a [justfile](justfile) is available for use with the [just command runner](https://github.com/casey/just). This acts as both a handy shortcut for common operations, 
+and as documentation for the relevant operational commands of the bot.

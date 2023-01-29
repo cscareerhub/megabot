@@ -1,0 +1,42 @@
+name: Deploy Production Bot to Server
+
+on:
+  push:
+    tags: ["v*"]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Install 1.66 toolchain
+        uses: dtolnay/rust-toolchain@master
+        with:
+          toolchain: 1.66.0
+
+      - name: Build binary
+        run: cargo build --release
+
+      - name: Release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: target/release/megabot
+
+      - name: SSH and Deploy
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USERNAME }}
+          key: ${{ secrets.SSH_KEY }}
+          port: ${{ secrets.SSH_PORT }}
+          script: |
+            cd ~/megabot-rs
+            git reset --hard
+            git fetch
+            git checkout origin/master
+            curl -fsSL github.com/cscareerhub/megabot/releases/latest/download/megabot -O
+            just deploy megabot
