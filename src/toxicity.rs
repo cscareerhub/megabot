@@ -91,7 +91,16 @@ pub fn start_batcher(api_key: String, base_path: PathBuf) -> Sender<Message> {
 
                 match analyze(&comments, &client, &api_key).await {
                     Ok(scores) => {
-                        save(user_id, scores, base_path.clone()).await;
+                        let values = [
+                            scores.toxicity,
+                            scores.severe_toxicity,
+                            scores.threat,
+                            scores.insult,
+                            scores.identity_attack,
+                        ];
+                        if values.into_iter().max().unwrap() > 30 {
+                            save(user_id, scores, base_path.clone()).await;
+                        }
                     }
                     Err(err) => {
                         log::error!("Unable to analyze comments for user `{user_id}`: {err}")
