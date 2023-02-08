@@ -87,11 +87,12 @@ fn get_user(options: &[CommandDataOption]) -> Option<(UserId, String)> {
 
 pub fn register(command: &mut CreateApplicationCommand) -> &mut CreateApplicationCommand {
     command
-        .name("Profile")
+        .name("profile")
         .description("Returns the toxicity profile for the given user.")
         .create_option(|option| {
             option
                 .name("user")
+                .description("The user to profile")
                 .kind(CommandOptionType::User)
                 .required(true)
         })
