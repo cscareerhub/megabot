@@ -1,6 +1,7 @@
 use crate::config::{Config, Feature};
 use crate::{commands, toxicity};
 
+use std::path::PathBuf;
 use std::sync::Arc;
 
 use crossbeam::channel::Sender;
@@ -21,6 +22,7 @@ pub async fn run(
     config: Arc<RwLock<Config>>,
     link_store: kv::Store<Url>,
     toxicity_profiler: Sender<toxicity::Message>,
+    toxicity_base_path: PathBuf,
 ) {
     // Set gateway intents, which decides what events the bot will be notified about
     let intents = GatewayIntents::GUILD_MESSAGES
@@ -34,20 +36,13 @@ pub async fn run(
         http_client: reqwest::Client::new(),
         link_store,
         toxicity_profiler,
+        toxicity_base_path,
     };
 
     let mut client = Client::builder(&token, intents)
         .event_handler(handler)
         .await
         .expect("Err creating client");
-
-    // tokio::spawn(async move {
-    //     let mut interval = tokio::time::interval(Duration::from_secs(60 * 60));
-    //     loop {
-    //         interval.tick().await;
-    //         // compact
-    //     }
-    // });
 
     if let Err(e) = client.start().await {
         log::error!("Client error: {:?}", e);
@@ -60,6 +55,7 @@ struct Handler {
     http_client: reqwest::Client,
     config: Arc<RwLock<Config>>,
     toxicity_profiler: Sender<toxicity::Message>,
+    toxicity_base_path: PathBuf,
 }
 
 impl Handler {
@@ -139,6 +135,9 @@ impl EventHandler for Handler {
                     )
                     .await
                 }
+                "profile" => {
+                    commands::profile::exec(&command.data.options, &self.toxicity_base_path).await
+                }
                 _ => "command not yet implemented".to_string(),
             };
 
@@ -180,6 +179,7 @@ impl EventHandler for Handler {
                     .create_application_command(commands::go::register)
                     .create_application_command(commands::golink::register)
                     .create_application_command(commands::analyze::register)
+                    .create_application_command(commands::profile::register)
             })
             .await;
 

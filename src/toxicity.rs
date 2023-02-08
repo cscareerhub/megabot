@@ -1,19 +1,12 @@
+use std::path::{Path, PathBuf};
 use std::sync::Arc;
-use std::{path::PathBuf, time::Duration};
+use std::time::Duration;
 
 use crossbeam::channel::Sender;
 use fxhash::FxHashMap;
 use parking_lot::Mutex;
 use serde::{Deserialize, Serialize};
 use serenity::model::id::UserId;
-
-#[derive(Debug, Clone, Serialize, Deserialize)]
-pub struct Entry {
-    pub user_name: String,
-
-    #[serde(flatten)]
-    pub scores: AttributeScores,
-}
 
 /// Scores of probabilities between 0 and 1 that a message could be perceived as a given kind.
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -85,18 +78,22 @@ pub fn start_batcher(api_key: String, base_path: PathBuf) -> Sender<Message> {
             loop {
                 interval.tick().await;
 
-                let mut inner = batch_data.lock();
-                if let Some(user_id) = inner.keys().choose(&mut rng).map(Clone::clone) {
-                    let comments = inner.remove(&user_id).unwrap();
-                    drop(inner);
+                let (user_id, comments) = {
+                    let mut inner = batch_data.lock();
+                    if let Some(user_id) = inner.keys().choose(&mut rng).map(Clone::clone) {
+                        log::info!("Profiling user {user_id}");
+                        (user_id, inner.remove(&user_id).unwrap())
+                    } else {
+                        continue;
+                    }
+                };
 
-                    match analyze(&comments, &client, &api_key).await {
-                        Ok(scores) => {
-                            save(user_id, scores, base_path.clone()).await;
-                        }
-                        Err(err) => {
-                            log::error!("Unable to analyze comments for user `{user_id}`: {err}")
-                        }
+                match analyze(&comments, &client, &api_key).await {
+                    Ok(scores) => {
+                        save(user_id, scores, base_path.clone()).await;
+                    }
+                    Err(err) => {
+                        log::error!("Unable to analyze comments for user `{user_id}`: {err}")
                     }
                 }
             }
@@ -107,19 +104,26 @@ pub fn start_batcher(api_key: String, base_path: PathBuf) -> Sender<Message> {
 }
 
 async fn save(user_id: UserId, scores: AttributeScores, base_path: PathBuf) {
-    let mut path = base_path.to_path_buf();
-    path.push(user_id.to_string());
-    if let Err(e) = async { std::fs::create_dir_all(&path) }.await {
+    let user_path = user_path(&base_path, user_id);
+
+    if let Err(e) = async { std::fs::create_dir_all(user_path.parent().unwrap()) }.await {
         log::error!("Error creating toxicity dir for user `{user_id}`: {e}");
         return;
     }
-    path.push("messages.db");
 
     if let Err(e) =
-        async { kv::Store::open(&path).map(|store| store.set(&user_id.to_string(), &scores)) }.await
+        async { kv::Store::open(&user_path).map(|store| store.set(&user_id.to_string(), &scores)) }
+            .await
     {
         log::error!("Unable to save toxicity entry for user `{user_id}`: {e}");
     }
+}
+
+pub fn user_path(base_path: &Path, user_id: UserId) -> PathBuf {
+    let mut path = base_path.to_path_buf();
+    path.push(user_id.to_string());
+    path.push("messages.db");
+    path
 }
 
 /// Analyze some text to determine how toxic it is.

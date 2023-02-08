@@ -92,8 +92,10 @@ fn main() {
         }
     };
 
-    let toxicity_profiler =
-        toxicity::start_batcher(config.read().perspective_api_key.clone(), toxicity_db_path);
+    let toxicity_profiler = toxicity::start_batcher(
+        config.read().perspective_api_key.clone(),
+        toxicity_db_path.clone(),
+    );
 
     let runtime = tokio::runtime::Builder::new_multi_thread()
         .enable_all()
@@ -107,6 +109,7 @@ fn main() {
         config,
         link_store,
         toxicity_profiler,
+        toxicity_db_path,
     ));
 }
 
