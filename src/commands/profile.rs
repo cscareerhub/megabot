@@ -12,13 +12,12 @@ use serenity::model::prelude::UserId;
 
 pub async fn exec(options: &[CommandDataOption], toxicity_base_path: &Path) -> String {
     let (user_id, username) = get_user(options).unwrap();
-    let user_path = toxicity::user_path(toxicity_base_path, user_id);
 
-    match kv::Store::<toxicity::AttributeScores>::open(&user_path).map(|s| s.load_map()) {
-        Ok(Ok(store)) => {
+    match toxicity::load(toxicity_base_path, user_id).await {
+        Ok(store) => {
             let n = store.len() as u64;
             let mut aggregate: AggregateScore = store
-                .values()
+                .iter()
                 .map(AggregateScore::from)
                 .reduce(Add::add)
                 .unwrap_or_default();
@@ -27,14 +26,7 @@ pub async fn exec(options: &[CommandDataOption], toxicity_base_path: &Path) -> S
             aggregate.identity_attack /= n;
             aggregate.insult /= n;
             aggregate.threat /= n;
-            format!("Toxicity profile for `{username}`: {aggregate:?}")
-        }
-        Ok(Err(err)) => {
-            log::error!("Error while trying to read profile for user `{user_id}`: {err}");
-            format!("Unable to read profile for `{username}` :(")
-        }
-        Err(err) if err.kind() == std::io::ErrorKind::NotFound => {
-            format!("No profile for user `{username}`")
+            format!("Toxicity profile for `{username}` over {n}: {aggregate:?}")
         }
         Err(err) => {
             log::error!("Error while trying to read profile for user `{user_id}`: {err}");

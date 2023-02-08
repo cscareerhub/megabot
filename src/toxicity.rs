@@ -1,3 +1,4 @@
+use std::io::{BufRead, Write};
 use std::path::{Path, PathBuf};
 use std::sync::Arc;
 use std::time::Duration;
@@ -111,12 +112,47 @@ async fn save(user_id: UserId, scores: AttributeScores, base_path: PathBuf) {
         return;
     }
 
-    if let Err(e) =
-        async { kv::Store::open(&user_path).map(|store| store.set(&user_id.to_string(), &scores)) }
-            .await
-    {
+    if let Err(e) = save_inner(&user_path, scores).await {
         log::error!("Unable to save toxicity entry for user `{user_id}`: {e}");
     }
+}
+
+async fn save_inner(user_path: &Path, scores: AttributeScores) -> std::io::Result<()> {
+    let mut file = std::fs::OpenOptions::new()
+        .create(true)
+        .write(true)
+        .append(true)
+        .open(user_path)?;
+    let mut data = serde_json::to_string(&scores).unwrap();
+    data.push('\n');
+    file.write_all(data.as_bytes())?;
+    Ok(())
+}
+
+pub async fn load(
+    base_path: &Path,
+    user_id: UserId,
+) -> Result<Vec<AttributeScores>, Box<dyn std::error::Error>> {
+    let user_path = user_path(base_path, user_id);
+    let file = match std::fs::OpenOptions::new()
+        .write(true)
+        .read(true)
+        .create(true)
+        .open(user_path)
+    {
+        Ok(file) => file,
+        Err(err) if err.kind() == std::io::ErrorKind::NotFound => return Ok(Vec::new()),
+        Err(err) => return Err(err.into()),
+    };
+    let reader = std::io::BufReader::new(&file);
+
+    let mut v = vec![];
+    for line in reader.lines() {
+        let scores: AttributeScores = serde_json::from_str(&line?)?;
+        v.push(scores);
+    }
+
+    Ok(v)
 }
 
 pub fn user_path(base_path: &Path, user_id: UserId) -> PathBuf {
