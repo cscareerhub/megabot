@@ -47,7 +47,7 @@ fn remove_shortcut(link_store: &kv::Store<Url>, shortcut: &str) -> String {
 }
 
 fn list_shortcuts(link_store: &kv::Store<Url>) -> String {
-    match link_store.to_map() {
+    match link_store.load_map() {
         Ok(links) => {
             let mut response = String::with_capacity(links.len() * 100);
 

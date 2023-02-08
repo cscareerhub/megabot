@@ -14,7 +14,7 @@ pub async fn exec(options: &[CommandDataOption], toxicity_base_path: &Path) -> S
     let (user_id, username) = get_user(options).unwrap();
     let user_path = toxicity::user_path(toxicity_base_path, user_id);
 
-    match kv::Store::<toxicity::AttributeScores>::open(&user_path).map(|s| s.to_map()) {
+    match kv::Store::<toxicity::AttributeScores>::open(&user_path).map(|s| s.load_map()) {
         Ok(Ok(store)) => {
             let n = store.len() as u64;
             let mut aggregate: AggregateScore = store
