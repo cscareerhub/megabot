@@ -1,26 +1,130 @@
-use serde::{Deserialize, Serialize};
+use std::sync::Arc;
+use std::{path::PathBuf, time::Duration};
 
-#[derive(Debug, Serialize, Deserialize)]
+use crossbeam::channel::Sender;
+use fxhash::FxHashMap;
+use parking_lot::Mutex;
+use serde::{Deserialize, Serialize};
+use serenity::model::id::UserId;
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct Entry {
+    pub user_name: String,
+
+    #[serde(flatten)]
+    pub scores: AttributeScores,
+}
+
+/// Scores of probabilities between 0 and 1 that a message could be perceived as a given kind.
+#[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct AttributeScores {
-    toxicity: f64,
-    severe_toxicity: f64,
-    identity_attack: f64,
-    insult: f64,
-    threat: f64,
+    pub toxicity: u8,
+    pub severe_toxicity: u8,
+    pub identity_attack: u8,
+    pub insult: u8,
+    pub threat: u8,
 }
 
 impl From<perspective::AttributeScores> for AttributeScores {
     fn from(scores: perspective::AttributeScores) -> AttributeScores {
         AttributeScores {
-            toxicity: scores.toxicity.summary_score.value,
-            severe_toxicity: scores.severe_toxicity.summary_score.value,
-            identity_attack: scores.identity_attack.summary_score.value,
-            insult: scores.insult.summary_score.value,
-            threat: scores.threat.summary_score.value,
+            toxicity: (scores.toxicity.summary_score.value * 100.0) as u8,
+            severe_toxicity: (scores.severe_toxicity.summary_score.value * 100.0) as u8,
+            identity_attack: (scores.identity_attack.summary_score.value * 100.0) as u8,
+            insult: (scores.insult.summary_score.value * 100.0) as u8,
+            threat: (scores.threat.summary_score.value * 100.0) as u8,
         }
     }
 }
 
+pub struct Message {
+    pub user_id: UserId,
+    pub content: String,
+}
+
+pub fn start_batcher(api_key: String, base_path: PathBuf) -> Sender<Message> {
+    let (send, recv) = crossbeam::channel::unbounded::<Message>();
+
+    let batch_data = Arc::new(Mutex::new(FxHashMap::<UserId, String>::default()));
+
+    {
+        let batch_data = batch_data.clone();
+        std::thread::spawn(move || {
+            while let Ok(msg) = recv.recv() {
+                log::info!("Toxicity Batcher Channel Size: {}", recv.len());
+                let mut inner = batch_data.lock();
+                match inner.get_mut(&msg.user_id) {
+                    Some(value) => {
+                        value.push('\n');
+                        value.push_str(&msg.content);
+                    }
+                    None => {
+                        inner.insert(msg.user_id, msg.content);
+                    }
+                }
+            }
+        });
+    }
+
+    std::thread::spawn(move || {
+        use rand::seq::IteratorRandom;
+
+        let runtime = tokio::runtime::Builder::new_current_thread()
+            .enable_all()
+            .build()
+            .unwrap();
+
+        let base_path = base_path;
+        let client = reqwest::Client::new();
+        let mut rng = rand::thread_rng();
+
+        runtime.block_on(async {
+            const MINUTE: Duration = Duration::from_secs(60);
+            let mut interval = tokio::time::interval(MINUTE / 30);
+
+            loop {
+                interval.tick().await;
+
+                let mut inner = batch_data.lock();
+                if let Some(user_id) = inner.keys().choose(&mut rng).map(Clone::clone) {
+                    let comments = inner.remove(&user_id).unwrap();
+                    drop(inner);
+
+                    match analyze(&comments, &client, &api_key).await {
+                        Ok(scores) => {
+                            save(user_id, scores, base_path.clone()).await;
+                        }
+                        Err(err) => {
+                            log::error!("Unable to analyze comments for user `{user_id}`: {err}")
+                        }
+                    }
+                }
+            }
+        });
+    });
+
+    send
+}
+
+async fn save(user_id: UserId, scores: AttributeScores, base_path: PathBuf) {
+    let mut path = base_path.to_path_buf();
+    path.push(user_id.to_string());
+    if let Err(e) = async { std::fs::create_dir_all(&path) }.await {
+        log::error!("Error creating toxicity dir for user `{user_id}`: {e}");
+        return;
+    }
+    path.push("messages.db");
+
+    if let Err(e) =
+        async { kv::Store::open(&path).map(|store| store.set(&user_id.to_string(), &scores)) }.await
+    {
+        log::error!("Unable to save toxicity entry for user `{user_id}`: {e}");
+    }
+}
+
+/// Analyze some text to determine how toxic it is.
+///
+/// Utilizes the [Perspective API](https://perspectiveapi.com/).
 pub async fn analyze(
     comment: &str,
     client: &reqwest::Client,

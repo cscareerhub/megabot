@@ -6,7 +6,11 @@ use serenity::model::prelude::interaction::application_command::{
     CommandDataOption, CommandDataOptionValue,
 };
 
-pub async fn run(options: &[CommandDataOption], client: &reqwest::Client, api_key: &str) -> String {
+pub async fn exec(
+    options: &[CommandDataOption],
+    client: &reqwest::Client,
+    api_key: &str,
+) -> String {
     let text = get_text(options).unwrap();
     match toxicity::analyze(text, client, api_key).await {
         Ok(score) => serde_json::to_string(&score).unwrap(),

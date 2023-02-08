@@ -54,6 +54,14 @@ fn main() {
         }
     };
 
+    let toxicity_db_path = match std::env::var("DISCORD_TOXICITY_DB_PATH") {
+        Ok(path) => PathBuf::from(path),
+        Err(e) => {
+            log::error!("Unable to retrieve DISCORD_TOXICITY_DB_PATH from environment: {e}");
+            std::process::exit(1);
+        }
+    };
+
     let config_path = PathBuf::from(args.config.as_deref().unwrap_or(config::DEFAULT_PATH));
     let config = match Config::load(&config_path) {
         Ok(config) => config,
@@ -84,13 +92,22 @@ fn main() {
         }
     };
 
+    let toxicity_profiler =
+        toxicity::start_batcher(config.read().perspective_api_key.clone(), toxicity_db_path);
+
     let runtime = tokio::runtime::Builder::new_multi_thread()
         .enable_all()
         .build()
         .unwrap();
 
     runtime.spawn(heartbeat());
-    runtime.block_on(bot::run(token, guild_id, config, link_store));
+    runtime.block_on(bot::run(
+        token,
+        guild_id,
+        config,
+        link_store,
+        toxicity_profiler,
+    ));
 }
 
 async fn heartbeat() {

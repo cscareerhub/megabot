@@ -1,15 +1,16 @@
-use crate::commands;
 use crate::config::{Config, Feature};
+use crate::{commands, toxicity};
 
 use std::sync::Arc;
 
+use crossbeam::channel::Sender;
 use parking_lot::RwLock;
 use serenity::async_trait;
 use serenity::model::channel::Reaction;
 use serenity::model::gateway::Ready;
 use serenity::model::prelude::interaction::{Interaction, InteractionResponseType};
 use serenity::model::prelude::{
-    ChannelId, GuildId, MessageId, PartialMember, ReactionType, RoleId, UserId,
+    ChannelId, GuildId, Message, MessageId, PartialMember, ReactionType, RoleId, UserId,
 };
 use serenity::prelude::*;
 use url::Url;
@@ -19,6 +20,7 @@ pub async fn run(
     guild_id: GuildId,
     config: Arc<RwLock<Config>>,
     link_store: kv::Store<Url>,
+    toxicity_profiler: Sender<toxicity::Message>,
 ) {
     // Set gateway intents, which decides what events the bot will be notified about
     let intents = GatewayIntents::GUILD_MESSAGES
@@ -26,15 +28,26 @@ pub async fn run(
         | GatewayIntents::DIRECT_MESSAGES
         | GatewayIntents::MESSAGE_CONTENT;
 
+    let handler = Handler {
+        guild_id,
+        config,
+        http_client: reqwest::Client::new(),
+        link_store,
+        toxicity_profiler,
+    };
+
     let mut client = Client::builder(&token, intents)
-        .event_handler(Handler {
-            guild_id,
-            config,
-            http_client: reqwest::Client::new(),
-            link_store,
-        })
+        .event_handler(handler)
         .await
         .expect("Err creating client");
+
+    // tokio::spawn(async move {
+    //     let mut interval = tokio::time::interval(Duration::from_secs(60 * 60));
+    //     loop {
+    //         interval.tick().await;
+    //         // compact
+    //     }
+    // });
 
     if let Err(e) = client.start().await {
         log::error!("Client error: {:?}", e);
@@ -46,6 +59,7 @@ struct Handler {
     link_store: kv::Store<Url>,
     http_client: reqwest::Client,
     config: Arc<RwLock<Config>>,
+    toxicity_profiler: Sender<toxicity::Message>,
 }
 
 impl Handler {
@@ -118,7 +132,7 @@ impl EventHandler for Handler {
                 "go" => commands::go::exec(&command.data.options, &self.link_store),
                 "golink" => commands::golink::exec(&command.data.options, &self.link_store),
                 "analyze" => {
-                    commands::analyze::run(
+                    commands::analyze::exec(
                         &command.data.options,
                         &self.http_client,
                         &self.perspective_api_key(),
@@ -139,6 +153,18 @@ impl EventHandler for Handler {
             if let Err(e) = result {
                 log::error!("Unable to respond to command: {e}");
             }
+        }
+    }
+
+    async fn message(&self, _ctx: Context, message: Message) {
+        let user_id = message.author.id;
+        let content = message.content;
+        if self
+            .toxicity_profiler
+            .send(toxicity::Message { user_id, content })
+            .is_err()
+        {
+            log::error!("Toxicity Profiling Thread is down");
         }
     }
 

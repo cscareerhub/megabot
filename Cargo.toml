@@ -6,6 +6,8 @@ edition = "2021"
 [dependencies]
 clap = { version = "4", features = ["derive"] }
 config = "0.13"
+crossbeam = "0.8"
+fxhash = "0.2"
 kv = { git = "https://github.com/karimElmougi/kv.git" }
 lazy_static = "1.4"
 log = { version = "0.4", default-features = false }
@@ -19,4 +21,5 @@ thiserror = "1"
 tokio = { version = "1.0", features = ["macros", "rt-multi-thread"] }
 toml = "0.5"
 url = { version = "2.3", features = ["serde"] }
+rand = "0.8"
 reqwest = { version = "0.11", features = ["json"] }
