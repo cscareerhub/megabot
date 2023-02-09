@@ -64,9 +64,11 @@ impl Scores {
             .write(true)
             .append(true)
             .open(user_path)?;
+
         let mut data = serde_json::to_string(&self).unwrap();
         data.push('\n');
         file.write_all(data.as_bytes())?;
+
         Ok(())
     }
 }

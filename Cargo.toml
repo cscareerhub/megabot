@@ -6,7 +6,6 @@ edition = "2021"
 [dependencies]
 clap = { version = "4", features = ["derive"] }
 config = "0.13"
-crossbeam = "0.8"
 fxhash = "0.2"
 kv = { git = "https://github.com/karimElmougi/kv.git" }
 lazy_static = "1.4"

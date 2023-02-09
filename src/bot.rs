@@ -4,7 +4,6 @@ use crate::{commands, toxicity};
 use std::path::PathBuf;
 use std::sync::Arc;
 
-use crossbeam::channel::Sender;
 use parking_lot::RwLock;
 use serenity::async_trait;
 use serenity::model::channel::Reaction;
@@ -21,8 +20,7 @@ pub async fn run(
     guild_id: GuildId,
     config: Arc<RwLock<Config>>,
     link_store: kv::Store<Url>,
-    toxicity_profiler: Sender<toxicity::Message>,
-    toxicity_base_path: PathBuf,
+    toxicity_analyzer: toxicity::Analyzer,
 ) {
     // Set gateway intents, which decides what events the bot will be notified about
     let intents = GatewayIntents::GUILD_MESSAGES
@@ -35,8 +33,7 @@ pub async fn run(
         config,
         http_client: reqwest::Client::new(),
         link_store,
-        toxicity_profiler,
-        toxicity_base_path,
+        toxicity_analyzer,
     };
 
     let mut client = Client::builder(&token, intents)
@@ -54,8 +51,7 @@ struct Handler {
     link_store: kv::Store<Url>,
     http_client: reqwest::Client,
     config: Arc<RwLock<Config>>,
-    toxicity_profiler: Sender<toxicity::Message>,
-    toxicity_base_path: PathBuf,
+    toxicity_analyzer: toxicity::Analyzer,
 }
 
 impl Handler {
@@ -136,7 +132,7 @@ impl EventHandler for Handler {
                     .await
                 }
                 "profile" => {
-                    commands::profile::exec(&command.data.options, &self.toxicity_base_path).await
+                    commands::profile::exec(&command.data.options, &self.toxicity_analyzer.database_path).await
                 }
                 _ => "command not yet implemented".to_string(),
             };
@@ -156,22 +152,7 @@ impl EventHandler for Handler {
     }
 
     async fn message(&self, _ctx: Context, message: Message) {
-        let user_id = message.author.id;
-        let content = message.content;
-        let channel_id = message.channel_id;
-        let message_id = message.id;
-        if self
-            .toxicity_profiler
-            .send(toxicity::Message {
-                user_id,
-                content,
-                channel_id,
-                message_id,
-            })
-            .is_err()
-        {
-            log::error!("Toxicity Profiling Thread is down");
-        }
+        self.toxicity_analyzer.send(message).await;
     }
 
     async fn ready(&self, ctx: Context, ready: Ready) {

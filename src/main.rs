@@ -92,15 +92,16 @@ fn main() {
         }
     };
 
-    let toxicity_profiler = toxicity::start_batcher(
-        config.read().perspective_api_key.clone(),
-        toxicity_db_path.clone(),
-    );
-
     let runtime = tokio::runtime::Builder::new_multi_thread()
         .enable_all()
         .build()
         .unwrap();
+
+    let toxicity_analyzer = toxicity::start_analyzer(
+        &runtime,
+        config.read().perspective_api_key.clone(),
+        toxicity_db_path,
+    );
 
     runtime.spawn(heartbeat());
     runtime.block_on(bot::run(
@@ -108,8 +109,7 @@ fn main() {
         guild_id,
         config,
         link_store,
-        toxicity_profiler,
-        toxicity_db_path,
+        toxicity_analyzer,
     ));
 }
 
