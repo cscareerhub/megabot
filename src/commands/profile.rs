@@ -13,7 +13,7 @@ use serenity::model::prelude::UserId;
 pub async fn exec(options: &[CommandDataOption], toxicity_base_path: &Path) -> String {
     let (user_id, username) = get_user(options).unwrap();
 
-    match toxicity::Scores::load(toxicity_base_path, user_id).await {
+    match toxicity::database::Scores::load(toxicity_base_path, user_id).await {
         Ok(store) => {
             let n = store.len() as u64;
             let mut aggregate: AggregateScore = store
@@ -58,8 +58,8 @@ impl Add for AggregateScore {
     }
 }
 
-impl From<&toxicity::Scores> for AggregateScore {
-    fn from(value: &toxicity::Scores) -> Self {
+impl From<&toxicity::database::Scores> for AggregateScore {
+    fn from(value: &toxicity::database::Scores) -> Self {
         AggregateScore {
             toxicity: value.scores.toxicity as u64,
             severe_toxicity: value.scores.severe_toxicity as u64,
