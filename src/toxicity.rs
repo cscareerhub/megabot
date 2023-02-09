@@ -7,9 +7,9 @@ use crossbeam::channel::Sender;
 use fxhash::FxHashMap;
 use parking_lot::Mutex;
 use serde::{Deserialize, Serialize};
-use serenity::model::id::UserId;
+use serenity::model::prelude::{ChannelId, MessageId, UserId};
 
-/// Scores of probabilities between 0 and 1 that a message could be perceived as a given kind.
+/// Scores of probabilities between 0 and 100 that a message could be perceived as a given kind.
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct AttributeScores {
     pub toxicity: u8,
@@ -34,12 +34,21 @@ impl From<perspective::AttributeScores> for AttributeScores {
 pub struct Message {
     pub user_id: UserId,
     pub content: String,
+    pub channel_id: ChannelId,
+    pub message_id: MessageId,
+}
+
+struct Batch {
+    message_id: MessageId,
+    content: String,
 }
 
 pub fn start_batcher(api_key: String, base_path: PathBuf) -> Sender<Message> {
     let (send, recv) = crossbeam::channel::unbounded::<Message>();
 
-    let batch_data = Arc::new(Mutex::new(FxHashMap::<UserId, String>::default()));
+    let batch_data = Arc::new(Mutex::new(
+        FxHashMap::<(UserId, ChannelId), Batch>::default(),
+    ));
 
     {
         let batch_data = batch_data.clone();
@@ -47,13 +56,17 @@ pub fn start_batcher(api_key: String, base_path: PathBuf) -> Sender<Message> {
             while let Ok(msg) = recv.recv() {
                 log::info!("Toxicity Batcher Channel Size: {}", recv.len());
                 let mut inner = batch_data.lock();
-                match inner.get_mut(&msg.user_id) {
-                    Some(value) => {
-                        value.push('\n');
-                        value.push_str(&msg.content);
+                match inner.get_mut(&(msg.user_id, msg.channel_id)) {
+                    Some(batch) => {
+                        batch.content.push('\n');
+                        batch.content.push_str(&msg.content);
                     }
                     None => {
-                        inner.insert(msg.user_id, msg.content);
+                        let new_batch = Batch {
+                            message_id: msg.message_id,
+                            content: msg.content,
+                        };
+                        inner.insert((msg.user_id, msg.channel_id), new_batch);
                     }
                 }
             }
@@ -68,22 +81,23 @@ pub fn start_batcher(api_key: String, base_path: PathBuf) -> Sender<Message> {
             .build()
             .unwrap();
 
-        let base_path = base_path;
         let client = reqwest::Client::new();
         let mut rng = rand::thread_rng();
 
         runtime.block_on(async {
             const MINUTE: Duration = Duration::from_secs(60);
             let mut interval = tokio::time::interval(MINUTE / 30);
+            let base_path = base_path;
 
             loop {
                 interval.tick().await;
 
-                let (user_id, comments) = {
+                let (user_id, channel_id, message_id, comments) = {
                     let mut inner = batch_data.lock();
-                    if let Some(user_id) = inner.keys().choose(&mut rng).map(Clone::clone) {
-                        log::info!("Profiling user {user_id}");
-                        (user_id, inner.remove(&user_id).unwrap())
+                    if let Some(batch_key) = inner.keys().choose(&mut rng).map(Clone::clone) {
+                        log::info!("Profiling user {} in channel: {}", batch_key.0, batch_key.1);
+                        let batch = inner.remove(&batch_key).unwrap();
+                        (batch_key.0, batch_key.1, batch.message_id, batch.content)
                     } else {
                         continue;
                     }
@@ -99,7 +113,12 @@ pub fn start_batcher(api_key: String, base_path: PathBuf) -> Sender<Message> {
                             scores.identity_attack,
                         ];
                         if values.into_iter().max().unwrap() > 30 {
-                            save(user_id, scores, base_path.clone()).await;
+                            let scores = Scores {
+                                message_id: Some(message_id),
+                                channel_id: Some(channel_id),
+                                scores,
+                            };
+                            scores.save(user_id, &base_path).await;
                         }
                     }
                     Err(err) => {
@@ -113,55 +132,69 @@ pub fn start_batcher(api_key: String, base_path: PathBuf) -> Sender<Message> {
     send
 }
 
-async fn save(user_id: UserId, scores: AttributeScores, base_path: PathBuf) {
-    let user_path = user_path(&base_path, user_id);
+#[derive(Debug, Serialize, Deserialize)]
+pub struct Scores {
+    #[serde(flatten)]
+    pub scores: AttributeScores,
 
-    if let Err(e) = async { std::fs::create_dir_all(user_path.parent().unwrap()) }.await {
-        log::error!("Error creating toxicity dir for user `{user_id}`: {e}");
-        return;
-    }
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub channel_id: Option<ChannelId>,
 
-    if let Err(e) = save_inner(&user_path, scores).await {
-        log::error!("Unable to save toxicity entry for user `{user_id}`: {e}");
-    }
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub message_id: Option<MessageId>,
 }
 
-async fn save_inner(user_path: &Path, scores: AttributeScores) -> std::io::Result<()> {
-    let mut file = std::fs::OpenOptions::new()
-        .create(true)
-        .write(true)
-        .append(true)
-        .open(user_path)?;
-    let mut data = serde_json::to_string(&scores).unwrap();
-    data.push('\n');
-    file.write_all(data.as_bytes())?;
-    Ok(())
-}
+impl Scores {
+    pub async fn load(
+        base_path: &Path,
+        user_id: UserId,
+    ) -> Result<Vec<Self>, Box<dyn std::error::Error>> {
+        let user_path = user_path(base_path, user_id);
+        let file = match std::fs::OpenOptions::new()
+            .write(true)
+            .read(true)
+            .create(true)
+            .open(user_path)
+        {
+            Ok(file) => file,
+            Err(err) if err.kind() == std::io::ErrorKind::NotFound => return Ok(Vec::new()),
+            Err(err) => return Err(err.into()),
+        };
+        let reader = std::io::BufReader::new(&file);
 
-pub async fn load(
-    base_path: &Path,
-    user_id: UserId,
-) -> Result<Vec<AttributeScores>, Box<dyn std::error::Error>> {
-    let user_path = user_path(base_path, user_id);
-    let file = match std::fs::OpenOptions::new()
-        .write(true)
-        .read(true)
-        .create(true)
-        .open(user_path)
-    {
-        Ok(file) => file,
-        Err(err) if err.kind() == std::io::ErrorKind::NotFound => return Ok(Vec::new()),
-        Err(err) => return Err(err.into()),
-    };
-    let reader = std::io::BufReader::new(&file);
+        let mut v = vec![];
+        for line in reader.lines() {
+            let scores: Self = serde_json::from_str(&line?)?;
+            v.push(scores);
+        }
 
-    let mut v = vec![];
-    for line in reader.lines() {
-        let scores: AttributeScores = serde_json::from_str(&line?)?;
-        v.push(scores);
+        Ok(v)
     }
 
-    Ok(v)
+    pub async fn save(&self, user_id: UserId, base_path: &Path) {
+        let user_path = user_path(base_path, user_id);
+
+        if let Err(e) = async { std::fs::create_dir_all(user_path.parent().unwrap()) }.await {
+            log::error!("Error creating toxicity dir for user `{user_id}`: {e}");
+            return;
+        }
+
+        if let Err(e) = self.save_impl(&user_path).await {
+            log::error!("Unable to save toxicity entry for user `{user_id}`: {e}");
+        }
+    }
+
+    async fn save_impl(&self, user_path: &Path) -> std::io::Result<()> {
+        let mut file = std::fs::OpenOptions::new()
+            .create(true)
+            .write(true)
+            .append(true)
+            .open(user_path)?;
+        let mut data = serde_json::to_string(&self).unwrap();
+        data.push('\n');
+        file.write_all(data.as_bytes())?;
+        Ok(())
+    }
 }
 
 pub fn user_path(base_path: &Path, user_id: UserId) -> PathBuf {

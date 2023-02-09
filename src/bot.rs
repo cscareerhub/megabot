@@ -158,9 +158,16 @@ impl EventHandler for Handler {
     async fn message(&self, _ctx: Context, message: Message) {
         let user_id = message.author.id;
         let content = message.content;
+        let channel_id = message.channel_id;
+        let message_id = message.id;
         if self
             .toxicity_profiler
-            .send(toxicity::Message { user_id, content })
+            .send(toxicity::Message {
+                user_id,
+                content,
+                channel_id,
+                message_id,
+            })
             .is_err()
         {
             log::error!("Toxicity Profiling Thread is down");
